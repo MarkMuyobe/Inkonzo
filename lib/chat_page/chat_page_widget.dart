@@ -86,55 +86,19 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         ),
         title: Stack(
           children: [
-            if (!_chatInfo!.otherUsersList)
-              Text(
-                widget.chatUser!,
+            Align(
+              alignment: AlignmentDirectional(-0.91, 0.0),
+              child: Text(
+                'Wazaaaaa!!!',
                 style: FlutterFlowTheme.of(context).bodyText1.override(
-                      fontFamily: 'Lexend Deca',
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
                     ),
-              ),
-            if (_chatInfo!.otherUsersList)
-              Text(
-                'Group Chat',
-                style: FlutterFlowTheme.of(context).bodyText1.override(
-                      fontFamily: 'Lexend Deca',
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-          ],
-        ),
-        actions: [
-          Visibility(
-            visible: _chatInfo!.otherUsersList,
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
-              child: InkWell(
-                onTap: () async {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Navigate to add users page!',
-                        style: TextStyle(),
-                      ),
-                      duration: Duration(milliseconds: 4000),
-                      backgroundColor: Color(0x00000000),
-                    ),
-                  );
-                },
-                child: Icon(
-                  Icons.person_add,
-                  color: Colors.black,
-                  size: 24.0,
-                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        actions: [],
         centerTitle: false,
         elevation: 2.0,
       ),
