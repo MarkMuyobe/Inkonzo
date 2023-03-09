@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
@@ -437,7 +437,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                 ),
                                 Text(
-                                  'Category_1',
+                                  'Graphics',
                                   style: FlutterFlowTheme.of(context).bodyText1,
                                 ),
                               ],
@@ -467,7 +467,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                 ),
                                 Text(
-                                  'Category_1',
+                                  'Other',
                                   style: FlutterFlowTheme.of(context).bodyText1,
                                 ),
                               ],
@@ -499,118 +499,109 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                     ),
                   ),
-                  ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                        child: Container(
-                          width: 100.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 8.0, 8.0, 8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/451/600',
-                                    width: 40.0,
-                                    height: 40.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                  Builder(
+                    builder: (context) {
+                      final childs = List.generate(
+                              random_data.randomInteger(7, 8),
+                              (index) => random_data.randomInteger(0, 10))
+                          .toList()
+                          .take(4)
+                          .toList();
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: childs.length,
+                        itemBuilder: (context, childsIndex) {
+                          final childsItem = childs[childsIndex];
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 8.0, 8.0, 8.0),
+                            child: Container(
+                              width: 100.0,
+                              height: 100.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
                               ),
-                              Column(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/451/600',
+                                        width: 40.0,
+                                        height: 40.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
                                     mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Humanman Name ',
-                                        style: FlutterFlowTheme.of(context)
-                                            .subtitle2,
-                                      ),
-                                      SizedBox(
-                                        height: 20.0,
-                                        child: VerticalDivider(
-                                          thickness: 1.0,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 8.0, 0.0),
-                                        child: RatingBar.builder(
-                                          onRatingUpdate: (newValue) =>
-                                              setState(() => _model
-                                                  .ratingBarValue = newValue),
-                                          itemBuilder: (context, index) => Icon(
-                                            Icons.star_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            'Humanman Name ',
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle2,
                                           ),
-                                          direction: Axis.horizontal,
-                                          initialRating:
-                                              _model.ratingBarValue ??= 3.0,
-                                          unratedColor: Color(0xFF9E9E9E),
-                                          itemCount: 5,
-                                          itemSize: 20.0,
-                                          glowColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
+                                          SizedBox(
+                                            height: 20.0,
+                                            child: VerticalDivider(
+                                              thickness: 1.0,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                            ),
+                                          ),
+                                          Text(
+                                            '4.2',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        width: 300.0,
+                                        height: 50.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                        ),
+                                        child: Text(
+                                          'The way that time flies against the man that argues against his existence is unca',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText2,
                                         ),
                                       ),
-                                      Text(
-                                        '4.2',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    width: 300.0,
-                                    height: 50.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    child: Text(
-                                      'The way that time flies against the man that argues against his existence is unca',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText2,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        dateTimeFormat(
-                                            'MMMEd', getCurrentTimestamp),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText2,
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            dateTimeFormat(
+                                                'MMMEd', getCurrentTimestamp),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText2,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

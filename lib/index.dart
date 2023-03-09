@@ -7,3 +7,4 @@ export '/login_page/login_page_widget.dart' show LoginPageWidget;
 export '/sign_up/sign_up_widget.dart' show SignUpWidget;
 export '/chat_page/chat_page_widget.dart' show ChatPageWidget;
 export '/all_chats/all_chats_widget.dart' show AllChatsWidget;
+export '/settings/settings_widget.dart' show SettingsWidget;

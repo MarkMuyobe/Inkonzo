@@ -69,20 +69,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, _) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : SignUpWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : SignUpWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomePageWidget() : SignUpWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : SignUpWidget(),
           routes: [
             FFRoute(
               name: 'HomePage',
               path: 'homePage',
-              builder: (context, params) => HomePageWidget(
-                bjh: params.getParam('bjh', ParamType.bool),
-              ),
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'HomePage')
+                  : HomePageWidget(
+                      bjh: params.getParam('bjh', ParamType.bool),
+                    ),
             ),
             FFRoute(
               name: 'inkonzo_onboarding',
@@ -119,7 +121,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'all_chats',
               path: 'allChats',
-              builder: (context, params) => AllChatsWidget(),
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'all_chats')
+                  : AllChatsWidget(),
+            ),
+            FFRoute(
+              name: 'settings',
+              path: 'settings',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'settings')
+                  : SettingsWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
