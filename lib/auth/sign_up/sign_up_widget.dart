@@ -73,9 +73,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       child: Padding(
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                        child: Text(
-                          'Sign In',
-                          style: FlutterFlowTheme.of(context).title3,
+                        child: InkWell(
+                          onTap: () async {
+                            context.pushNamed('login_page');
+                          },
+                          child: Text(
+                            'Sign In',
+                            style: FlutterFlowTheme.of(context).title3,
+                          ),
                         ),
                       ),
                     ),
@@ -90,7 +95,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             16.0, 0.0, 16.0, 0.0),
                         child: Text(
                           'Sign Up',
-                          style: FlutterFlowTheme.of(context).title3,
+                          style: FlutterFlowTheme.of(context).title3.override(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                     ),

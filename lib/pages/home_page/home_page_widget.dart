@@ -104,6 +104,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
                     child: TextFormField(
                       controller: _model.textController,
+                      onFieldSubmitted: (_) async {
+                        context.pushNamed('search_results');
+                      },
                       autofocus: true,
                       obscureText: false,
                       decoration: InputDecoration(

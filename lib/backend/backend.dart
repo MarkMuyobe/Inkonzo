@@ -9,6 +9,7 @@ import 'schema/users_record.dart';
 import 'schema/chats_record.dart';
 import 'schema/chat_messages_record.dart';
 import 'schema/ratings_record.dart';
+import 'schema/s_provider_items_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -20,6 +21,7 @@ export 'schema/users_record.dart';
 export 'schema/chats_record.dart';
 export 'schema/chat_messages_record.dart';
 export 'schema/ratings_record.dart';
+export 'schema/s_provider_items_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -223,6 +225,58 @@ Future<FFFirestorePage<RatingsRecord>> queryRatingsRecordPage({
     queryCollectionPage(
       RatingsRecord.collection,
       RatingsRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
+/// Functions to query SProviderItemsRecords (as a Stream and as a Future).
+Future<int> querySProviderItemsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      SProviderItemsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<SProviderItemsRecord>> querySProviderItemsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SProviderItemsRecord.collection,
+      SProviderItemsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SProviderItemsRecord>> querySProviderItemsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SProviderItemsRecord.collection,
+      SProviderItemsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<SProviderItemsRecord>> querySProviderItemsRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      SProviderItemsRecord.collection,
+      SProviderItemsRecord.serializer,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,

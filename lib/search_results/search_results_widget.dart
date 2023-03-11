@@ -1,6 +1,6 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +96,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                       controller: _model.textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Search events here...',
+                                        labelText: 'Search here...',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodyText2,
                                         enabledBorder: UnderlineInputBorder(
@@ -170,144 +170,214 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
-                        child: Container(
-                          width: double.infinity,
-                          height: 90.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                child: StreamBuilder<List<SProviderItemsRecord>>(
+                  stream: querySProviderItemsRecord(),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Column(
+                        ),
+                      );
+                    }
+                    List<SProviderItemsRecord> columnSProviderItemsRecordList =
+                        snapshot.data!;
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children:
+                            List.generate(columnSProviderItemsRecordList.length,
+                                (columnIndex) {
+                          final columnSProviderItemsRecord =
+                              columnSProviderItemsRecordList[columnIndex];
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 1.0),
+                            child: Container(
+                              width: double.infinity,
+                              height: 90.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                              ),
+                              child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 8.0, 8.0, 8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(36.0),
-                                      child: Image.network(
-                                        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c3RvcmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
-                                        width: 74.0,
-                                        height: 74.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 1.0, 0.0, 0.0),
-                                  child: Column(
+                                  Column(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            'Store/Location Name',
-                                            style: FlutterFlowTheme.of(context)
-                                                .subtitle2,
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 8.0, 8.0, 8.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(36.0),
+                                          child: Image.network(
+                                            columnSProviderItemsRecord
+                                                .imageURL!,
+                                            width: 74.0,
+                                            height: 74.0,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            '123 Address St, City, ST',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText2,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            '1.7mi',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
                                   Expanded(
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 8.0, 0.0),
-                                      child: Icon(
-                                        Icons.chevron_right_outlined,
-                                        color: Color(0xFF95A1AC),
-                                        size: 24.0,
+                                          8.0, 1.0, 0.0, 0.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                columnSProviderItemsRecord
+                                                    .name!,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2,
+                                              ),
+                                            ],
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              final skillsList =
+                                                  columnSProviderItemsRecord
+                                                      .skills!
+                                                      .toList();
+                                              return Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: List.generate(
+                                                    skillsList.length,
+                                                    (skillsListIndex) {
+                                                  final skillsListItem =
+                                                      skillsList[
+                                                          skillsListIndex];
+                                                  return Text(
+                                                    skillsListItem,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyText2,
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                columnSProviderItemsRecord
+                                                    .rating!
+                                                    .toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 8.0, 0.0),
+                                          child: StreamBuilder<
+                                              List<SProviderItemsRecord>>(
+                                            stream: querySProviderItemsRecord(
+                                              singleRecord: true,
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50.0,
+                                                    height: 50.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<SProviderItemsRecord>
+                                                  iconSProviderItemsRecordList =
+                                                  snapshot.data!;
+                                              // Return an empty Container when the item does not exist.
+                                              if (snapshot.data!.isEmpty) {
+                                                return Container();
+                                              }
+                                              final iconSProviderItemsRecord =
+                                                  iconSProviderItemsRecordList
+                                                          .isNotEmpty
+                                                      ? iconSProviderItemsRecordList
+                                                          .first
+                                                      : null;
+                                              return InkWell(
+                                                onTap: () async {
+                                                  context.pushNamed(
+                                                    'ProviderDetail',
+                                                    queryParams: {
+                                                      'userRef': serializeParam(
+                                                        columnSProviderItemsRecord
+                                                            .reference,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                    }.withoutNulls,
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  Icons.chevron_right_outlined,
+                                                  color: Color(0xFF95A1AC),
+                                                  size: 24.0,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        }),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
-          ),
-          Align(
-            alignment: AlignmentDirectional(1.0, 1.0),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 16.0, 20.0),
-              child: FFButtonWidget(
-                onPressed: () async {
-                  context.goNamed('HomePage');
-                },
-                text: 'Map View',
-                options: FFButtonOptions(
-                  width: 95.0,
-                  height: 40.0,
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primaryColor,
-                  textStyle: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                      ),
-                  elevation: 2.0,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
-                  ),
-                ),
-              ),
-            ),
           ),
         ],
       ),

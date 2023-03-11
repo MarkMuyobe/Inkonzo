@@ -82,7 +82,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               0.0, 0.0, 16.0, 0.0),
                           child: Text(
                             'Sign In',
-                            style: FlutterFlowTheme.of(context).title3,
+                            style: FlutterFlowTheme.of(context).title3.override(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ),
