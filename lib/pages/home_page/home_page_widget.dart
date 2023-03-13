@@ -73,8 +73,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'inkonzo',
-                              style: FlutterFlowTheme.of(context).subtitle1,
+                              'Inkonzo',
+                              style: FlutterFlowTheme.of(context)
+                                  .subtitle1
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                             Container(
                               width: 40.0,

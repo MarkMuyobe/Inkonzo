@@ -138,6 +138,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => ProviderDetailWidget(
                 userRef: params.getParam('userRef', ParamType.DocumentReference,
                     false, ['SProviderItems']),
+                iDRef: params.getParam(
+                    'iDRef', ParamType.DocumentReference, false, ['users']),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),

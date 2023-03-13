@@ -1,4 +1,6 @@
+import '/auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,9 +15,11 @@ class ProviderDetailWidget extends StatefulWidget {
   const ProviderDetailWidget({
     Key? key,
     this.userRef,
+    this.iDRef,
   }) : super(key: key);
 
   final DocumentReference? userRef;
+  final DocumentReference? iDRef;
 
   @override
   _ProviderDetailWidgetState createState() => _ProviderDetailWidgetState();
@@ -75,7 +79,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
             ),
             title: Text(
               providerDetailSProviderItemsRecord.name!,
-              style: FlutterFlowTheme.of(context).title2,
+              style: FlutterFlowTheme.of(context).title3,
             ),
             actions: [],
             centerTitle: false,
@@ -121,6 +125,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                             ),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -129,8 +134,8 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 8.0, 8.0, 8.0),
                                       child: Container(
-                                        width: 80.0,
-                                        height: 80.0,
+                                        width: 60.0,
+                                        height: 60.0,
                                         clipBehavior: Clip.antiAlias,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -150,12 +155,31 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                         Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Text(
-                                              providerDetailSProviderItemsRecord
-                                                  .name!,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .subtitle1,
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 8.0, 0.0, 0.0),
+                                              child: Container(
+                                                width: 100.0,
+                                                height: 80.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                ),
+                                                child: Text(
+                                                  providerDetailSProviderItemsRecord
+                                                      .name!,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -196,7 +220,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                           itemBuilder: (context, index) => Icon(
                                             Icons.star_rounded,
                                             color: FlutterFlowTheme.of(context)
-                                                .secondaryColor,
+                                                .primaryColor,
                                           ),
                                           direction: Axis.horizontal,
                                           initialRating: _model
@@ -206,57 +230,109 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                                   .toDouble(),
                                           unratedColor: Color(0xFF9E9E9E),
                                           itemCount: 5,
-                                          itemSize: 25.0,
+                                          itemSize: 20.0,
                                           glowColor:
                                               FlutterFlowTheme.of(context)
-                                                  .secondaryColor,
+                                                  .primaryColor,
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 50.0,
+                                      child: VerticalDivider(
+                                        thickness: 3.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
+                                    ),
+                                    StreamBuilder<UsersRecord>(
+                                      stream: UsersRecord.getDocument(
+                                          widget.iDRef!),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 40.0,
+                                              height: 40.0,
+                                              child: CircularProgressIndicator(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryColor,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        final iconButtonUsersRecord =
+                                            snapshot.data!;
+                                        return FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 30.0,
+                                          borderWidth: 1.0,
+                                          buttonSize: 60.0,
+                                          icon: Icon(
+                                            Icons.message_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryColor,
+                                            size: 30.0,
+                                          ),
+                                          onPressed: () async {
+                                            final chatsCreateData = {
+                                              ...createChatsRecordData(
+                                                userA: currentUserReference,
+                                                userB: iconButtonUsersRecord
+                                                    .reference,
+                                                lastMessage: 'NA',
+                                                lastMessageSentBy:
+                                                    iconButtonUsersRecord
+                                                        .reference,
+                                              ),
+                                              'users': [
+                                                iconButtonUsersRecord.reference
+                                              ],
+                                              'last_message_time':
+                                                  FieldValue.serverTimestamp(),
+                                              'last_message_seen_by': [
+                                                iconButtonUsersRecord.reference
+                                              ],
+                                            };
+                                            await ChatsRecord.collection
+                                                .doc()
+                                                .set(chatsCreateData);
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: Builder(
-                                    builder: (context) {
-                                      final skills =
-                                          providerDetailSProviderItemsRecord
-                                              .skills!
-                                              .toList();
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: List.generate(skills.length,
-                                              (skillsIndex) {
-                                            final skillsItem =
-                                                skills[skillsIndex];
-                                            return Wrap(
-                                              spacing: 0.0,
-                                              runSpacing: 0.0,
-                                              alignment: WrapAlignment.start,
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.start,
-                                              direction: Axis.horizontal,
-                                              runAlignment: WrapAlignment.start,
-                                              verticalDirection:
-                                                  VerticalDirection.down,
-                                              clipBehavior: Clip.none,
-                                              children: [
-                                                Text(
-                                                  skillsItem,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1,
-                                                ),
-                                              ],
-                                            );
-                                          }),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                Builder(
+                                  builder: (context) {
+                                    final skillslist =
+                                        providerDetailSProviderItemsRecord
+                                            .skills!
+                                            .toList();
+                                    return Wrap(
+                                      spacing: 4.0,
+                                      runSpacing: 0.0,
+                                      alignment: WrapAlignment.start,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.start,
+                                      direction: Axis.vertical,
+                                      runAlignment: WrapAlignment.start,
+                                      verticalDirection: VerticalDirection.down,
+                                      clipBehavior: Clip.none,
+                                      children: List.generate(skillslist.length,
+                                          (skillslistIndex) {
+                                        final skillslistItem =
+                                            skillslist[skillslistIndex];
+                                        return Text(
+                                          skillslistItem,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1,
+                                        );
+                                      }),
+                                    );
+                                  },
                                 ),
                                 Divider(
                                   thickness: 1.0,

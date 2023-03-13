@@ -352,6 +352,12 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                         ParamType
                                                             .DocumentReference,
                                                       ),
+                                                      'iDRef': serializeParam(
+                                                        columnSProviderItemsRecord
+                                                            .uid,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
                                                     }.withoutNulls,
                                                   );
                                                 },
