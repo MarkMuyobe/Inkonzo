@@ -268,6 +268,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(13.0, 13.0, 13.0, 13.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.asset(
+                        'assets/images/zaanji_phiri_26.png',
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: AlignmentDirectional(-1.0, 0.0),
                     child: Padding(

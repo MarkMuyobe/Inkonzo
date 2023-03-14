@@ -94,7 +94,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'search_results',
               path: 'searchResults',
-              builder: (context, params) => SearchResultsWidget(),
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'search_results')
+                  : SearchResultsWidget(),
             ),
             FFRoute(
               name: 'login_page',

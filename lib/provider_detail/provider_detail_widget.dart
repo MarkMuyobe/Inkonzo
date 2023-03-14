@@ -1,4 +1,3 @@
-import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -245,62 +244,19 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                             .secondaryText,
                                       ),
                                     ),
-                                    StreamBuilder<UsersRecord>(
-                                      stream: UsersRecord.getDocument(
-                                          widget.iDRef!),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 40.0,
-                                              height: 40.0,
-                                              child: CircularProgressIndicator(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryColor,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        final iconButtonUsersRecord =
-                                            snapshot.data!;
-                                        return FlutterFlowIconButton(
-                                          borderColor: Colors.transparent,
-                                          borderRadius: 30.0,
-                                          borderWidth: 1.0,
-                                          buttonSize: 60.0,
-                                          icon: Icon(
-                                            Icons.message_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                            size: 30.0,
-                                          ),
-                                          onPressed: () async {
-                                            final chatsCreateData = {
-                                              ...createChatsRecordData(
-                                                userA: currentUserReference,
-                                                userB: iconButtonUsersRecord
-                                                    .reference,
-                                                lastMessage: 'NA',
-                                                lastMessageSentBy:
-                                                    iconButtonUsersRecord
-                                                        .reference,
-                                              ),
-                                              'users': [
-                                                iconButtonUsersRecord.reference
-                                              ],
-                                              'last_message_time':
-                                                  FieldValue.serverTimestamp(),
-                                              'last_message_seen_by': [
-                                                iconButtonUsersRecord.reference
-                                              ],
-                                            };
-                                            await ChatsRecord.collection
-                                                .doc()
-                                                .set(chatsCreateData);
-                                          },
-                                        );
+                                    FlutterFlowIconButton(
+                                      borderColor: Colors.transparent,
+                                      borderRadius: 30.0,
+                                      borderWidth: 1.0,
+                                      buttonSize: 60.0,
+                                      icon: Icon(
+                                        Icons.message_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                        size: 30.0,
+                                      ),
+                                      onPressed: () {
+                                        print('IconButton pressed ...');
                                       },
                                     ),
                                   ],

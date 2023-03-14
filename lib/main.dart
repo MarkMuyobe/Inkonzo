@@ -127,6 +127,7 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'HomePage': HomePageWidget(),
+      'search_results': SearchResultsWidget(),
       'all_chats': AllChatsWidget(),
       'settings': SettingsWidget(),
     };
@@ -157,7 +158,12 @@ class _NavBarPageState extends State<NavBarPage> {
             iconSize: 24.0,
           ),
           GButton(
-            icon: currentIndex == 1
+            icon: Icons.search,
+            text: 'Search',
+            iconSize: 20.0,
+          ),
+          GButton(
+            icon: currentIndex == 2
                 ? Icons.chat_bubble_rounded
                 : Icons.chat_bubble_outline,
             text: 'Chat',
