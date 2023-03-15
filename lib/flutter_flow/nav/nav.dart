@@ -111,6 +111,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'chat_page',
               path: 'chatPage',
+              requireAuth: true,
               asyncParams: {
                 'chatUser': getDoc(['users'], UsersRecord.serializer),
               },

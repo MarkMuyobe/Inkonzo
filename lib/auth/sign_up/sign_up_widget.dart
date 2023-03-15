@@ -281,7 +281,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           return;
                         }
 
-                        context.goNamedAuth('HomePage', mounted);
+                        context.pushNamedAuth(
+                          'HomePage',
+                          mounted,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                            ),
+                          },
+                        );
                       },
                       text: 'Sign up',
                       options: FFButtonOptions(

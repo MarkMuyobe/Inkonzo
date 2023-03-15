@@ -58,13 +58,123 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/inkonzo_logo.png',
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.cover,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.asset(
+                        'assets/images/inkonzo_logo.png',
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ],
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            15.0, 15.0, 15.0, 15.0),
+                        child: FlutterFlowIconButton(
+                          borderRadius: 12.0,
+                          borderWidth: 1.0,
+                          buttonSize: 50.0,
+                          fillColor: FlutterFlowTheme.of(context).primaryText,
+                          icon: FaIcon(
+                            FontAwesomeIcons.google,
+                            color: FlutterFlowTheme.of(context).primaryColor,
+                            size: 30.0,
+                          ),
+                          onPressed: () async {
+                            GoRouter.of(context).prepareAuthEvent();
+                            final user = await signInWithGoogle(context);
+                            if (user == null) {
+                              return;
+                            }
+
+                            context.goNamedAuth('HomePage', mounted);
+                          },
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          GoRouter.of(context).prepareAuthEvent();
+                          final user = await signInWithGoogle(context);
+                          if (user == null) {
+                            return;
+                          }
+
+                          context.goNamedAuth('HomePage', mounted);
+                        },
+                        child: Text(
+                          'Sign-In with Google',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            15.0, 15.0, 15.0, 15.0),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 12.0,
+                          borderWidth: 1.0,
+                          buttonSize: 50.0,
+                          fillColor: FlutterFlowTheme.of(context).primaryText,
+                          icon: FaIcon(
+                            FontAwesomeIcons.apple,
+                            color: FlutterFlowTheme.of(context).primaryColor,
+                            size: 30.0,
+                          ),
+                          onPressed: () async {
+                            GoRouter.of(context).prepareAuthEvent();
+                            final user = await signInWithApple(context);
+                            if (user == null) {
+                              return;
+                            }
+
+                            context.goNamedAuth('HomePage', mounted);
+                          },
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          GoRouter.of(context).prepareAuthEvent();
+                          final user = await signInWithApple(context);
+                          if (user == null) {
+                            return;
+                          }
+
+                          context.goNamedAuth('HomePage', mounted);
+                        },
+                        child: Text(
+                          'Sign-In with Apple',
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
@@ -84,6 +194,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             'Sign In',
                             style: FlutterFlowTheme.of(context).title3.override(
                                   fontFamily: 'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -98,9 +210,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          child: Text(
-                            'Sign Up',
-                            style: FlutterFlowTheme.of(context).title3,
+                          child: InkWell(
+                            onTap: () async {
+                              context.pushNamed('sign_up');
+                            },
+                            child: Text(
+                              'Sign Up',
+                              style: FlutterFlowTheme.of(context).title3,
+                            ),
                           ),
                         ),
                       ),
@@ -113,7 +230,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        'Use the form below, to access your account.',
+                        'Or use the form below, to access your account.',
                         style: FlutterFlowTheme.of(context).bodyText2,
                       ),
                     ],
@@ -285,7 +402,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             return;
                           }
 
-                          context.goNamedAuth('HomePage', mounted);
+                          context.pushNamedAuth('HomePage', mounted);
                         },
                         text: 'Login',
                         options: FFButtonOptions(
@@ -348,64 +465,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 8.0, 8.0, 8.0),
-                            child: FlutterFlowIconButton(
-                              borderColor: Colors.transparent,
-                              borderRadius: 30.0,
-                              borderWidth: 1.0,
-                              buttonSize: 50.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              icon: FaIcon(
-                                FontAwesomeIcons.google,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
-                              ),
-                              onPressed: () async {
-                                GoRouter.of(context).prepareAuthEvent();
-                                final user = await signInWithGoogle(context);
-                                if (user == null) {
-                                  return;
-                                }
-
-                                context.goNamedAuth('HomePage', mounted);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 8.0, 8.0, 8.0),
-                            child: FlutterFlowIconButton(
-                              borderColor: Colors.transparent,
-                              borderRadius: 30.0,
-                              borderWidth: 1.0,
-                              buttonSize: 50.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              icon: FaIcon(
-                                FontAwesomeIcons.apple,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
-                              ),
-                              onPressed: () async {
-                                GoRouter.of(context).prepareAuthEvent();
-                                final user = await signInWithApple(context);
-                                if (user == null) {
-                                  return;
-                                }
-
-                                context.goNamedAuth('HomePage', mounted);
-                              },
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
