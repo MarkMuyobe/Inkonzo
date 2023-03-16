@@ -1,3 +1,4 @@
+import '/auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -81,22 +82,38 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color:
-                                    FlutterFlowTheme.of(context).tertiaryColor,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: Image.asset(
-                                    'assets/images/kyrie_wellis_32.png',
-                                  ).image,
-                                ),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryColor,
+                            AuthUserStreamWidget(
+                              builder: (context) => InkWell(
+                                onTap: () async {
+                                  context.pushNamed(
+                                    'UserEdit',
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.rightToLeft,
+                                      ),
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        FlutterFlowTheme.of(context).grayIcon,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: Image.network(
+                                        currentUserPhoto,
+                                      ).image,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -110,44 +127,31 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: TextFormField(
                       controller: _model.textController,
                       onFieldSubmitted: (_) async {
-                        context.pushNamed('search_results');
+                        context.pushNamed(
+                          'search_results',
+                          queryParams: {
+                            'searchQuery': serializeParam(
+                              _model.textController.text,
+                              ParamType.String,
+                            ),
+                          }.withoutNulls,
+                        );
                       },
                       autofocus: true,
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: 'Search',
-                        hintStyle:
-                            FlutterFlowTheme.of(context).bodyText1.override(
-                                  fontFamily: 'Roboto',
-                                ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF1F1616),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFFF80000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFFF80000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
+                        hintStyle: FlutterFlowTheme.of(context)
+                            .bodyText1
+                            .override(
+                              fontFamily: 'Roboto',
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 16.0,
+                            ),
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
                         filled: true,
                         contentPadding:
                             EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
@@ -321,27 +325,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      'home',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Home',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Home',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -351,27 +369,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      'garden',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Garden',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Garden',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -381,27 +413,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      'supplies',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Supplies',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Supplies',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -411,27 +457,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      'tech',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Tech',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Tech',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -441,27 +501,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      'graphics',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Graphics',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Graphics',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -471,27 +545,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/49/600',
-                                      width: 70.0,
-                                      height: 70.0,
-                                      fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'search_results',
+                                  queryParams: {
+                                    'searchQuery': serializeParam(
+                                      '',
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      child: Image.network(
+                                        'https://picsum.photos/seed/49/600',
+                                        width: 70.0,
+                                        height: 70.0,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Other',
-                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                ),
-                              ],
+                                  Text(
+                                    'Other',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

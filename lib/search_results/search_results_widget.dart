@@ -8,7 +8,12 @@ import 'search_results_model.dart';
 export 'search_results_model.dart';
 
 class SearchResultsWidget extends StatefulWidget {
-  const SearchResultsWidget({Key? key}) : super(key: key);
+  const SearchResultsWidget({
+    Key? key,
+    this.searchQuery,
+  }) : super(key: key);
+
+  final String? searchQuery;
 
   @override
   _SearchResultsWidgetState createState() => _SearchResultsWidgetState();
@@ -24,7 +29,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
     super.initState();
     _model = createModel(context, () => SearchResultsModel());
 
-    _model.textController ??= TextEditingController();
+    _model.textController ??= TextEditingController(text: widget.searchQuery);
   }
 
   @override

@@ -96,7 +96,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'searchResults',
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'search_results')
-                  : SearchResultsWidget(),
+                  : SearchResultsWidget(
+                      searchQuery:
+                          params.getParam('searchQuery', ParamType.String),
+                    ),
             ),
             FFRoute(
               name: 'login_page',
@@ -143,6 +146,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     false, ['SProviderItems']),
                 iDRef: params.getParam(
                     'iDRef', ParamType.DocumentReference, false, ['users']),
+              ),
+            ),
+            FFRoute(
+              name: 'UserEdit',
+              path: 'userEdit',
+              builder: (context, params) => UserEditWidget(),
+            ),
+            FFRoute(
+              name: 'BookingPage',
+              path: 'bookingPage',
+              builder: (context, params) => BookingPageWidget(
+                totalAmount: params.getParam('totalAmount', ParamType.double),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
