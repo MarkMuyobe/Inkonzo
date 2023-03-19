@@ -129,7 +129,6 @@ class _NavBarPageState extends State<NavBarPage> {
       'HomePage': HomePageWidget(),
       'search_results': SearchResultsWidget(),
       'all_chats': AllChatsWidget(),
-      'settings': SettingsWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
     return Scaffold(
@@ -167,11 +166,6 @@ class _NavBarPageState extends State<NavBarPage> {
                 ? Icons.chat_bubble_rounded
                 : Icons.chat_bubble_outline,
             text: 'Chat',
-            iconSize: 24.0,
-          ),
-          GButton(
-            icon: Icons.settings,
-            text: 'Settings',
             iconSize: 24.0,
           )
         ],

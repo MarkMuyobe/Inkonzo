@@ -1,8 +1,10 @@
 import '/auth/auth_util.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_model.dart';
@@ -58,6 +60,111 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     fit: BoxFit.cover,
                   ),
                 ],
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          15.0, 15.0, 15.0, 15.0),
+                      child: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 12.0,
+                        borderWidth: 1.0,
+                        buttonSize: 50.0,
+                        fillColor: FlutterFlowTheme.of(context).primaryText,
+                        icon: FaIcon(
+                          FontAwesomeIcons.apple,
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                          size: 30.0,
+                        ),
+                        onPressed: () async {
+                          GoRouter.of(context).prepareAuthEvent();
+                          final user = await signInWithApple(context);
+                          if (user == null) {
+                            return;
+                          }
+
+                          context.goNamedAuth('HomePage', mounted);
+                        },
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        GoRouter.of(context).prepareAuthEvent();
+                        final user = await signInWithApple(context);
+                        if (user == null) {
+                          return;
+                        }
+
+                        context.goNamedAuth('HomePage', mounted);
+                      },
+                      child: Text(
+                        'Sign-In with Apple',
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          15.0, 15.0, 15.0, 15.0),
+                      child: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 12.0,
+                        borderWidth: 1.0,
+                        buttonSize: 50.0,
+                        fillColor: FlutterFlowTheme.of(context).primaryText,
+                        icon: FaIcon(
+                          FontAwesomeIcons.google,
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                          size: 30.0,
+                        ),
+                        onPressed: () async {
+                          GoRouter.of(context).prepareAuthEvent();
+                          final user = await signInWithGoogle(context);
+                          if (user == null) {
+                            return;
+                          }
+
+                          context.goNamedAuth('HomePage', mounted);
+                        },
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        GoRouter.of(context).prepareAuthEvent();
+                        final user = await signInWithGoogle(context);
+                        if (user == null) {
+                          return;
+                        }
+
+                        context.goNamedAuth('HomePage', mounted);
+                      },
+                      child: Text(
+                        'Sign-In with Google',
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),

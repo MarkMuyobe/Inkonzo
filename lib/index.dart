@@ -11,3 +11,5 @@ export '/settings/settings_widget.dart' show SettingsWidget;
 export '/provider_detail/provider_detail_widget.dart' show ProviderDetailWidget;
 export '/user_edit/user_edit_widget.dart' show UserEditWidget;
 export '/booking_page/booking_page_widget.dart' show BookingPageWidget;
+export '/edit_uder_details/edit_uder_details_widget.dart'
+    show EditUderDetailsWidget;

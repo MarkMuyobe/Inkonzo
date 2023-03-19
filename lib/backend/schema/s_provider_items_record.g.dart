@@ -68,6 +68,13 @@ class _$SProviderItemsRecordSerializer
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
     }
+    value = object.coverImage;
+    if (value != null) {
+      result
+        ..add('CoverImage')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -119,6 +126,10 @@ class _$SProviderItemsRecordSerializer
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
           break;
+        case 'CoverImage':
+          result.coverImage = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -146,6 +157,8 @@ class _$SProviderItemsRecord extends SProviderItemsRecord {
   @override
   final DocumentReference<Object?>? uid;
   @override
+  final String? coverImage;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$SProviderItemsRecord(
@@ -159,6 +172,7 @@ class _$SProviderItemsRecord extends SProviderItemsRecord {
       this.availability,
       this.imageURL,
       this.uid,
+      this.coverImage,
       this.ffRef})
       : super._();
 
@@ -181,6 +195,7 @@ class _$SProviderItemsRecord extends SProviderItemsRecord {
         availability == other.availability &&
         imageURL == other.imageURL &&
         uid == other.uid &&
+        coverImage == other.coverImage &&
         ffRef == other.ffRef;
   }
 
@@ -190,11 +205,13 @@ class _$SProviderItemsRecord extends SProviderItemsRecord {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, name.hashCode), rating.hashCode),
-                        skills.hashCode),
-                    availability.hashCode),
-                imageURL.hashCode),
-            uid.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, name.hashCode), rating.hashCode),
+                            skills.hashCode),
+                        availability.hashCode),
+                    imageURL.hashCode),
+                uid.hashCode),
+            coverImage.hashCode),
         ffRef.hashCode));
   }
 
@@ -207,6 +224,7 @@ class _$SProviderItemsRecord extends SProviderItemsRecord {
           ..add('availability', availability)
           ..add('imageURL', imageURL)
           ..add('uid', uid)
+          ..add('coverImage', coverImage)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -241,6 +259,10 @@ class SProviderItemsRecordBuilder
   DocumentReference<Object?>? get uid => _$this._uid;
   set uid(DocumentReference<Object?>? uid) => _$this._uid = uid;
 
+  String? _coverImage;
+  String? get coverImage => _$this._coverImage;
+  set coverImage(String? coverImage) => _$this._coverImage = coverImage;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -258,6 +280,7 @@ class SProviderItemsRecordBuilder
       _availability = $v.availability;
       _imageURL = $v.imageURL;
       _uid = $v.uid;
+      _coverImage = $v.coverImage;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -289,6 +312,7 @@ class SProviderItemsRecordBuilder
               availability: availability,
               imageURL: imageURL,
               uid: uid,
+              coverImage: coverImage,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

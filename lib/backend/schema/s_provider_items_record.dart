@@ -24,6 +24,9 @@ abstract class SProviderItemsRecord
 
   DocumentReference? get uid;
 
+  @BuiltValueField(wireName: 'CoverImage')
+  String? get coverImage;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -33,7 +36,8 @@ abstract class SProviderItemsRecord
     ..rating = 0
     ..skills = ListBuilder()
     ..availability = false
-    ..imageURL = '';
+    ..imageURL = ''
+    ..coverImage = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('SProviderItems');
@@ -63,6 +67,7 @@ Map<String, dynamic> createSProviderItemsRecordData({
   bool? availability,
   String? imageURL,
   DocumentReference? uid,
+  String? coverImage,
 }) {
   final firestoreData = serializers.toFirestore(
     SProviderItemsRecord.serializer,
@@ -73,7 +78,8 @@ Map<String, dynamic> createSProviderItemsRecordData({
         ..skills = null
         ..availability = availability
         ..imageURL = imageURL
-        ..uid = uid,
+        ..uid = uid
+        ..coverImage = coverImage,
     ),
   );
 
