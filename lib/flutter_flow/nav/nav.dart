@@ -69,13 +69,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, _) =>
-          appStateNotifier.loggedIn ? NavBarPage() : SignUpWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : SignUpWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : LoginPageWidget(),
           routes: [
             FFRoute(
               name: 'HomePage',
@@ -83,7 +83,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'HomePage')
                   : HomePageWidget(
-                      bjh: params.getParam('bjh', ParamType.bool),
+                      providerList: params.getParam('providerList',
+                          ParamType.DocumentReference, false, ['users']),
                     ),
             ),
             FFRoute(
@@ -134,9 +135,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'settings',
               path: 'settings',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'settings')
-                  : SettingsWidget(),
+              builder: (context, params) => SettingsWidget(),
             ),
             FFRoute(
               name: 'ProviderDetail',
@@ -159,6 +158,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => BookingPageWidget(
                 totalAmount: params.getParam('totalAmount', ParamType.double),
               ),
+            ),
+            FFRoute(
+              name: 'EditUderDetails',
+              path: 'editUderDetails',
+              builder: (context, params) => EditUderDetailsWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -229,6 +233,7 @@ extension GoRouterExtensions on GoRouter {
           : appState.updateNotifyOnAuthChange(false);
   bool shouldRedirect(bool ignoreRedirect) =>
       !ignoreRedirect && appState.hasRedirect();
+  void clearRedirectLocation() => appState.clearRedirectLocation();
   void setRedirectLocationIfUnset(String location) =>
       (routerDelegate.refreshListenable as AppStateNotifier)
           .updateNotifyOnAuthChange(false);
@@ -328,7 +333,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/signUp';
+            return '/loginPage';
           }
           return null;
         },

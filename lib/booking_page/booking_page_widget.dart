@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -398,6 +399,10 @@ class _BookingPageWidgetState extends State<BookingPageWidget> {
                         options: ['Option 1', 'Option 2'],
                         onChanged: (val) =>
                             setState(() => _model.checkboxGroupValues = val),
+                        controller: _model.checkboxGroupController ??=
+                            FormFieldController<List<String>>(
+                          [],
+                        ),
                         activeColor: FlutterFlowTheme.of(context).primaryColor,
                         checkColor: Colors.white,
                         checkboxBorderColor: Color(0xFF95A1AC),

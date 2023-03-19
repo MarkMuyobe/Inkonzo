@@ -61,13 +61,6 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.isClient;
-    if (value != null) {
-      result
-        ..add('isClient')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
     value = object.isTalent;
     if (value != null) {
       result
@@ -128,10 +121,6 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.phoneNumber = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'isClient':
-          result.isClient = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
-          break;
         case 'isTalent':
           result.isTalent = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
@@ -167,8 +156,6 @@ class _$UsersRecord extends UsersRecord {
   @override
   final String? phoneNumber;
   @override
-  final bool? isClient;
-  @override
   final bool? isTalent;
   @override
   final bool? isAdmin;
@@ -185,7 +172,6 @@ class _$UsersRecord extends UsersRecord {
       this.uid,
       this.createdTime,
       this.phoneNumber,
-      this.isClient,
       this.isTalent,
       this.isAdmin,
       this.ffRef})
@@ -208,7 +194,6 @@ class _$UsersRecord extends UsersRecord {
         uid == other.uid &&
         createdTime == other.createdTime &&
         phoneNumber == other.phoneNumber &&
-        isClient == other.isClient &&
         isTalent == other.isTalent &&
         isAdmin == other.isAdmin &&
         ffRef == other.ffRef;
@@ -223,14 +208,12 @@ class _$UsersRecord extends UsersRecord {
                     $jc(
                         $jc(
                             $jc(
-                                $jc(
-                                    $jc($jc(0, email.hashCode),
-                                        displayName.hashCode),
-                                    photoUrl.hashCode),
-                                uid.hashCode),
-                            createdTime.hashCode),
-                        phoneNumber.hashCode),
-                    isClient.hashCode),
+                                $jc($jc(0, email.hashCode),
+                                    displayName.hashCode),
+                                photoUrl.hashCode),
+                            uid.hashCode),
+                        createdTime.hashCode),
+                    phoneNumber.hashCode),
                 isTalent.hashCode),
             isAdmin.hashCode),
         ffRef.hashCode));
@@ -245,7 +228,6 @@ class _$UsersRecord extends UsersRecord {
           ..add('uid', uid)
           ..add('createdTime', createdTime)
           ..add('phoneNumber', phoneNumber)
-          ..add('isClient', isClient)
           ..add('isTalent', isTalent)
           ..add('isAdmin', isAdmin)
           ..add('ffRef', ffRef))
@@ -280,10 +262,6 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   String? get phoneNumber => _$this._phoneNumber;
   set phoneNumber(String? phoneNumber) => _$this._phoneNumber = phoneNumber;
 
-  bool? _isClient;
-  bool? get isClient => _$this._isClient;
-  set isClient(bool? isClient) => _$this._isClient = isClient;
-
   bool? _isTalent;
   bool? get isTalent => _$this._isTalent;
   set isTalent(bool? isTalent) => _$this._isTalent = isTalent;
@@ -309,7 +287,6 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _uid = $v.uid;
       _createdTime = $v.createdTime;
       _phoneNumber = $v.phoneNumber;
-      _isClient = $v.isClient;
       _isTalent = $v.isTalent;
       _isAdmin = $v.isAdmin;
       _ffRef = $v.ffRef;
@@ -341,7 +318,6 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
             uid: uid,
             createdTime: createdTime,
             phoneNumber: phoneNumber,
-            isClient: isClient,
             isTalent: isTalent,
             isAdmin: isAdmin,
             ffRef: ffRef);

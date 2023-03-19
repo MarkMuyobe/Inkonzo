@@ -1,7 +1,9 @@
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -205,13 +207,6 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                     Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text(
-                                          providerDetailSProviderItemsRecord
-                                              .rating!
-                                              .toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .title2,
-                                        ),
                                         RatingBar.builder(
                                           onRatingUpdate: (newValue) =>
                                               setState(() => _model
@@ -250,7 +245,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                       borderWidth: 1.0,
                                       buttonSize: 60.0,
                                       icon: Icon(
-                                        Icons.message_rounded,
+                                        Icons.send,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryColor,
                                         size: 30.0,
@@ -261,37 +256,95 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                     ),
                                   ],
                                 ),
-                                Builder(
-                                  builder: (context) {
-                                    final skillslist =
-                                        providerDetailSProviderItemsRecord
-                                            .skills!
-                                            .toList();
-                                    return Wrap(
-                                      spacing: 4.0,
-                                      runSpacing: 0.0,
-                                      alignment: WrapAlignment.start,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.start,
-                                      direction: Axis.vertical,
-                                      runAlignment: WrapAlignment.start,
-                                      verticalDirection: VerticalDirection.down,
-                                      clipBehavior: Clip.none,
-                                      children: List.generate(skillslist.length,
-                                          (skillslistIndex) {
-                                        final skillslistItem =
-                                            skillslist[skillslistIndex];
-                                        return Text(
-                                          skillslistItem,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        );
-                                      }),
-                                    );
-                                  },
+                                Divider(
+                                  thickness: 3.0,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 8.0, 8.0, 8.0),
+                                  child: Text(
+                                    'Rating',
+                                    style: FlutterFlowTheme.of(context)
+                                        .subtitle1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                                Text(
+                                  providerDetailSProviderItemsRecord.rating!
+                                      .toString(),
+                                  style: FlutterFlowTheme.of(context).title2,
                                 ),
                                 Divider(
-                                  thickness: 1.0,
+                                  thickness: 3.0,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 8.0, 8.0, 8.0),
+                                  child: Text(
+                                    'Listings',
+                                    style: FlutterFlowTheme.of(context)
+                                        .subtitle1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 8.0, 8.0, 8.0),
+                                  child: FlutterFlowChoiceChips(
+                                    options: providerDetailSProviderItemsRecord
+                                        .skills!
+                                        .toList()
+                                        .map((label) => ChipData(label))
+                                        .toList(),
+                                    onChanged: (val) => setState(() =>
+                                        _model.choiceChipsValue = val?.first),
+                                    selectedChipStyle: ChipStyle(
+                                      backgroundColor: Color(0xFFE3E7ED),
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                      iconColor: Colors.white,
+                                      iconSize: 18.0,
+                                      elevation: 4.0,
+                                    ),
+                                    unselectedChipStyle: ChipStyle(
+                                      backgroundColor: Colors.white,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyText2
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: Color(0xFFE3E7ED),
+                                          ),
+                                      iconColor: Color(0xFFE3E7ED),
+                                      iconSize: 18.0,
+                                      elevation: 4.0,
+                                    ),
+                                    chipSpacing: 20.0,
+                                    multiselect: false,
+                                    alignment: WrapAlignment.start,
+                                    controller: _model.choiceChipsController ??=
+                                        FormFieldController<List<String>>(
+                                      [],
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: 3.0,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
                                 ),
                                 Align(
                                   alignment: AlignmentDirectional(-1.0, 0.0),
@@ -320,20 +373,23 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                           .secondaryBackground,
                                       borderRadius: BorderRadius.circular(26.0),
                                     ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(24.0),
-                                          child: Image.network(
-                                            'https://picsum.photos/seed/245/600',
-                                            width: 325.0,
-                                            height: 325.0,
-                                            fit: BoxFit.cover,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(24.0),
+                                            child: Image.network(
+                                              'https://picsum.photos/seed/245/600',
+                                              width: 325.0,
+                                              height: 325.0,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

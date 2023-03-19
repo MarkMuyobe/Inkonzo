@@ -25,8 +25,6 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;
 
-  bool? get isClient;
-
   bool? get isTalent;
 
   bool? get isAdmin;
@@ -41,7 +39,6 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..photoUrl = ''
     ..uid = ''
     ..phoneNumber = ''
-    ..isClient = false
     ..isTalent = false
     ..isAdmin = false;
 
@@ -73,7 +70,6 @@ Map<String, dynamic> createUsersRecordData({
   String? uid,
   DateTime? createdTime,
   String? phoneNumber,
-  bool? isClient,
   bool? isTalent,
   bool? isAdmin,
 }) {
@@ -87,7 +83,6 @@ Map<String, dynamic> createUsersRecordData({
         ..uid = uid
         ..createdTime = createdTime
         ..phoneNumber = phoneNumber
-        ..isClient = isClient
         ..isTalent = isTalent
         ..isAdmin = isAdmin,
     ),
