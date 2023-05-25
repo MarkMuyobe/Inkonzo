@@ -1,53 +1,61 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'ratings_record.g.dart';
+class RatingsRecord extends FirestoreRecord {
+  RatingsRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class RatingsRecord
-    implements Built<RatingsRecord, RatingsRecordBuilder> {
-  static Serializer<RatingsRecord> get serializer => _$ratingsRecordSerializer;
+  // "rating" field.
+  int? _rating;
+  int get rating => _rating ?? 0;
+  bool hasRating() => _rating != null;
 
-  int? get rating;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(RatingsRecordBuilder builder) =>
-      builder..rating = 0;
+  void _initializeFields() {
+    _rating = snapshotData['rating'] as int?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('ratings');
 
-  static Stream<RatingsRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<RatingsRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => RatingsRecord.fromSnapshot(s));
 
-  static Future<RatingsRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Future<RatingsRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => RatingsRecord.fromSnapshot(s));
 
-  RatingsRecord._();
-  factory RatingsRecord([void Function(RatingsRecordBuilder) updates]) =
-      _$RatingsRecord;
+  static RatingsRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      RatingsRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static RatingsRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      RatingsRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'RatingsRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createRatingsRecordData({
   int? rating,
 }) {
-  final firestoreData = serializers.toFirestore(
-    RatingsRecord.serializer,
-    RatingsRecord(
-      (r) => r..rating = rating,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'rating': rating,
+    }.withoutNulls,
   );
 
   return firestoreData;

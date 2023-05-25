@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/chat/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -25,6 +25,8 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AllChatsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -36,6 +38,8 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -43,7 +47,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           'All Chats',
-          style: FlutterFlowTheme.of(context).bodyText1.override(
+          style: FlutterFlowTheme.of(context).bodyMedium.override(
                 fontFamily: 'Poppins',
                 color: Colors.black,
                 fontSize: 18.0,
@@ -55,6 +59,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
         elevation: 4.0,
       ),
       body: SafeArea(
+        top: true,
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0.0, 2.0, 0.0, 0.0),
           child: StreamBuilder<List<ChatsRecord>>(
@@ -71,7 +76,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                     width: 50.0,
                     height: 50.0,
                     child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primaryColor,
+                      color: FlutterFlowTheme.of(context).primary,
                     ),
                   ),
                 );
@@ -96,7 +101,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                             width: 50.0,
                             height: 50.0,
                             child: CircularProgressIndicator(
-                              color: FlutterFlowTheme.of(context).primaryColor,
+                              color: FlutterFlowTheme.of(context).primary,
                             ),
                           ),
                         );

@@ -54,6 +54,8 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         setState(() => _chatInfo = info);
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -65,6 +67,8 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -90,7 +94,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
               alignment: AlignmentDirectional(-0.91, 0.0),
               child: Text(
                 'Wazaaaaa!!!',
-                style: FlutterFlowTheme.of(context).bodyText1.override(
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
                     ),
@@ -103,6 +107,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         elevation: 2.0,
       ),
       body: SafeArea(
+        top: true,
         child: StreamBuilder<FFChatInfo>(
           stream: FFChatManager.instance.getChatInfo(
             otherUserRecord: widget.chatUser,
@@ -163,7 +168,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     width: 50.0,
                     height: 50.0,
                     child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primaryColor,
+                      color: FlutterFlowTheme.of(context).primary,
                     ),
                   ),
                 ),

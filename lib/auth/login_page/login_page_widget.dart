@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -28,7 +28,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     _model = createModel(context, () => LoginPageModel());
 
     _model.emailTextController ??= TextEditingController();
-    _model.passwordTextController ??= TextEditingController();
+    authManager.handlePhoneAuthStateChanges(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -40,10 +41,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
+        top: true,
         child: Visibility(
           visible: responsiveVisibility(
             context: context,
@@ -59,11 +63,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
+                      borderRadius: BorderRadius.circular(36.0),
                       child: Image.asset(
-                        'assets/images/inkonzo_logo.png',
-                        width: 100.0,
-                        height: 100.0,
+                        'assets/images/Logo.png',
+                        width: 200.0,
+                        height: 200.0,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -71,109 +75,107 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            15.0, 15.0, 15.0, 15.0),
-                        child: FlutterFlowIconButton(
-                          borderRadius: 12.0,
-                          borderWidth: 1.0,
-                          buttonSize: 50.0,
-                          fillColor: FlutterFlowTheme.of(context).primaryText,
-                          icon: FaIcon(
-                            FontAwesomeIcons.google,
-                            color: FlutterFlowTheme.of(context).primaryColor,
-                            size: 30.0,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onLongPress: () async {
+                      GoRouter.of(context).prepareAuthEvent();
+                      final user = await authManager.signInWithGoogle(context);
+                      if (user == null) {
+                        return;
+                      }
+
+                      context.goNamedAuth('HomePage', context.mounted);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              15.0, 15.0, 15.0, 15.0),
+                          child: FlutterFlowIconButton(
+                            borderRadius: 12.0,
+                            borderWidth: 1.0,
+                            buttonSize: 50.0,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            icon: FaIcon(
+                              FontAwesomeIcons.google,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 30.0,
+                            ),
+                            onPressed: () {
+                              print('IconButton pressed ...');
+                            },
                           ),
-                          onPressed: () async {
-                            GoRouter.of(context).prepareAuthEvent();
-                            final user = await signInWithGoogle(context);
-                            if (user == null) {
-                              return;
-                            }
-
-                            context.goNamedAuth('HomePage', mounted);
-                          },
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-                          final user = await signInWithGoogle(context);
-                          if (user == null) {
-                            return;
-                          }
-
-                          context.goNamedAuth('HomePage', mounted);
-                        },
-                        child: Text(
+                        Text(
                           'Sign-In with Google',
                           style: FlutterFlowTheme.of(context)
-                              .bodyText1
+                              .bodyMedium
                               .override(
                                 fontFamily: 'Poppins',
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            15.0, 15.0, 15.0, 15.0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 12.0,
-                          borderWidth: 1.0,
-                          buttonSize: 50.0,
-                          fillColor: FlutterFlowTheme.of(context).primaryText,
-                          icon: FaIcon(
-                            FontAwesomeIcons.apple,
-                            color: FlutterFlowTheme.of(context).primaryColor,
-                            size: 30.0,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      GoRouter.of(context).prepareAuthEvent();
+                      final user = await authManager.signInWithApple(context);
+                      if (user == null) {
+                        return;
+                      }
+
+                      context.goNamedAuth('HomePage', context.mounted);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              15.0, 15.0, 15.0, 15.0),
+                          child: FlutterFlowIconButton(
+                            borderColor: Colors.transparent,
+                            borderRadius: 12.0,
+                            borderWidth: 1.0,
+                            buttonSize: 50.0,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            icon: FaIcon(
+                              FontAwesomeIcons.apple,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 30.0,
+                            ),
+                            onPressed: () {
+                              print('IconButton pressed ...');
+                            },
                           ),
-                          onPressed: () async {
-                            GoRouter.of(context).prepareAuthEvent();
-                            final user = await signInWithApple(context);
-                            if (user == null) {
-                              return;
-                            }
-
-                            context.goNamedAuth('HomePage', mounted);
-                          },
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-                          final user = await signInWithApple(context);
-                          if (user == null) {
-                            return;
-                          }
-
-                          context.goNamedAuth('HomePage', mounted);
-                        },
-                        child: Text(
+                        Text(
                           'Sign-In with Apple',
                           style:
-                              FlutterFlowTheme.of(context).bodyText1.override(
+                              FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -192,10 +194,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               0.0, 0.0, 16.0, 0.0),
                           child: Text(
                             'Sign In',
-                            style: FlutterFlowTheme.of(context).title3.override(
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
                                   fontFamily: 'Poppins',
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
+                                  color: FlutterFlowTheme.of(context).primary,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -211,12 +214,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
                           child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pushNamed('sign_up');
                             },
                             child: Text(
                               'Sign Up',
-                              style: FlutterFlowTheme.of(context).title3,
+                              style: FlutterFlowTheme.of(context).headlineSmall,
                             ),
                           ),
                         ),
@@ -231,7 +238,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     children: [
                       Text(
                         'Or use the form below, to access your account.',
-                        style: FlutterFlowTheme.of(context).bodyText2,
+                        style: FlutterFlowTheme.of(context).bodySmall,
                       ),
                     ],
                   ),
@@ -258,9 +265,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         controller: _model.emailTextController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Your email address',
-                          labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          labelText: 'Your phone number',
+                          labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                          hintStyle: FlutterFlowTheme.of(context).bodySmall,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0x00000000),
@@ -295,89 +302,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FlutterFlowTheme.of(context).bodyMedium,
                         maxLines: null,
                         validator: _model.emailTextControllerValidator
-                            .asValidator(context),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 6.0,
-                          color: Color(0x3416202A),
-                          offset: Offset(0.0, 2.0),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(2.0, 2.0, 2.0, 2.0),
-                      child: TextFormField(
-                        controller: _model.passwordTextController,
-                        obscureText: !_model.passwordVisibility,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          contentPadding: EdgeInsetsDirectional.fromSTEB(
-                              20.0, 24.0, 20.0, 24.0),
-                          suffixIcon: InkWell(
-                            onTap: () => setState(
-                              () => _model.passwordVisibility =
-                                  !_model.passwordVisibility,
-                            ),
-                            focusNode: FocusNode(skipTraversal: true),
-                            child: Icon(
-                              _model.passwordVisibility
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Color(0xFF757575),
-                              size: 22.0,
-                            ),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
-                        validator: _model.passwordTextControllerValidator
                             .asValidator(context),
                       ),
                     ),
@@ -391,20 +318,32 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-
-                          final user = await signInWithEmail(
-                            context,
-                            _model.emailTextController.text,
-                            _model.passwordTextController.text,
-                          );
-                          if (user == null) {
+                          final phoneNumberVal =
+                              _model.emailTextController.text;
+                          if (phoneNumberVal == null ||
+                              phoneNumberVal.isEmpty ||
+                              !phoneNumberVal.startsWith('+')) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Phone Number is required and has to start with +.'),
+                              ),
+                            );
                             return;
                           }
-
-                          context.pushNamedAuth('HomePage', mounted);
+                          await authManager.beginPhoneAuth(
+                            context: context,
+                            phoneNumber: phoneNumberVal,
+                            onCodeSent: (context) async {
+                              context.goNamedAuth(
+                                'verifyOTP',
+                                context.mounted,
+                                ignoreRedirect: true,
+                              );
+                            },
+                          );
                         },
-                        text: 'Login',
+                        text: 'Get OTP',
                         options: FFButtonOptions(
                           width: 150.0,
                           height: 50.0,
@@ -412,9 +351,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               0.0, 0.0, 0.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primaryColor,
+                          color: FlutterFlowTheme.of(context).primary,
                           textStyle:
-                              FlutterFlowTheme.of(context).subtitle1.override(
+                              FlutterFlowTheme.of(context).titleMedium.override(
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
@@ -422,47 +361,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            GoRouter.of(context).prepareAuthEvent();
-                            final user = await signInAnonymously(context);
-                            if (user == null) {
-                              return;
-                            }
-
-                            context.goNamedAuth('HomePage', mounted);
-                          },
-                          text: 'Continue as Guest',
-                          options: FFButtonOptions(
-                            width: 230.0,
-                            height: 50.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            textStyle: FlutterFlowTheme.of(context).subtitle2,
-                            elevation: 0.0,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1.0,
-                            ),
                           ),
                         ),
                       ),

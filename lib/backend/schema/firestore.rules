@@ -3,9 +3,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{document} {
       allow create: if request.auth.uid == document;
-      allow read: if true;
+      allow read: if request.auth.uid == document;
       allow write: if request.auth.uid == document;
-      allow delete: if false;
+      allow delete: if request.auth != null;
     }
 
     match /chats/{document} {
@@ -30,11 +30,80 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    match /SProviderItems/{document} {
+    match /topCategories/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false;
       allow delete: if false;
     }
+
+    match /Reviews/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /ProviderDocuments/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /ProviderDocuments/{parent}/clientReview/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/clientReview/{document} {
+      allow read: if true;
+    }
+
+
+    match /users/{parent}/bookings/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if request.auth.uid == parent;
+      allow write: if request.auth.uid == parent;
+      allow delete: if false;
+    }
+
+    match /ProviderDocuments/{parent}/aboutSection/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/aboutSection/{document} {
+      allow read: if true;
+    }
+
+
+    match /ProviderDocuments/{parent}/skills/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/skills/{document} {
+      allow read: if true;
+    }
+
+
+    match /ProviderDocuments/{parent}/clients/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/clients/{document} {
+      allow read: if true;
+    }
+
   }
 }

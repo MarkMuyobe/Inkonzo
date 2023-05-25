@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../flutter_flow_theme.dart';
-import '../../backend/backend.dart';
+import '/backend/backend.dart';
 
-import '../../auth/firebase_user_provider.dart';
+import '../../auth/base_auth_user_provider.dart';
 
 import '../../index.dart';
 import '../../main.dart';
@@ -20,8 +20,8 @@ export 'serialization_util.dart';
 const kTransitionInfoKey = '__transition_info__';
 
 class AppStateNotifier extends ChangeNotifier {
-  InkonzoFirebaseUser? initialUser;
-  InkonzoFirebaseUser? user;
+  BaseAuthUser? initialUser;
+  BaseAuthUser? user;
   bool showSplashImage = true;
   String? _redirectLocation;
 
@@ -46,7 +46,7 @@ class AppStateNotifier extends ChangeNotifier {
   /// to perform subsequent actions (such as navigation) afterwards.
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
-  void update(InkonzoFirebaseUser newUser) {
+  void update(BaseAuthUser newUser) {
     initialUser ??= newUser;
     user = newUser;
     // Refresh the app on auth change unless explicitly marked otherwise.
@@ -69,38 +69,36 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, _) =>
-          appStateNotifier.loggedIn ? NavBarPage() : LoginPageWidget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : LoginPageWidget(),
+              appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
           routes: [
             FFRoute(
               name: 'HomePage',
               path: 'homePage',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'HomePage')
-                  : HomePageWidget(
-                      providerList: params.getParam('providerList',
-                          ParamType.DocumentReference, false, ['users']),
-                    ),
+              requireAuth: true,
+              builder: (context, params) => HomePageWidget(
+                providerList: params.getParam('providerList',
+                    ParamType.DocumentReference, false, ['users']),
+              ),
             ),
             FFRoute(
-              name: 'inkonzo_onboarding',
-              path: 'inkonzoOnboarding',
-              builder: (context, params) => InkonzoOnboardingWidget(),
+              name: 'inkonzo_onboarding_dark',
+              path: 'inkonzoOnboarding_dark',
+              requireAuth: true,
+              builder: (context, params) => InkonzoOnboardingDarkWidget(),
             ),
             FFRoute(
               name: 'search_results',
               path: 'searchResults',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'search_results')
-                  : SearchResultsWidget(
-                      searchQuery:
-                          params.getParam('searchQuery', ParamType.String),
-                    ),
+              requireAuth: true,
+              builder: (context, params) => SearchResultsWidget(
+                searchQuery: params.getParam('searchQuery', ParamType.String),
+              ),
             ),
             FFRoute(
               name: 'login_page',
@@ -117,7 +115,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'chatPage',
               requireAuth: true,
               asyncParams: {
-                'chatUser': getDoc(['users'], UsersRecord.serializer),
+                'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
               },
               builder: (context, params) => ChatPageWidget(
                 chatUser: params.getParam('chatUser', ParamType.Document),
@@ -128,41 +126,151 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'all_chats',
               path: 'allChats',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'all_chats')
-                  : AllChatsWidget(),
+              requireAuth: true,
+              builder: (context, params) => AllChatsWidget(),
             ),
             FFRoute(
               name: 'settings',
               path: 'settings',
+              requireAuth: true,
               builder: (context, params) => SettingsWidget(),
             ),
             FFRoute(
               name: 'ProviderDetail',
               path: 'providerDetail',
+              requireAuth: true,
               builder: (context, params) => ProviderDetailWidget(
                 userRef: params.getParam('userRef', ParamType.DocumentReference,
-                    false, ['SProviderItems']),
+                    false, ['ProviderDocuments']),
                 iDRef: params.getParam(
                     'iDRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
-              name: 'UserEdit',
-              path: 'userEdit',
-              builder: (context, params) => UserEditWidget(),
+              name: 'UserSettings',
+              path: 'userSettings',
+              requireAuth: true,
+              builder: (context, params) => UserSettingsWidget(),
             ),
             FFRoute(
               name: 'BookingPage',
               path: 'bookingPage',
+              requireAuth: true,
               builder: (context, params) => BookingPageWidget(
-                totalAmount: params.getParam('totalAmount', ParamType.double),
+                providerRef: params.getParam('providerRef',
+                    ParamType.DocumentReference, false, ['ProviderDocuments']),
+                bookingFee: params.getParam('bookingFee', ParamType.double),
               ),
             ),
             FFRoute(
-              name: 'EditUderDetails',
-              path: 'editUderDetails',
-              builder: (context, params) => EditUderDetailsWidget(),
+              name: 'EditUserDetails',
+              path: 'editUserDetails',
+              requireAuth: true,
+              builder: (context, params) => EditUserDetailsWidget(),
+            ),
+            FFRoute(
+              name: 'app_rating',
+              path: 'appRating',
+              requireAuth: true,
+              builder: (context, params) => AppRatingWidget(),
+            ),
+            FFRoute(
+              name: 'providerDashboard',
+              path: 'providerDashboard',
+              requireAuth: true,
+              builder: (context, params) => ProviderDashboardWidget(),
+            ),
+            FFRoute(
+              name: 'serviceTrackingList',
+              path: 'serviceTrackingList',
+              requireAuth: true,
+              builder: (context, params) => ServiceTrackingListWidget(),
+            ),
+            FFRoute(
+              name: 'providerReviewPage',
+              path: 'providerReviewPage',
+              requireAuth: true,
+              builder: (context, params) => ProviderReviewPageWidget(
+                clientRef: params.getParam('clientRef',
+                    ParamType.DocumentReference, false, ['ProviderDocuments']),
+              ),
+            ),
+            FFRoute(
+              name: 'BookingPageCopy',
+              path: 'bookingPageCopy',
+              requireAuth: true,
+              builder: (context, params) => BookingPageCopyWidget(
+                totalAmount: params.getParam('totalAmount', ParamType.double),
+                providerName: params.getParam('providerName', ParamType.String),
+                providerImage:
+                    params.getParam('providerImage', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'trackingDetail',
+              path: 'trackingDetail',
+              requireAuth: true,
+              builder: (context, params) => TrackingDetailWidget(
+                booking: params.getParam('booking', ParamType.DocumentReference,
+                    false, ['users', 'bookings']),
+              ),
+            ),
+            FFRoute(
+              name: 'CreateDetail',
+              path: 'createDetail',
+              requireAuth: true,
+              builder: (context, params) => CreateDetailWidget(
+                imgURL: params.getParam('imgURL', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'readDetail',
+              path: 'readDetail',
+              requireAuth: true,
+              builder: (context, params) => ReadDetailWidget(),
+            ),
+            FFRoute(
+              name: 'UpdateDetail',
+              path: 'updateDetail',
+              requireAuth: true,
+              builder: (context, params) => UpdateDetailWidget(
+                image: params.getParam('image', ParamType.String),
+                header: params.getParam('header', ParamType.String),
+                body: params.getParam('body', ParamType.String),
+                aboutReference: params.getParam(
+                    'aboutReference',
+                    ParamType.DocumentReference,
+                    false,
+                    ['ProviderDocuments', 'aboutSection']),
+              ),
+            ),
+            FFRoute(
+              name: 'providerDashboardCopy',
+              path: 'providerDashboardCopy',
+              requireAuth: true,
+              builder: (context, params) => ProviderDashboardCopyWidget(),
+            ),
+            FFRoute(
+              name: 'verifyOTP',
+              path: 'verifyOTP',
+              builder: (context, params) => VerifyOTPWidget(),
+            ),
+            FFRoute(
+              name: 'inkonzo_onboarding_lite',
+              path: 'inkonzoOnboardingLite',
+              builder: (context, params) => InkonzoOnboardingLiteWidget(),
+            ),
+            FFRoute(
+              name: 'TsAndCs',
+              path: 'tsAndCs',
+              requireAuth: true,
+              builder: (context, params) => TsAndCsWidget(),
+            ),
+            FFRoute(
+              name: 'splash_screen',
+              path: 'splashScreen',
+              requireAuth: true,
+              builder: (context, params) => SplashScreenWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -300,7 +408,8 @@ class FFParameters {
       return param;
     }
     // Return serialized value.
-    return deserializeParam<T>(param, type, isList, collectionNamePath);
+    return deserializeParam<T>(param, type, isList,
+        collectionNamePath: collectionNamePath);
   }
 }
 
@@ -346,13 +455,11 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primaryColor,
-                    ),
+              ? Container(
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/services_screen.png',
+                    fit: BoxFit.fill,
                   ),
                 )
               : page;
