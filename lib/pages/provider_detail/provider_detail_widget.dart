@@ -59,12 +59,15 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 50.0,
-              height: 50.0,
-              child: CircularProgressIndicator(
-                color: FlutterFlowTheme.of(context).primary,
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            body: Center(
+              child: SizedBox(
+                width: 50.0,
+                height: 50.0,
+                child: CircularProgressIndicator(
+                  color: FlutterFlowTheme.of(context).primary,
+                ),
               ),
             ),
           );
@@ -431,7 +434,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                               if (confirmDialogResponse) {
                                                 context.pushNamed(
                                                   'BookingPage',
-                                                  queryParams: {
+                                                  queryParameters: {
                                                     'providerRef':
                                                         serializeParam(
                                                       widget.userRef,
@@ -508,7 +511,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                           onPressed: () async {
                                             context.pushNamed(
                                               'providerReviewPage',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'clientRef': serializeParam(
                                                   widget.userRef,
                                                   ParamType.DocumentReference,
@@ -799,8 +802,8 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                         builder: (context) => StreamBuilder<
                                             List<ClientReviewRecord>>(
                                           stream: queryClientReviewRecord(
-                                            parent: currentUserDocument!
-                                                .providerReference,
+                                            parent: currentUserDocument
+                                                ?.providerReference,
                                           ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -1044,7 +1047,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                           if (confirmDialogResponse) {
                                             context.pushNamed(
                                               'BookingPage',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'providerRef': serializeParam(
                                                   widget.userRef,
                                                   ParamType.DocumentReference,

@@ -795,7 +795,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Graphic Design',
                                                     ParamType.String,
@@ -843,7 +843,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Plumber',
                                                     ParamType.String,
@@ -891,7 +891,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Electric',
                                                     ParamType.String,
@@ -951,7 +951,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Babysitter',
                                                     ParamType.String,
@@ -999,7 +999,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Clean',
                                                     ParamType.String,
@@ -1047,7 +1047,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                               context.pushNamed(
                                                 'search_results',
-                                                queryParams: {
+                                                queryParameters: {
                                                   'searchQuery': serializeParam(
                                                     'Software',
                                                     ParamType.String,
@@ -1103,7 +1103,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                             context.pushNamed(
                                               'search_results',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'searchQuery': serializeParam(
                                                   'Music',
                                                   ParamType.String,
@@ -1149,7 +1149,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                             context.pushNamed(
                                               'search_results',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'searchQuery': serializeParam(
                                                   'Tutor',
                                                   ParamType.String,
@@ -1195,7 +1195,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                             context.pushNamed(
                                               'search_results',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'searchQuery': serializeParam(
                                                   'Laundry',
                                                   ParamType.String,
@@ -1241,7 +1241,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
                                             context.pushNamed(
                                               'search_results',
-                                              queryParams: {
+                                              queryParameters: {
                                                 'searchQuery': serializeParam(
                                                   'Garden',
                                                   ParamType.String,

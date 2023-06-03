@@ -482,7 +482,7 @@ class _BookingPageCopyWidgetState extends State<BookingPageCopyWidget>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total Rate',
+                      'com.inkonzo.inkonzo',
                       style: FlutterFlowTheme.of(context).titleMedium,
                     ),
                     Row(

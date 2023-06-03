@@ -416,7 +416,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                   onTap: () async {
                                     context.pushNamed(
                                       'ProviderDetail',
-                                      queryParams: {
+                                      queryParameters: {
                                         'userRef': serializeParam(
                                           activeSearchListProviderDocumentsRecord
                                               .reference,

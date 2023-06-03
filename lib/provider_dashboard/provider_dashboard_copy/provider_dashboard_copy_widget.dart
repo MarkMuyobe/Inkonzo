@@ -55,12 +55,15 @@ class _ProviderDashboardCopyWidgetState
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
-            return Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  color: FlutterFlowTheme.of(context).primary,
+            return Scaffold(
+              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              body: Center(
+                child: SizedBox(
+                  width: 50.0,
+                  height: 50.0,
+                  child: CircularProgressIndicator(
+                    color: FlutterFlowTheme.of(context).primary,
+                  ),
                 ),
               ),
             );
@@ -721,8 +724,8 @@ class _ProviderDashboardCopyWidgetState
                                           StreamBuilder<
                                               List<AboutSectionRecord>>(
                                             stream: queryAboutSectionRecord(
-                                              parent: currentUserDocument!
-                                                  .providerReference,
+                                              parent: currentUserDocument
+                                                  ?.providerReference,
                                             ),
                                             builder: (context, snapshot) {
                                               // Customize what your widget looks like when it's loading.
@@ -829,7 +832,7 @@ class _ProviderDashboardCopyWidgetState
                                                                       context
                                                                           .pushNamed(
                                                                         'UpdateDetail',
-                                                                        queryParams:
+                                                                        queryParameters:
                                                                             {
                                                                           'image':
                                                                               serializeParam(
@@ -1295,7 +1298,7 @@ class _ProviderDashboardCopyWidgetState
                           decoration: BoxDecoration(),
                           child: StreamBuilder<List<ClientReviewRecord>>(
                             stream: queryClientReviewRecord(
-                              parent: currentUserDocument!.providerReference,
+                              parent: currentUserDocument?.providerReference,
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
