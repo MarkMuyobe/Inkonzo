@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class LoginPageModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for TextField widget.
   TextEditingController? emailTextController;
   String? Function(BuildContext, String?)? emailTextControllerValidator;
@@ -20,8 +21,11 @@ class LoginPageModel extends FlutterFlowModel {
   void initState(BuildContext context) {}
 
   void dispose() {
+    unfocusNode.dispose();
     emailTextController?.dispose();
   }
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 

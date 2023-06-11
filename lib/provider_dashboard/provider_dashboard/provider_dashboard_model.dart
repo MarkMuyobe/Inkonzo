@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 class ProviderDashboardModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // Models for rating2 dynamic component.
   late FlutterFlowDynamicModels<Rating2Model> rating2Models;
 
@@ -24,8 +25,11 @@ class ProviderDashboardModel extends FlutterFlowModel {
   }
 
   void dispose() {
+    unfocusNode.dispose();
     rating2Models.dispose();
   }
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 

@@ -62,6 +62,7 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
         List<ReviewsRecord> listViewReviewsRecordList = snapshot.data!;
         return ListView.builder(
           padding: EdgeInsets.zero,
+          primary: false,
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: listViewReviewsRecordList.length,
@@ -172,11 +173,9 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  dateTimeFormat(
-                                    'MMMEd',
-                                    getCurrentTimestamp,
-                                    locale: FFLocalizations.of(context)
-                                        .languageCode,
+                                  valueOrDefault<String>(
+                                    listViewReviewsRecord.time?.toString(),
+                                    '123',
                                   ),
                                   style: FlutterFlowTheme.of(context).bodySmall,
                                 ),

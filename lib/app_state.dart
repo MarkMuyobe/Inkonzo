@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
 import '/backend/backend.dart';
 import 'backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +51,21 @@ class FFAppState extends ChangeNotifier {
   set searchActive(bool _value) {
     _searchActive = _value;
   }
+
+  final _srchQryManager = FutureRequestManager<List<ProviderDocumentsRecord>>();
+  Future<List<ProviderDocumentsRecord>> srchQry({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<List<ProviderDocumentsRecord>> Function() requestFn,
+  }) =>
+      _srchQryManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearSrchQryCache() => _srchQryManager.clear();
+  void clearSrchQryCacheKey(String? uniqueKey) =>
+      _srchQryManager.clearRequest(uniqueKey);
 }
 
 LatLng? _latLngFromString(String? val) {

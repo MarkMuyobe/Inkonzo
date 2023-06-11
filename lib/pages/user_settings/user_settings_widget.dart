@@ -26,7 +26,6 @@ class _UserSettingsWidgetState extends State<UserSettingsWidget>
   late UserSettingsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   final animationsMap = {
     'containerOnActionTriggerAnimation1': AnimationInfo(
@@ -76,7 +75,6 @@ class _UserSettingsWidgetState extends State<UserSettingsWidget>
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -85,7 +83,7 @@ class _UserSettingsWidgetState extends State<UserSettingsWidget>
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,

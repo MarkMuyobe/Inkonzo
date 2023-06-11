@@ -77,6 +77,11 @@ class ProviderDocumentsRecord extends FirestoreRecord {
   List<String> get inkonzoComments => _inkonzoComments ?? const [];
   bool hasInkonzoComments() => _inkonzoComments != null;
 
+  // "dateJoined" field.
+  DateTime? _dateJoined;
+  DateTime? get dateJoined => _dateJoined;
+  bool hasDateJoined() => _dateJoined != null;
+
   void _initializeFields() {
     _rating = snapshotData['rating'] as int?;
     _availability = snapshotData['availability'] as bool?;
@@ -90,6 +95,7 @@ class ProviderDocumentsRecord extends FirestoreRecord {
     _totalEarnings = castToType<double>(snapshotData['totalEarnings']);
     _totalClients = snapshotData['totalClients'] as int?;
     _inkonzoComments = getDataList(snapshotData['inkonzoComments']);
+    _dateJoined = snapshotData['dateJoined'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -138,6 +144,10 @@ class ProviderDocumentsRecord extends FirestoreRecord {
           'inkonzoComments': safeGet(
             () => snapshot.data['inkonzoComments'].toList(),
           ),
+          'dateJoined': safeGet(
+            () => DateTime.fromMillisecondsSinceEpoch(
+                snapshot.data['dateJoined']),
+          ),
         },
         ProviderDocumentsRecord.collection.doc(snapshot.objectID),
       );
@@ -163,6 +173,14 @@ class ProviderDocumentsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'ProviderDocumentsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is ProviderDocumentsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createProviderDocumentsRecordData({
@@ -176,6 +194,7 @@ Map<String, dynamic> createProviderDocumentsRecordData({
   double? bookingFee,
   double? totalEarnings,
   int? totalClients,
+  DateTime? dateJoined,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -189,6 +208,7 @@ Map<String, dynamic> createProviderDocumentsRecordData({
       'bookingFee': bookingFee,
       'totalEarnings': totalEarnings,
       'totalClients': totalClients,
+      'dateJoined': dateJoined,
     }.withoutNulls,
   );
 

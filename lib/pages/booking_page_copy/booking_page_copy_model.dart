@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 class BookingPageCopyModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for priceDetailsCheckbox widget.
   bool? priceDetailsCheckboxValue;
   // State field(s) for SpecificServiceCheckbox widget.
@@ -26,7 +27,11 @@ class BookingPageCopyModel extends FlutterFlowModel {
 
   void initState(BuildContext context) {}
 
-  void dispose() {}
+  void dispose() {
+    unfocusNode.dispose();
+  }
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 

@@ -33,3 +33,23 @@ double? totalFee(
   double total = subTotal + bookingFee;
   return (total);
 }
+
+double calculateDistance(
+  LatLng userLocation,
+  LatLng providerLocation,
+) {
+  // calculate haversine distance and return in kilometers
+  double earthRadius = 6371;
+  double dLat =
+      math.pi / 180 * (providerLocation.latitude - userLocation.latitude);
+  double dLon =
+      math.pi / 180 * (providerLocation.longitude - userLocation.longitude);
+  double a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+      math.cos(math.pi / 180 * (userLocation.latitude)) *
+          math.cos(math.pi / 180 * (providerLocation.latitude)) *
+          math.sin(dLon / 2) *
+          math.sin(dLon / 2);
+  double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+  double d = earthRadius * c;
+  return d;
+}

@@ -276,6 +276,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'splashScreen',
               requireAuth: true,
               builder: (context, params) => SplashScreenWidget(),
+            ),
+            FFRoute(
+              name: 'requestPage',
+              path: 'requestPage',
+              requireAuth: true,
+              builder: (context, params) => RequestPageWidget(),
+            ),
+            FFRoute(
+              name: 'InkonzoOnboarding',
+              path: 'inkonzoOnboarding',
+              requireAuth: true,
+              builder: (context, params) => InkonzoOnboardingWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

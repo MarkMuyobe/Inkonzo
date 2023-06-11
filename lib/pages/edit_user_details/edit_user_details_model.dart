@@ -41,6 +41,8 @@ class EditUserDetailsModel extends FlutterFlowModel {
     textController3?.dispose();
   }
 
+  /// Action blocks are added here.
+
   /// Additional helper methods are added here.
 
 }

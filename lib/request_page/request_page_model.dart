@@ -1,18 +1,22 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
-class TrackingDetailModel extends FlutterFlowModel {
+class RequestPageModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // State field(s) for StartTime widget.
+  String? startTimeValue;
+  FormFieldController<String>? startTimeValueController;
+  // State field(s) for EndTime widget.
+  String? endTimeValue;
+  FormFieldController<String>? endTimeValueController;
 
   /// Initialization and disposal methods.
 

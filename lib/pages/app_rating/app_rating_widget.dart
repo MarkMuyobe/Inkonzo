@@ -23,7 +23,6 @@ class _AppRatingWidgetState extends State<AppRatingWidget> {
   late AppRatingModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
@@ -38,7 +37,6 @@ class _AppRatingWidgetState extends State<AppRatingWidget> {
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -47,7 +45,7 @@ class _AppRatingWidgetState extends State<AppRatingWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -119,7 +117,7 @@ class _AppRatingWidgetState extends State<AppRatingWidget> {
                         child: AuthUserStreamWidget(
                           builder: (context) => Text(
                             currentUserDisplayName,
-                            style: FlutterFlowTheme.of(context).bodyMedium,
+                            style: FlutterFlowTheme.of(context).headlineSmall,
                           ),
                         ),
                       ),

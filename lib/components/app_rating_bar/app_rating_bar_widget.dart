@@ -48,19 +48,16 @@ class _AppRatingBarWidgetState extends State<AppRatingBarWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return RatingBar.builder(
-      onRatingUpdate: (newValue) =>
-          setState(() => _model.appRatingBarValue = newValue),
+    return RatingBarIndicator(
       itemBuilder: (context, index) => Icon(
         Icons.star_rounded,
         color: FlutterFlowTheme.of(context).primary,
       ),
       direction: Axis.horizontal,
-      initialRating: _model.appRatingBarValue ??= widget.ratingValue,
+      rating: widget.ratingValue,
       unratedColor: Color(0xFF9E9E9E),
       itemCount: 5,
       itemSize: 20.0,
-      glowColor: FlutterFlowTheme.of(context).primary,
     );
   }
 }

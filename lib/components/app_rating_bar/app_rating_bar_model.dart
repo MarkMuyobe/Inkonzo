@@ -10,16 +10,13 @@ class AppRatingBarModel extends FlutterFlowModel {
 
   int ratingNumber = 3;
 
-  ///  State fields for stateful widgets in this component.
-
-  // State field(s) for AppRatingBar widget.
-  double? appRatingBarValue;
-
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
 
   void dispose() {}
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 

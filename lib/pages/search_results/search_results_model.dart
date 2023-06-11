@@ -1,9 +1,10 @@
 import '/backend/backend.dart';
 import '/components/provider_rating/provider_rating_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ import 'package:provider/provider.dart';
 class SearchResultsModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
-  Completer<List<ProviderDocumentsRecord>>? algoliaRequestCompleter;
+  final unfocusNode = FocusNode();
+  bool algoliaRequestCompleted = false;
+  String? algoliaRequestLastUniqueKey;
   // State field(s) for queryField widget.
   final queryFieldKey = GlobalKey();
   TextEditingController? queryFieldController;
@@ -22,6 +25,9 @@ class SearchResultsModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? queryFieldControllerValidator;
   // Algolia Search Results from action on queryField
   List<ProviderDocumentsRecord>? algoliaSearchResults = [];
+  // State field(s) for ChoiceChips widget.
+  String? choiceChipsValue;
+  FormFieldController<List<String>>? choiceChipsValueController;
   // Models for provider_rating dynamic component.
   late FlutterFlowDynamicModels<ProviderRatingModel> providerRatingModels;
 
@@ -33,8 +39,11 @@ class SearchResultsModel extends FlutterFlowModel {
   }
 
   void dispose() {
+    unfocusNode.dispose();
     providerRatingModels.dispose();
   }
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 
@@ -46,7 +55,7 @@ class SearchResultsModel extends FlutterFlowModel {
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = algoliaRequestCompleter?.isCompleted ?? false;
+      final requestComplete = algoliaRequestCompleted;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

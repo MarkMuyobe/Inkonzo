@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -43,6 +44,8 @@ class ProviderDetailModel extends FlutterFlowModel {
     availabilityTrueModel.dispose();
     rating2Models.dispose();
   }
+
+  /// Action blocks are added here.
 
   /// Additional helper methods are added here.
 

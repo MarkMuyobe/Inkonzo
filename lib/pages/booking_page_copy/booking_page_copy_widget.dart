@@ -38,7 +38,6 @@ class _BookingPageCopyWidgetState extends State<BookingPageCopyWidget>
   late BookingPageCopyModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   final animationsMap = {
     'checkboxGroupOnPageLoadAnimation': AnimationInfo(
@@ -67,7 +66,6 @@ class _BookingPageCopyWidgetState extends State<BookingPageCopyWidget>
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -76,7 +74,7 @@ class _BookingPageCopyWidgetState extends State<BookingPageCopyWidget>
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
