@@ -85,7 +85,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           top: true,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -313,7 +313,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        context.pushNamed('search_results');
+                                        context.pushNamed(
+                                          'search_results',
+                                          queryParameters: {
+                                            'searchQuery': serializeParam(
+                                              _model.queryFieldController.text,
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                        );
                                       },
                                       child: Icon(
                                         Icons.send,
