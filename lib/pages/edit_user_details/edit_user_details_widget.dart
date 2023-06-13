@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_user_details_model.dart';
@@ -29,6 +30,13 @@ class _EditUserDetailsWidgetState extends State<EditUserDetailsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => EditUserDetailsModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      setState(() {
+        _model.pictureChanged = false;
+      });
+    });
 
     _model.phoneNumberFieldController ??=
         TextEditingController(text: currentPhoneNumber);
@@ -127,7 +135,7 @@ class _EditUserDetailsWidgetState extends State<EditUserDetailsWidget> {
                               child: Image.network(
                                 valueOrDefault<String>(
                                   currentUserPhoto,
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/h2hmihpmc5q1/zee_ndlovu_19.png',
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
                                 ),
                               ),
                             ),
@@ -186,6 +194,10 @@ class _EditUserDetailsWidgetState extends State<EditUserDetailsWidget> {
                                 return;
                               }
                             }
+
+                            setState(() {
+                              _model.pictureChanged = true;
+                            });
                           },
                           text: 'Edit Photo',
                           options: FFButtonOptions(

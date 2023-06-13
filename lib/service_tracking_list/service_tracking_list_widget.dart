@@ -145,10 +145,13 @@ class _ServiceTrackingListWidgetState extends State<ServiceTrackingListWidget> {
                                   'trackingDetail',
                                   queryParameters: {
                                     'booking': serializeParam(
-                                      bookingsItem.reference,
-                                      ParamType.DocumentReference,
+                                      bookingsItem,
+                                      ParamType.Document,
                                     ),
                                   }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    'booking': bookingsItem,
+                                  },
                                 );
                               },
                               child: Card(

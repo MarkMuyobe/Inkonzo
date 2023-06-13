@@ -84,7 +84,7 @@ class _CreateDetailWidgetState extends State<CreateDetailWidget> {
                               image: Image.network(
                                 valueOrDefault<String>(
                                   _model.uploadedFileUrl1,
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/h2hmihpmc5q1/zee_ndlovu_19.png',
+                                  'https://placehold.co/600x400/png',
                                 ),
                               ).image,
                             ),

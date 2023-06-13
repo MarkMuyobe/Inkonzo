@@ -215,9 +215,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'trackingDetail',
               path: 'trackingDetail',
               requireAuth: true,
+              asyncParams: {
+                'booking':
+                    getDoc(['users', 'bookings'], BookingsRecord.fromSnapshot),
+              },
               builder: (context, params) => TrackingDetailWidget(
-                booking: params.getParam('booking', ParamType.DocumentReference,
-                    false, ['users', 'bookings']),
+                booking: params.getParam('booking', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -272,22 +275,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => TsAndCsWidget(),
             ),
             FFRoute(
-              name: 'splash_screen',
-              path: 'splashScreen',
-              requireAuth: true,
-              builder: (context, params) => SplashScreenWidget(),
-            ),
-            FFRoute(
               name: 'requestPage',
               path: 'requestPage',
               requireAuth: true,
-              builder: (context, params) => RequestPageWidget(),
+              asyncParams: {
+                'providerRef': getDoc(['ProviderDocuments'],
+                    ProviderDocumentsRecord.fromSnapshot),
+              },
+              builder: (context, params) => RequestPageWidget(
+                providerRef: params.getParam('providerRef', ParamType.Document),
+              ),
             ),
             FFRoute(
               name: 'InkonzoOnboarding',
               path: 'inkonzoOnboarding',
               requireAuth: true,
               builder: (context, params) => InkonzoOnboardingWidget(),
+            ),
+            FFRoute(
+              name: 'ProviderRegister',
+              path: 'providerRegister',
+              requireAuth: true,
+              builder: (context, params) => ProviderRegisterWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

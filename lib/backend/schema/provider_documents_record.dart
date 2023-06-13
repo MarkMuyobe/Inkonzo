@@ -82,6 +82,11 @@ class ProviderDocumentsRecord extends FirestoreRecord {
   DateTime? get dateJoined => _dateJoined;
   bool hasDateJoined() => _dateJoined != null;
 
+  // "workDescription" field.
+  String? _workDescription;
+  String get workDescription => _workDescription ?? '';
+  bool hasWorkDescription() => _workDescription != null;
+
   void _initializeFields() {
     _rating = snapshotData['rating'] as int?;
     _availability = snapshotData['availability'] as bool?;
@@ -96,6 +101,7 @@ class ProviderDocumentsRecord extends FirestoreRecord {
     _totalClients = snapshotData['totalClients'] as int?;
     _inkonzoComments = getDataList(snapshotData['inkonzoComments']);
     _dateJoined = snapshotData['dateJoined'] as DateTime?;
+    _workDescription = snapshotData['workDescription'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -148,6 +154,7 @@ class ProviderDocumentsRecord extends FirestoreRecord {
             () => DateTime.fromMillisecondsSinceEpoch(
                 snapshot.data['dateJoined']),
           ),
+          'workDescription': snapshot.data['workDescription'],
         },
         ProviderDocumentsRecord.collection.doc(snapshot.objectID),
       );
@@ -195,6 +202,7 @@ Map<String, dynamic> createProviderDocumentsRecordData({
   double? totalEarnings,
   int? totalClients,
   DateTime? dateJoined,
+  String? workDescription,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -209,6 +217,7 @@ Map<String, dynamic> createProviderDocumentsRecordData({
       'totalEarnings': totalEarnings,
       'totalClients': totalClients,
       'dateJoined': dateJoined,
+      'workDescription': workDescription,
     }.withoutNulls,
   );
 

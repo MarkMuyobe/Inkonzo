@@ -35,6 +35,8 @@ class SearchResultsModel extends FlutterFlowModel {
   late FlutterFlowDynamicModels<ProviderRatingModel> providerRatingModels2;
   // Models for provider_rating dynamic component.
   late FlutterFlowDynamicModels<ProviderRatingModel> providerRatingModels3;
+  // Models for provider_rating dynamic component.
+  late FlutterFlowDynamicModels<ProviderRatingModel> providerRatingModels4;
 
   /// Initialization and disposal methods.
 
@@ -45,6 +47,8 @@ class SearchResultsModel extends FlutterFlowModel {
         FlutterFlowDynamicModels(() => ProviderRatingModel());
     providerRatingModels3 =
         FlutterFlowDynamicModels(() => ProviderRatingModel());
+    providerRatingModels4 =
+        FlutterFlowDynamicModels(() => ProviderRatingModel());
   }
 
   void dispose() {
@@ -52,6 +56,7 @@ class SearchResultsModel extends FlutterFlowModel {
     providerRatingModels1.dispose();
     providerRatingModels2.dispose();
     providerRatingModels3.dispose();
+    providerRatingModels4.dispose();
   }
 
   /// Action blocks are added here.

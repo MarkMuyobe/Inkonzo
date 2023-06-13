@@ -53,3 +53,50 @@ double calculateDistance(
   double d = earthRadius * c;
   return d;
 }
+
+List<ProviderDocumentsRecord> getProviderDocumentsSorted(
+  List<ProviderDocumentsRecord> records,
+  LatLng userGeo,
+) {
+  double lat1 = userGeo.latitude;
+  double lon1 = userGeo.longitude;
+
+  // Calculate the distance for each record and store it as a key-value pair
+  List<MapEntry<double, ProviderDocumentsRecord>> distances = [];
+
+  for (ProviderDocumentsRecord record in records) {
+    double lat2 = record.workLocation!.latitude;
+    double lon2 = record.workLocation!.longitude;
+
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        math.cos((lat2 - lat1) * p) / 2 +
+        math.cos(lat1 * p) *
+            math.cos(lat2 * p) *
+            (1 - math.cos((lon2 - lon1) * p)) /
+            2;
+    var d = 12742 * math.asin(math.sqrt(a));
+    double distanceInKm = double.parse(d.toStringAsFixed(2));
+
+    distances.add(MapEntry(distanceInKm, record));
+  }
+
+  // Sort the records based on distance
+  distances.sort((a, b) => a.key.compareTo(b.key));
+
+  // Extract the sorted records
+  List<ProviderDocumentsRecord> sortedRecords =
+      distances.map((entry) => entry.value).toList();
+
+  return sortedRecords;
+}
+
+List<ProviderDocumentsRecord> sortByDateJoined(
+    List<ProviderDocumentsRecord>? records) {
+  // sort ProviderDocumentsRecords by the dateJoined field and return the sorted list
+  if (records == null) {
+    return [];
+  }
+  records.sort((a, b) => a.dateJoined!.compareTo(b.dateJoined!));
+  return records;
+}

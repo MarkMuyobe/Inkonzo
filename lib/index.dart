@@ -37,7 +37,8 @@ export '/auth/verify_o_t_p/verify_o_t_p_widget.dart' show VerifyOTPWidget;
 export '/pages/inkonzo_onboarding_lite/inkonzo_onboarding_lite_widget.dart'
     show InkonzoOnboardingLiteWidget;
 export '/ts_and_cs/ts_and_cs_widget.dart' show TsAndCsWidget;
-export '/splash_screen/splash_screen_widget.dart' show SplashScreenWidget;
 export '/request_page/request_page_widget.dart' show RequestPageWidget;
 export '/inkonzo_onboarding/inkonzo_onboarding_widget.dart'
     show InkonzoOnboardingWidget;
+export '/provider_register/provider_register_widget.dart'
+    show ProviderRegisterWidget;

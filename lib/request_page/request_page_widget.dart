@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -10,7 +11,12 @@ import 'request_page_model.dart';
 export 'request_page_model.dart';
 
 class RequestPageWidget extends StatefulWidget {
-  const RequestPageWidget({Key? key}) : super(key: key);
+  const RequestPageWidget({
+    Key? key,
+    required this.providerRef,
+  }) : super(key: key);
+
+  final ProviderDocumentsRecord? providerRef;
 
   @override
   _RequestPageWidgetState createState() => _RequestPageWidgetState();
@@ -236,8 +242,8 @@ class _RequestPageWidgetState extends State<RequestPageWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                context.safePop();
                               },
                               text: 'Request',
                               options: FFButtonOptions(
