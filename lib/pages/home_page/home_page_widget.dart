@@ -2,12 +2,11 @@ import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/reviews_list/reviews_list_widget.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,7 +41,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       FFAppState().searchActive = false;
     });
 
-    _model.queryFieldController ??= TextEditingController();
+    _model.queryController ??= TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -139,182 +138,94 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
-                      child: Material(
-                        color: Colors.transparent,
-                        elevation: 2.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24.0),
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                    Flexible(
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24.0),
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              width: 2.0,
-                            ),
                           ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 0.0, 8.0, 0.0),
+                          child: Container(
+                            height: 50.0,
+                            constraints: BoxConstraints(
+                              minWidth: 300.0,
+                              maxWidth: 1000.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(24.0),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                width: 2.0,
+                              ),
+                            ),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      4.0, 0.0, 4.0, 0.0),
+                                      8.0, 0.0, 0.0, 0.0),
                                   child: Icon(
-                                    Icons.search_rounded,
+                                    Icons.search,
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
                                     size: 24.0,
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 10,
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        4.0, 0.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      child: Autocomplete<String>(
-                                        initialValue: TextEditingValue(),
-                                        optionsBuilder: (textEditingValue) {
-                                          if (textEditingValue.text == '') {
-                                            return const Iterable<
-                                                String>.empty();
-                                          }
-                                          return <String>[].where((option) {
-                                            final lowercaseOption =
-                                                option.toLowerCase();
-                                            return lowercaseOption.contains(
-                                                textEditingValue.text
-                                                    .toLowerCase());
-                                          });
-                                        },
-                                        optionsViewBuilder:
-                                            (context, onSelected, options) {
-                                          return AutocompleteOptionsList(
-                                            textFieldKey: _model.queryFieldKey,
-                                            textController:
-                                                _model.queryFieldController!,
-                                            options: options.toList(),
-                                            onSelected: onSelected,
-                                            textStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium,
-                                            textHighlightStyle: TextStyle(),
-                                            elevation: 4.0,
-                                            optionBackgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryBackground,
-                                            optionHighlightColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                            maxHeight: 200.0,
-                                          );
-                                        },
-                                        onSelected: (String selection) {
-                                          setState(() =>
-                                              _model.queryFieldSelectedOption =
-                                                  selection);
-                                          FocusScope.of(context).unfocus();
-                                        },
-                                        fieldViewBuilder: (
-                                          context,
-                                          textEditingController,
-                                          focusNode,
-                                          onEditingComplete,
-                                        ) {
-                                          _model.queryFieldController =
-                                              textEditingController;
-                                          return TextFormField(
-                                            key: _model.queryFieldKey,
-                                            controller: textEditingController,
-                                            focusNode: focusNode,
-                                            onEditingComplete:
-                                                onEditingComplete,
-                                            onChanged: (_) =>
-                                                EasyDebounce.debounce(
-                                              '_model.queryFieldController',
-                                              Duration(milliseconds: 60),
-                                              () => setState(() {}),
-                                            ),
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              hintText:
-                                                  'Search name, business, skill',
-                                              enabledBorder: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              errorBorder: InputBorder.none,
-                                              focusedErrorBorder:
-                                                  InputBorder.none,
-                                              suffixIcon: _model
-                                                      .queryFieldController!
-                                                      .text
-                                                      .isNotEmpty
-                                                  ? InkWell(
-                                                      onTap: () async {
-                                                        _model
-                                                            .queryFieldController
-                                                            ?.clear();
-                                                        setState(() {});
-                                                      },
-                                                      child: Icon(
-                                                        Icons.clear,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        size: 20.0,
-                                                      ),
-                                                    )
-                                                  : null,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                            validator: _model
-                                                .queryFieldControllerValidator
-                                                .asValidator(context),
-                                          );
-                                        },
+                                        8.0, 0.0, 8.0, 0.0),
+                                    child: TextFormField(
+                                      controller: _model.queryController,
+                                      autofocus: true,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium,
+                                        hintText:
+                                            'Search Business, Name, Service...',
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .titleMedium,
+                                        enabledBorder: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        focusedErrorBorder: InputBorder.none,
                                       ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleMedium,
+                                      validator: _model.queryControllerValidator
+                                          .asValidator(context),
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0.95, 0.0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.pushNamed(
-                                          'search_results',
-                                          queryParameters: {
-                                            'searchQuery': serializeParam(
-                                              _model.queryFieldController.text,
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.send,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        size: 24.0,
-                                      ),
-                                    ),
+                                FlutterFlowIconButton(
+                                  borderRadius: 20.0,
+                                  borderWidth: 1.0,
+                                  buttonSize: 40.0,
+                                  icon: Icon(
+                                    Icons.send,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
                                   ),
+                                  onPressed: () async {
+                                    context.pushNamed(
+                                      'search_results',
+                                      queryParameters: {
+                                        'searchQuery': serializeParam(
+                                          _model.queryController.text,
+                                          ParamType.String,
+                                        ),
+                                      }.withoutNulls,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -1549,10 +1460,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   ],
                 ),
-                wrapWithModel(
-                  model: _model.reviewsListModel,
-                  updateCallback: () => setState(() {}),
-                  child: ReviewsListWidget(),
+                Flexible(
+                  child: wrapWithModel(
+                    model: _model.reviewsListModel,
+                    updateCallback: () => setState(() {}),
+                    child: ReviewsListWidget(),
+                  ),
                 ),
               ],
             ),

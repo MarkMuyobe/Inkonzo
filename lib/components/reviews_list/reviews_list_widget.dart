@@ -63,7 +63,6 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
         return ListView.builder(
           padding: EdgeInsets.zero,
           primary: false,
-          shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: listViewReviewsRecordList.length,
           itemBuilder: (context, listViewIndex) {

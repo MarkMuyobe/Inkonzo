@@ -12,9 +12,15 @@ class SignUpModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // State field(s) for FullNamesField widget.
+  TextEditingController? fullNamesFieldController;
+  String? Function(BuildContext, String?)? fullNamesFieldControllerValidator;
+  // State field(s) for EmailField widget.
+  TextEditingController? emailFieldController;
+  String? Function(BuildContext, String?)? emailFieldControllerValidator;
   // State field(s) for TextField widget.
-  TextEditingController? emailTextController;
-  String? Function(BuildContext, String?)? emailTextControllerValidator;
+  TextEditingController? textController3;
+  String? Function(BuildContext, String?)? textController3Validator;
 
   /// Initialization and disposal methods.
 
@@ -22,7 +28,9 @@ class SignUpModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    emailTextController?.dispose();
+    fullNamesFieldController?.dispose();
+    emailFieldController?.dispose();
+    textController3?.dispose();
   }
 
   /// Action blocks are added here.

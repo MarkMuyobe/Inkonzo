@@ -499,13 +499,10 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                         List<ProviderDocumentsRecord>
                             activeSearchListProviderDocumentsRecordList =
                             snapshot.data!;
-                        // Customize what your widget looks like with no search results.
-                        if (snapshot.data!.isEmpty) {
-                          return Container(
-                            height: 100,
-                            child: Center(
-                              child: Text('No results.'),
-                            ),
+                        if (activeSearchListProviderDocumentsRecordList
+                            .isEmpty) {
+                          return Image.asset(
+                            'assets/images/Chext.png',
                           );
                         }
                         return Column(
@@ -820,6 +817,350 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                     ),
                   ),
                 if (_model.choiceChipsSetValue == 'available')
+                  Text(
+                    'CC All',
+                    style: FlutterFlowTheme.of(context).headlineLarge,
+                  ),
+                if (_model.choiceChipsSetValue == 'closest')
+                  Text(
+                    'CC Closest',
+                    style: FlutterFlowTheme.of(context).headlineLarge,
+                  ),
+                Text(
+                  'CC Avails',
+                  style: FlutterFlowTheme.of(context).headlineLarge,
+                ),
+                if (_model.choiceChipsSetValue == 'new')
+                  Text(
+                    'CC New',
+                    style: FlutterFlowTheme.of(context).headlineLarge,
+                  ),
+                if (valueOrDefault<bool>(
+                  _model.choiceChipsSetValue == 'all',
+                  true,
+                ))
+                  Flexible(
+                    child: Builder(
+                      builder: (context) {
+                        if (_model.algoliaSearchResults == null) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          );
+                        }
+                        final availablelist =
+                            _model.algoliaSearchResults?.toList() ?? [];
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(availablelist.length,
+                              (availablelistIndex) {
+                            final availablelistItem =
+                                availablelist[availablelistIndex];
+                            return Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 8.0, 8.0, 8.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  context.pushNamed(
+                                    'ProviderDetail',
+                                    queryParameters: {
+                                      'userRef': serializeParam(
+                                        availablelistItem.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+                                },
+                                child: Material(
+                                  color: Colors.transparent,
+                                  elevation: 3.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24.0),
+                                  ),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 90.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      borderRadius: BorderRadius.circular(24.0),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(8.0, 8.0, 8.0, 8.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(36.0),
+                                                child: Image.network(
+                                                  valueOrDefault<String>(
+                                                    availablelistItem.imageUrl,
+                                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
+                                                  ),
+                                                  width: 74.0,
+                                                  height: 74.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    8.0, 1.0, 0.0, 0.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      availablelistItem.name,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall,
+                                                    ),
+                                                    Text(
+                                                      '${formatNumber(
+                                                        functions.calculateDistance(
+                                                            currentUserLocationValue!,
+                                                            availablelistItem
+                                                                .workLocation!),
+                                                        formatType:
+                                                            FormatType.compact,
+                                                      )} Km Away',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
+                                                      availablelistItem
+                                                          .skills.first,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmall,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Flexible(
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          wrapWithModel(
+                                                            model: _model
+                                                                .providerRatingModels2
+                                                                .getModel(
+                                                              availablelistItem
+                                                                  .rating
+                                                                  .toString(),
+                                                              availablelistIndex,
+                                                            ),
+                                                            updateCallback:
+                                                                () => setState(
+                                                                    () {}),
+                                                            child:
+                                                                ProviderRatingWidget(
+                                                              key: Key(
+                                                                'Keysdm_${availablelistItem.rating.toString()}',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            availablelistItem
+                                                                .rating
+                                                                .toString(),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Flexible(
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              if (!availablelistItem
+                                                                  .availability)
+                                                                Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12.0),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: Color(
+                                                                          0xFFF80000),
+                                                                      width:
+                                                                          2.0,
+                                                                    ),
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            8.0,
+                                                                            0.0,
+                                                                            8.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      'Unvailable',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodySmall
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            color:
+                                                                                Color(0xFFF80000),
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              if (availablelistItem
+                                                                  .availability)
+                                                                Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12.0),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: Color(
+                                                                          0xFF00FB0F),
+                                                                      width:
+                                                                          2.0,
+                                                                    ),
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            8.0,
+                                                                            0.0,
+                                                                            8.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      'Available',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodySmall
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            color:
+                                                                                Color(0xFF00FB0F),
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 8.0, 0.0),
+                                                child: Icon(
+                                                  Icons.chevron_right_outlined,
+                                                  color: Color(0xFF95A1AC),
+                                                  size: 24.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        );
+                      },
+                    ),
+                  ),
+                if (_model.choiceChipsSetValue == 'available')
                   Flexible(
                     child: Builder(
                       builder: (context) {
@@ -973,7 +1314,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                           children: [
                                                             wrapWithModel(
                                                               model: _model
-                                                                  .providerRatingModels2
+                                                                  .providerRatingModels3
                                                                   .getModel(
                                                                 availablelistItem
                                                                     .rating
@@ -986,7 +1327,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                               child:
                                                                   ProviderRatingWidget(
                                                                 key: Key(
-                                                                  'Keysdm_${availablelistItem.rating.toString()}',
+                                                                  'Keya5j_${availablelistItem.rating.toString()}',
                                                                 ),
                                                               ),
                                                             ),
@@ -1282,7 +1623,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                         children: [
                                                           wrapWithModel(
                                                             model: _model
-                                                                .providerRatingModels3
+                                                                .providerRatingModels4
                                                                 .getModel(
                                                               sortedByDateItem
                                                                   .rating
@@ -1596,7 +1937,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                         children: [
                                                           wrapWithModel(
                                                             model: _model
-                                                                .providerRatingModels4
+                                                                .providerRatingModels5
                                                                 .getModel(
                                                               sortByDistanceItem
                                                                   .rating
