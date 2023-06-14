@@ -74,18 +74,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : SignUpAccountWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
+          builder: (context, _) => appStateNotifier.loggedIn
+              ? HomePageWidget()
+              : SignUpAccountWidget(),
           routes: [
             FFRoute(
               name: 'HomePage',
               path: 'homePage',
-              requireAuth: true,
               builder: (context, params) => HomePageWidget(
                 providerList: params.getParam('providerList',
                     ParamType.DocumentReference, false, ['users']),
@@ -259,11 +259,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => ProviderDashboardCopyWidget(),
             ),
             FFRoute(
-              name: 'verifyOTP',
-              path: 'verifyOTP',
-              builder: (context, params) => VerifyOTPWidget(),
-            ),
-            FFRoute(
               name: 'inkonzo_onboarding_lite',
               path: 'inkonzoOnboardingLite',
               builder: (context, params) => InkonzoOnboardingLiteWidget(),
@@ -271,7 +266,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'TsAndCs',
               path: 'tsAndCs',
-              requireAuth: true,
               builder: (context, params) => TsAndCsWidget(),
             ),
             FFRoute(
@@ -297,6 +291,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'providerRegister',
               requireAuth: true,
               builder: (context, params) => ProviderRegisterWidget(),
+            ),
+            FFRoute(
+              name: 'SignUpAccount',
+              path: 'signUpAccount',
+              builder: (context, params) => SignUpAccountWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -465,7 +464,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/loginPage';
+            return '/signUpAccount';
           }
           return null;
         },

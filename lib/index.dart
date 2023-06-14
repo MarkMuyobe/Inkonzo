@@ -33,7 +33,6 @@ export '/provider_dashboard/update_detail/update_detail_widget.dart'
     show UpdateDetailWidget;
 export '/provider_dashboard/provider_dashboard_copy/provider_dashboard_copy_widget.dart'
     show ProviderDashboardCopyWidget;
-export '/auth/verify_o_t_p/verify_o_t_p_widget.dart' show VerifyOTPWidget;
 export '/pages/inkonzo_onboarding_lite/inkonzo_onboarding_lite_widget.dart'
     show InkonzoOnboardingLiteWidget;
 export '/ts_and_cs/ts_and_cs_widget.dart' show TsAndCsWidget;
@@ -42,3 +41,5 @@ export '/inkonzo_onboarding/inkonzo_onboarding_widget.dart'
     show InkonzoOnboardingWidget;
 export '/provider_register/provider_register_widget.dart'
     show ProviderRegisterWidget;
+export '/auth/sign_up_account/sign_up_account_widget.dart'
+    show SignUpAccountWidget;

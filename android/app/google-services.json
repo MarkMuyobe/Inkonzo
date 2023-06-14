@@ -22,51 +22,7 @@
           }
         },
         {
-          "client_id": "260836686167-3kq8kgtppfqt2k200pjvpbl611uod7ka.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC-VBn3ha7gTfxVWBlJhevlw9Bbmod5yZ0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "260836686167-3kq8kgtppfqt2k200pjvpbl611uod7ka.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "260836686167-k2b26nhkfi676pj88kd16a47ud2g9uii.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.inkonzo.inkonzo"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:260836686167:android:882ba384304aec83aa6612",
-        "android_client_info": {
-          "package_name": "com.mycompany.inkonzo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "260836686167-8dt601kqot1h9ftavh6kaqqc6h7i8q00.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mycompany.inkonzo",
-            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
-          }
-        },
-        {
-          "client_id": "260836686167-3kq8kgtppfqt2k200pjvpbl611uod7ka.apps.googleusercontent.com",
+          "client_id": "260836686167-sop9aoi800j80nppkfb7briqcnfd1f56.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
