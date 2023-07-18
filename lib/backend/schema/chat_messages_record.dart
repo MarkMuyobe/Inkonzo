@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -99,4 +101,25 @@ Map<String, dynamic> createChatMessagesRecordData({
   );
 
   return firestoreData;
+}
+
+class ChatMessagesRecordDocumentEquality
+    implements Equality<ChatMessagesRecord> {
+  const ChatMessagesRecordDocumentEquality();
+
+  @override
+  bool equals(ChatMessagesRecord? e1, ChatMessagesRecord? e2) {
+    return e1?.user == e2?.user &&
+        e1?.chat == e2?.chat &&
+        e1?.text == e2?.text &&
+        e1?.image == e2?.image &&
+        e1?.timestamp == e2?.timestamp;
+  }
+
+  @override
+  int hash(ChatMessagesRecord? e) => const ListEquality()
+      .hash([e?.user, e?.chat, e?.text, e?.image, e?.timestamp]);
+
+  @override
+  bool isValidKey(Object? o) => o is ChatMessagesRecord;
 }

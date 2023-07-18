@@ -1,9 +1,6 @@
 // Export pages
-export '/pages/home_page/home_page_widget.dart' show HomePageWidget;
-export '/pages/inkonzo_onboarding_dark/inkonzo_onboarding_dark_widget.dart'
-    show InkonzoOnboardingDarkWidget;
-export '/pages/search_results/search_results_widget.dart'
-    show SearchResultsWidget;
+export '/pages/inkonzo_splash_dark/inkonzo_splash_dark_widget.dart'
+    show InkonzoSplashDarkWidget;
 export '/auth/login_page/login_page_widget.dart' show LoginPageWidget;
 export '/auth/sign_up/sign_up_widget.dart' show SignUpWidget;
 export '/chat/chat_page/chat_page_widget.dart' show ChatPageWidget;
@@ -15,31 +12,33 @@ export '/pages/user_settings/user_settings_widget.dart' show UserSettingsWidget;
 export '/pages/booking_page/booking_page_widget.dart' show BookingPageWidget;
 export '/pages/edit_user_details/edit_user_details_widget.dart'
     show EditUserDetailsWidget;
-export '/pages/app_rating/app_rating_widget.dart' show AppRatingWidget;
-export '/provider_dashboard/provider_dashboard/provider_dashboard_widget.dart'
+export '/provider/provider_dashboard/provider_dashboard_widget.dart'
     show ProviderDashboardWidget;
-export '/service_tracking_list/service_tracking_list_widget.dart'
+export '/client_pages/service_tracking_list/service_tracking_list_widget.dart'
     show ServiceTrackingListWidget;
-export '/provider_review_page/provider_review_page_widget.dart'
-    show ProviderReviewPageWidget;
-export '/pages/booking_page_copy/booking_page_copy_widget.dart'
-    show BookingPageCopyWidget;
-export '/tracking_detail/tracking_detail_widget.dart' show TrackingDetailWidget;
-export '/provider_dashboard/create_detail/create_detail_widget.dart'
+export '/client_pages/tracking_detail/tracking_detail_widget.dart'
+    show TrackingDetailWidget;
+export '/provider/create_detail/create_detail_widget.dart'
     show CreateDetailWidget;
-export '/provider_dashboard/read_detail/read_detail_widget.dart'
-    show ReadDetailWidget;
-export '/provider_dashboard/update_detail/update_detail_widget.dart'
+export '/provider/read_detail/read_detail_widget.dart' show ReadDetailWidget;
+export '/provider/update_detail/update_detail_widget.dart'
     show UpdateDetailWidget;
-export '/provider_dashboard/provider_dashboard_copy/provider_dashboard_copy_widget.dart'
-    show ProviderDashboardCopyWidget;
-export '/pages/inkonzo_onboarding_lite/inkonzo_onboarding_lite_widget.dart'
-    show InkonzoOnboardingLiteWidget;
-export '/ts_and_cs/ts_and_cs_widget.dart' show TsAndCsWidget;
-export '/request_page/request_page_widget.dart' show RequestPageWidget;
-export '/inkonzo_onboarding/inkonzo_onboarding_widget.dart'
+export '/pages/inkonzo_splash_lite/inkonzo_splash_lite_widget.dart'
+    show InkonzoSplashLiteWidget;
+export '/auth/ts_and_cs/ts_and_cs_widget.dart' show TsAndCsWidget;
+export '/pages/inkonzo_onboarding/inkonzo_onboarding_widget.dart'
     show InkonzoOnboardingWidget;
-export '/provider_register/provider_register_widget.dart'
+export '/provider/provider_register/provider_register_widget.dart'
     show ProviderRegisterWidget;
 export '/auth/sign_up_account/sign_up_account_widget.dart'
     show SignUpAccountWidget;
+export '/pages/home_page_landing/home_page_landing_widget.dart'
+    show HomePageLandingWidget;
+export '/pages/search_page_copyd/search_page_copyd_widget.dart'
+    show SearchPageCopydWidget;
+export '/auth/forgot_password/forgot_password_widget.dart'
+    show ForgotPasswordWidget;
+export '/pages/provider_detail_copy/provider_detail_copy_widget.dart'
+    show ProviderDetailCopyWidget;
+export '/pages/search_page/search_page_widget.dart' show SearchPageWidget;
+export '/pages/search_page2/search_page2_widget.dart' show SearchPage2Widget;

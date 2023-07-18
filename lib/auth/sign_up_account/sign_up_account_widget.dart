@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -28,6 +29,8 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
     super.initState();
     _model = createModel(context, () => SignUpAccountModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'SignUpAccount'});
     _model.emailAddressController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
     _model.passwordConfirmController ??= TextEditingController();
@@ -110,6 +113,9 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       size: 30.0,
                                     ),
                                     onPressed: () async {
+                                      logFirebaseEvent(
+                                          'SIGN_UP_ACCOUNT_PAGE_google_ICN_ON_TAP');
+                                      logFirebaseEvent('IconButton_auth');
                                       GoRouter.of(context).prepareAuthEvent();
                                       final user = await authManager
                                           .signInWithGoogle(context);
@@ -118,7 +124,7 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       }
 
                                       context.goNamedAuth(
-                                          'HomePage', context.mounted);
+                                          'homePageLanding', context.mounted);
                                     },
                                   ),
                                 ),
@@ -139,6 +145,9 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       size: 30.0,
                                     ),
                                     onPressed: () async {
+                                      logFirebaseEvent(
+                                          'SIGN_UP_ACCOUNT_PAGE_apple_ICN_ON_TAP');
+                                      logFirebaseEvent('IconButton_auth');
                                       GoRouter.of(context).prepareAuthEvent();
                                       final user = await authManager
                                           .signInWithApple(context);
@@ -147,7 +156,7 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       }
 
                                       context.goNamedAuth(
-                                          'HomePage', context.mounted);
+                                          'homePageLanding', context.mounted);
                                     },
                                   ),
                                 ),
@@ -466,6 +475,9 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                         0.0, 0.0, 0.0, 16.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        logFirebaseEvent(
+                                            'SIGN_UP_ACCOUNT_CREATE_ACCOUNT_BTN_ON_TA');
+                                        logFirebaseEvent('Button_auth');
                                         GoRouter.of(context).prepareAuthEvent();
                                         if (_model.passwordController.text !=
                                             _model.passwordConfirmController
@@ -491,8 +503,15 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                           return;
                                         }
 
+                                        await UsersRecord.collection
+                                            .doc(user.uid)
+                                            .update(createUsersRecordData(
+                                              photoUrl:
+                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
+                                            ));
+
                                         context.goNamedAuth(
-                                            'HomePage', context.mounted);
+                                            'homePageLanding', context.mounted);
                                       },
                                       text: 'Create Account',
                                       options: FFButtonOptions(
@@ -532,6 +551,11 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
+                                        logFirebaseEvent(
+                                            'SIGN_UP_ACCOUNT_RichText_wp2wm29h_ON_TAP');
+                                        logFirebaseEvent(
+                                            'RichText_navigate_to');
+
                                         context.pushNamed('login_page');
                                       },
                                       child: RichText(
@@ -575,6 +599,10 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
+                                logFirebaseEvent(
+                                    'SIGN_UP_ACCOUNT_RichText_a948rx9h_ON_TAP');
+                                logFirebaseEvent('RichText_navigate_to');
+
                                 context.pushNamed('TsAndCs');
                               },
                               child: RichText(
@@ -605,6 +633,11 @@ class _SignUpAccountWidgetState extends State<SignUpAccountWidget> {
                                       mouseCursor: SystemMouseCursors.click,
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
+                                          logFirebaseEvent(
+                                              'SIGN_UP_ACCOUNT_RichTextSpan_4kr0axe1_ON');
+                                          logFirebaseEvent(
+                                              'RichTextSpan_navigate_to');
+
                                           context.pushNamed('TsAndCs');
                                         },
                                     )

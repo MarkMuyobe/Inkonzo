@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -48,7 +50,7 @@ class ClientReviewRecord extends FirestoreRecord {
 
   void _initializeFields() {
     _clientName = snapshotData['clientName'] as String?;
-    _rating = snapshotData['rating'] as int?;
+    _rating = castToType<int>(snapshotData['rating']);
     _comment = snapshotData['comment'] as String?;
     _imageUrl = snapshotData['imageUrl'] as String?;
     _clientRef = snapshotData['clientRef'] as DocumentReference?;
@@ -114,4 +116,32 @@ Map<String, dynamic> createClientReviewRecordData({
   );
 
   return firestoreData;
+}
+
+class ClientReviewRecordDocumentEquality
+    implements Equality<ClientReviewRecord> {
+  const ClientReviewRecordDocumentEquality();
+
+  @override
+  bool equals(ClientReviewRecord? e1, ClientReviewRecord? e2) {
+    return e1?.clientName == e2?.clientName &&
+        e1?.rating == e2?.rating &&
+        e1?.comment == e2?.comment &&
+        e1?.imageUrl == e2?.imageUrl &&
+        e1?.clientRef == e2?.clientRef &&
+        e1?.timeStamp == e2?.timeStamp;
+  }
+
+  @override
+  int hash(ClientReviewRecord? e) => const ListEquality().hash([
+        e?.clientName,
+        e?.rating,
+        e?.comment,
+        e?.imageUrl,
+        e?.clientRef,
+        e?.timeStamp
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is ClientReviewRecord;
 }

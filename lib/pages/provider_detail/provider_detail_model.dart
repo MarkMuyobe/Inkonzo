@@ -2,8 +2,9 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/availability_false/availability_false_widget.dart';
 import '/components/availability_true/availability_true_widget.dart';
-import '/components/provider_rating/provider_rating_widget.dart';
-import '/components/rating2_widget.dart';
+import '/components/provider_review/provider_review_widget.dart';
+import '/components/rating2/rating2_widget.dart';
+import '/components/request_drop/request_drop_widget.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -48,5 +49,4 @@ class ProviderDetailModel extends FlutterFlowModel {
   /// Action blocks are added here.
 
   /// Additional helper methods are added here.
-
 }

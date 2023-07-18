@@ -45,7 +45,11 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
     context.watch<FFAppState>();
 
     return StreamBuilder<List<ReviewsRecord>>(
-      stream: queryReviewsRecord(),
+      stream: queryReviewsRecord(
+        queryBuilder: (reviewsRecord) =>
+            reviewsRecord.orderBy('time', descending: true),
+        limit: 15,
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -54,7 +58,9 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
               width: 50.0,
               height: 50.0,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.of(context).primary,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  FlutterFlowTheme.of(context).primary,
+                ),
               ),
             ),
           );
@@ -174,7 +180,12 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
                               children: [
                                 Text(
                                   valueOrDefault<String>(
-                                    listViewReviewsRecord.time?.toString(),
+                                    dateTimeFormat(
+                                      'd/M H:mm',
+                                      listViewReviewsRecord.time,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    ),
                                     '123',
                                   ),
                                   style: FlutterFlowTheme.of(context).bodySmall,

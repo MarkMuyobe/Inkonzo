@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -20,7 +22,7 @@ class RatingsRecord extends FirestoreRecord {
   bool hasRating() => _rating != null;
 
   void _initializeFields() {
-    _rating = snapshotData['rating'] as int?;
+    _rating = castToType<int>(snapshotData['rating']);
   }
 
   static CollectionReference get collection =>
@@ -67,4 +69,19 @@ Map<String, dynamic> createRatingsRecordData({
   );
 
   return firestoreData;
+}
+
+class RatingsRecordDocumentEquality implements Equality<RatingsRecord> {
+  const RatingsRecordDocumentEquality();
+
+  @override
+  bool equals(RatingsRecord? e1, RatingsRecord? e2) {
+    return e1?.rating == e2?.rating;
+  }
+
+  @override
+  int hash(RatingsRecord? e) => const ListEquality().hash([e?.rating]);
+
+  @override
+  bool isValidKey(Object? o) => o is RatingsRecord;
 }

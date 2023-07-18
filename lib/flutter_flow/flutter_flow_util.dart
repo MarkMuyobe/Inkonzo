@@ -27,6 +27,7 @@ export 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore;
 export 'package:page_transition/page_transition.dart';
 export 'internationalization.dart' show FFLocalizations;
+export '/backend/firebase_analytics/analytics.dart';
 export 'nav/nav.dart';
 
 T valueOrDefault<T>(T? value, T defaultValue) =>
@@ -43,7 +44,7 @@ String dateTimeFormat(String format, DateTime? dateTime, {String? locale}) {
   }
   if (format == 'relative') {
     _setTimeagoLocales();
-    return timeago.format(dateTime, locale: locale);
+    return timeago.format(dateTime, locale: locale, allowFromNow: true);
   }
   return DateFormat(format, locale).format(dateTime);
 }
@@ -190,7 +191,7 @@ const kBreakpointSmall = 479.0;
 const kBreakpointMedium = 767.0;
 const kBreakpointLarge = 991.0;
 bool isMobileWidth(BuildContext context) =>
-    MediaQuery.of(context).size.width < kBreakpointSmall;
+    MediaQuery.sizeOf(context).width < kBreakpointSmall;
 bool responsiveVisibility({
   required BuildContext context,
   bool phone = true,
@@ -198,7 +199,7 @@ bool responsiveVisibility({
   bool tabletLandscape = true,
   bool desktop = true,
 }) {
-  final width = MediaQuery.of(context).size.width;
+  final width = MediaQuery.sizeOf(context).width;
   if (width < kBreakpointSmall) {
     return phone;
   } else if (width < kBreakpointMedium) {
@@ -320,4 +321,21 @@ extension FFStringExt on String {
 
 extension ListFilterExt<T> on Iterable<T?> {
   List<T> get withoutNulls => where((s) => s != null).map((e) => e!).toList();
+}
+
+extension ListDivideExt<T extends Widget> on Iterable<T> {
+  Iterable<MapEntry<int, Widget>> get enumerate => toList().asMap().entries;
+
+  List<Widget> divide(Widget t) => isEmpty
+      ? []
+      : (enumerate.map((e) => [e.value, t]).expand((i) => i).toList()
+        ..removeLast());
+
+  List<Widget> around(Widget t) => addToStart(t).addToEnd(t);
+
+  List<Widget> addToStart(Widget t) =>
+      enumerate.map((e) => e.value).toList()..insert(0, t);
+
+  List<Widget> addToEnd(Widget t) =>
+      enumerate.map((e) => e.value).toList()..add(t);
 }

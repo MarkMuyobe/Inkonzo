@@ -220,7 +220,7 @@ class _FFChatMessageState extends State<FFChatMessage> {
               splashColor: Colors.transparent,
               child: Container(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.65),
+                    maxWidth: MediaQuery.sizeOf(context).width * 0.65),
                 decoration: boxDecoration.copyWith(
                     color: hasImage ? Colors.transparent : null),
                 child: hasImage

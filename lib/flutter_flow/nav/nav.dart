@@ -7,7 +7,8 @@ import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
 
 import '../../auth/base_auth_user_provider.dart';
-
+import '../../backend/push_notifications/push_notifications_handler.dart'
+    show PushNotificationsHandler;
 import '../../index.dart';
 import '../../main.dart';
 import '../lat_lng.dart';
@@ -52,10 +53,13 @@ class AppStateNotifier extends ChangeNotifier {
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
   void update(BaseAuthUser newUser) {
+    final shouldUpdate =
+        user?.uid == null || newUser.uid == null || user?.uid != newUser.uid;
     initialUser ??= newUser;
     user = newUser;
     // Refresh the app on auth change unless explicitly marked otherwise.
-    if (notifyOnAuthChange) {
+    // No need to update unless the user has changed.
+    if (notifyOnAuthChange && shouldUpdate) {
       notifyListeners();
     }
     // Once again mark the notifier as needing to update on auth change
@@ -73,37 +77,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : SignUpAccountWidget(),
+      errorBuilder: (context, state) => appStateNotifier.loggedIn
+          ? HomePageLandingWidget()
+          : SignUpAccountWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? HomePageWidget()
+              ? HomePageLandingWidget()
               : SignUpAccountWidget(),
           routes: [
             FFRoute(
-              name: 'HomePage',
-              path: 'homePage',
-              builder: (context, params) => HomePageWidget(
-                providerList: params.getParam('providerList',
-                    ParamType.DocumentReference, false, ['users']),
-              ),
-            ),
-            FFRoute(
-              name: 'inkonzo_onboarding_dark',
-              path: 'inkonzoOnboarding_dark',
+              name: 'inkonzoSplashDark',
+              path: 'inkonzoSplashDark',
               requireAuth: true,
-              builder: (context, params) => InkonzoOnboardingDarkWidget(),
-            ),
-            FFRoute(
-              name: 'search_results',
-              path: 'searchResults',
-              requireAuth: true,
-              builder: (context, params) => SearchResultsWidget(
-                searchQuery: params.getParam('searchQuery', ParamType.String),
-              ),
+              builder: (context, params) => InkonzoSplashDarkWidget(),
             ),
             FFRoute(
               name: 'login_page',
@@ -174,12 +163,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => EditUserDetailsWidget(),
             ),
             FFRoute(
-              name: 'app_rating',
-              path: 'appRating',
-              requireAuth: true,
-              builder: (context, params) => AppRatingWidget(),
-            ),
-            FFRoute(
               name: 'providerDashboard',
               path: 'providerDashboard',
               requireAuth: true,
@@ -189,26 +172,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'serviceTrackingList',
               path: 'serviceTrackingList',
               requireAuth: true,
-              builder: (context, params) => ServiceTrackingListWidget(),
-            ),
-            FFRoute(
-              name: 'providerReviewPage',
-              path: 'providerReviewPage',
-              requireAuth: true,
-              builder: (context, params) => ProviderReviewPageWidget(
-                clientRef: params.getParam('clientRef',
-                    ParamType.DocumentReference, false, ['ProviderDocuments']),
-              ),
-            ),
-            FFRoute(
-              name: 'BookingPageCopy',
-              path: 'bookingPageCopy',
-              requireAuth: true,
-              builder: (context, params) => BookingPageCopyWidget(
-                totalAmount: params.getParam('totalAmount', ParamType.double),
-                providerName: params.getParam('providerName', ParamType.String),
-                providerImage:
-                    params.getParam('providerImage', ParamType.String),
+              asyncParams: {
+                'userDoc': getDoc(['users'], UsersRecord.fromSnapshot),
+              },
+              builder: (context, params) => ServiceTrackingListWidget(
+                userDoc: params.getParam('userDoc', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -216,11 +184,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'trackingDetail',
               requireAuth: true,
               asyncParams: {
-                'booking':
-                    getDoc(['users', 'bookings'], BookingsRecord.fromSnapshot),
+                'dealDoc': getDoc(['deals'], DealsRecord.fromSnapshot),
               },
               builder: (context, params) => TrackingDetailWidget(
-                booking: params.getParam('booking', ParamType.Document),
+                dealDoc: params.getParam('dealDoc', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -235,7 +202,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'readDetail',
               path: 'readDetail',
               requireAuth: true,
-              builder: (context, params) => ReadDetailWidget(),
+              asyncParams: {
+                'provDoc': getDoc(['ProviderDocuments', 'aboutSection'],
+                    AboutSectionRecord.fromSnapshot),
+              },
+              builder: (context, params) => ReadDetailWidget(
+                provDoc: params.getParam('provDoc', ParamType.Document),
+              ),
             ),
             FFRoute(
               name: 'UpdateDetail',
@@ -253,15 +226,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'providerDashboardCopy',
-              path: 'providerDashboardCopy',
-              requireAuth: true,
-              builder: (context, params) => ProviderDashboardCopyWidget(),
-            ),
-            FFRoute(
-              name: 'inkonzo_onboarding_lite',
-              path: 'inkonzoOnboardingLite',
-              builder: (context, params) => InkonzoOnboardingLiteWidget(),
+              name: 'inkonzoSplashLite',
+              path: 'inkonzoSplashLite',
+              builder: (context, params) => InkonzoSplashLiteWidget(),
             ),
             FFRoute(
               name: 'TsAndCs',
@@ -269,21 +236,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => TsAndCsWidget(),
             ),
             FFRoute(
-              name: 'requestPage',
-              path: 'requestPage',
-              requireAuth: true,
-              asyncParams: {
-                'providerRef': getDoc(['ProviderDocuments'],
-                    ProviderDocumentsRecord.fromSnapshot),
-              },
-              builder: (context, params) => RequestPageWidget(
-                providerRef: params.getParam('providerRef', ParamType.Document),
-              ),
-            ),
-            FFRoute(
               name: 'InkonzoOnboarding',
               path: 'inkonzoOnboarding',
-              requireAuth: true,
               builder: (context, params) => InkonzoOnboardingWidget(),
             ),
             FFRoute(
@@ -296,6 +250,51 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'SignUpAccount',
               path: 'signUpAccount',
               builder: (context, params) => SignUpAccountWidget(),
+            ),
+            FFRoute(
+              name: 'homePageLanding',
+              path: 'homePageLanding',
+              requireAuth: true,
+              builder: (context, params) => HomePageLandingWidget(),
+            ),
+            FFRoute(
+              name: 'searchPageCopyd',
+              path: 'searchPageCopyd',
+              builder: (context, params) => SearchPageCopydWidget(
+                initialQuery: params.getParam('initialQuery', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'ForgotPassword',
+              path: 'forgotPassword',
+              requireAuth: true,
+              builder: (context, params) => ForgotPasswordWidget(),
+            ),
+            FFRoute(
+              name: 'ProviderDetailCopy',
+              path: 'providerDetailCopy',
+              requireAuth: true,
+              builder: (context, params) => ProviderDetailCopyWidget(
+                userRef: params.getParam('userRef', ParamType.DocumentReference,
+                    false, ['ProviderDocuments']),
+                iDRef: params.getParam(
+                    'iDRef', ParamType.DocumentReference, false, ['users']),
+              ),
+            ),
+            FFRoute(
+              name: 'searchPage',
+              path: 'searchPage',
+              builder: (context, params) => SearchPageWidget(
+                initialQuery: params.getParam('initialQuery', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'searchPage2',
+              path: 'searchPage2',
+              requireAuth: true,
+              builder: (context, params) => SearchPage2Widget(
+                initialQuery: params.getParam('initialQuery', ParamType.String),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -481,10 +480,10 @@ class FFRoute {
                   color: Colors.transparent,
                   child: Image.asset(
                     'assets/images/services_screen.png',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                   ),
                 )
-              : page;
+              : PushNotificationsHandler(child: page);
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

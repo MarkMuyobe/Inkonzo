@@ -155,6 +155,7 @@ class _FlutterFlowChoiceChipsState extends State<FlutterFlowChoiceChips> {
                     width: style.borderWidth ?? 0,
                   ),
                 ),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               );
             },
           ).toList(),

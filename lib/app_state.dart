@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'flutter_flow/request_manager.dart';
 import '/backend/backend.dart';
 import 'backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +21,21 @@ class FFAppState extends ChangeNotifier {
     });
     _safeInit(() {
       _signedIn = prefs.getBool('ff_signedIn') ?? _signedIn;
+    });
+    _safeInit(() {
+      _onboarded = prefs.getBool('ff_onboarded') ?? _onboarded;
+    });
+    _safeInit(() {
+      _notificationsAccepted =
+          prefs.getBool('ff_notificationsAccepted') ?? _notificationsAccepted;
+    });
+    _safeInit(() {
+      _accountDetailsSet =
+          prefs.getBool('ff_accountDetailsSet') ?? _accountDetailsSet;
+    });
+    _safeInit(() {
+      _locationAccepted =
+          prefs.getBool('ff_locationAccepted') ?? _locationAccepted;
     });
   }
 
@@ -52,20 +66,33 @@ class FFAppState extends ChangeNotifier {
     _searchActive = _value;
   }
 
-  final _srchQryManager = FutureRequestManager<List<ProviderDocumentsRecord>>();
-  Future<List<ProviderDocumentsRecord>> srchQry({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Future<List<ProviderDocumentsRecord>> Function() requestFn,
-  }) =>
-      _srchQryManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearSrchQryCache() => _srchQryManager.clear();
-  void clearSrchQryCacheKey(String? uniqueKey) =>
-      _srchQryManager.clearRequest(uniqueKey);
+  bool _onboarded = false;
+  bool get onboarded => _onboarded;
+  set onboarded(bool _value) {
+    _onboarded = _value;
+    prefs.setBool('ff_onboarded', _value);
+  }
+
+  bool _notificationsAccepted = false;
+  bool get notificationsAccepted => _notificationsAccepted;
+  set notificationsAccepted(bool _value) {
+    _notificationsAccepted = _value;
+    prefs.setBool('ff_notificationsAccepted', _value);
+  }
+
+  bool _accountDetailsSet = false;
+  bool get accountDetailsSet => _accountDetailsSet;
+  set accountDetailsSet(bool _value) {
+    _accountDetailsSet = _value;
+    prefs.setBool('ff_accountDetailsSet', _value);
+  }
+
+  bool _locationAccepted = false;
+  bool get locationAccepted => _locationAccepted;
+  set locationAccepted(bool _value) {
+    _locationAccepted = _value;
+    prefs.setBool('ff_locationAccepted', _value);
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:from_css_color/from_css_color.dart';
 import '/backend/algolia/algolia_manager.dart';
+import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
@@ -87,8 +88,38 @@ class ProviderDocumentsRecord extends FirestoreRecord {
   String get workDescription => _workDescription ?? '';
   bool hasWorkDescription() => _workDescription != null;
 
+  // "proffession" field.
+  String? _proffession;
+  String get proffession => _proffession ?? '';
+  bool hasProffession() => _proffession != null;
+
+  // "visits" field.
+  int? _visits;
+  int get visits => _visits ?? 0;
+  bool hasVisits() => _visits != null;
+
+  // "dealsList" field.
+  List<DocumentReference>? _dealsList;
+  List<DocumentReference> get dealsList => _dealsList ?? const [];
+  bool hasDealsList() => _dealsList != null;
+
+  // "verified" field.
+  bool? _verified;
+  bool get verified => _verified ?? false;
+  bool hasVerified() => _verified != null;
+
+  // "usrRef" field.
+  DocumentReference? _usrRef;
+  DocumentReference? get usrRef => _usrRef;
+  bool hasUsrRef() => _usrRef != null;
+
+  // "id" field.
+  String? _id;
+  String get id => _id ?? '';
+  bool hasId() => _id != null;
+
   void _initializeFields() {
-    _rating = snapshotData['rating'] as int?;
+    _rating = castToType<int>(snapshotData['rating']);
     _availability = snapshotData['availability'] as bool?;
     _imageUrl = snapshotData['imageUrl'] as String?;
     _name = snapshotData['name'] as String?;
@@ -98,10 +129,16 @@ class ProviderDocumentsRecord extends FirestoreRecord {
     _workLocation = snapshotData['workLocation'] as LatLng?;
     _bookingFee = castToType<double>(snapshotData['bookingFee']);
     _totalEarnings = castToType<double>(snapshotData['totalEarnings']);
-    _totalClients = snapshotData['totalClients'] as int?;
+    _totalClients = castToType<int>(snapshotData['totalClients']);
     _inkonzoComments = getDataList(snapshotData['inkonzoComments']);
     _dateJoined = snapshotData['dateJoined'] as DateTime?;
     _workDescription = snapshotData['workDescription'] as String?;
+    _proffession = snapshotData['proffession'] as String?;
+    _visits = castToType<int>(snapshotData['visits']);
+    _dealsList = getDataList(snapshotData['dealsList']);
+    _verified = snapshotData['verified'] as bool?;
+    _usrRef = snapshotData['usrRef'] as DocumentReference?;
+    _id = snapshotData['id'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -155,6 +192,16 @@ class ProviderDocumentsRecord extends FirestoreRecord {
                 snapshot.data['dateJoined']),
           ),
           'workDescription': snapshot.data['workDescription'],
+          'proffession': snapshot.data['proffession'],
+          'visits': snapshot.data['visits']?.round(),
+          'dealsList': safeGet(
+            () => snapshot.data['dealsList'].map((s) => toRef(s)).toList(),
+          ),
+          'verified': snapshot.data['verified'],
+          'usrRef': safeGet(
+            () => toRef(snapshot.data['usrRef']),
+          ),
+          'id': snapshot.data['id'],
         },
         ProviderDocumentsRecord.collection.doc(snapshot.objectID),
       );
@@ -203,6 +250,11 @@ Map<String, dynamic> createProviderDocumentsRecordData({
   int? totalClients,
   DateTime? dateJoined,
   String? workDescription,
+  String? proffession,
+  int? visits,
+  bool? verified,
+  DocumentReference? usrRef,
+  String? id,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -218,8 +270,70 @@ Map<String, dynamic> createProviderDocumentsRecordData({
       'totalClients': totalClients,
       'dateJoined': dateJoined,
       'workDescription': workDescription,
+      'proffession': proffession,
+      'visits': visits,
+      'verified': verified,
+      'usrRef': usrRef,
+      'id': id,
     }.withoutNulls,
   );
 
   return firestoreData;
+}
+
+class ProviderDocumentsRecordDocumentEquality
+    implements Equality<ProviderDocumentsRecord> {
+  const ProviderDocumentsRecordDocumentEquality();
+
+  @override
+  bool equals(ProviderDocumentsRecord? e1, ProviderDocumentsRecord? e2) {
+    const listEquality = ListEquality();
+    return e1?.rating == e2?.rating &&
+        e1?.availability == e2?.availability &&
+        e1?.imageUrl == e2?.imageUrl &&
+        e1?.name == e2?.name &&
+        listEquality.equals(e1?.skills, e2?.skills) &&
+        e1?.businessName == e2?.businessName &&
+        e1?.hourlyRate == e2?.hourlyRate &&
+        e1?.workLocation == e2?.workLocation &&
+        e1?.bookingFee == e2?.bookingFee &&
+        e1?.totalEarnings == e2?.totalEarnings &&
+        e1?.totalClients == e2?.totalClients &&
+        listEquality.equals(e1?.inkonzoComments, e2?.inkonzoComments) &&
+        e1?.dateJoined == e2?.dateJoined &&
+        e1?.workDescription == e2?.workDescription &&
+        e1?.proffession == e2?.proffession &&
+        e1?.visits == e2?.visits &&
+        listEquality.equals(e1?.dealsList, e2?.dealsList) &&
+        e1?.verified == e2?.verified &&
+        e1?.usrRef == e2?.usrRef &&
+        e1?.id == e2?.id;
+  }
+
+  @override
+  int hash(ProviderDocumentsRecord? e) => const ListEquality().hash([
+        e?.rating,
+        e?.availability,
+        e?.imageUrl,
+        e?.name,
+        e?.skills,
+        e?.businessName,
+        e?.hourlyRate,
+        e?.workLocation,
+        e?.bookingFee,
+        e?.totalEarnings,
+        e?.totalClients,
+        e?.inkonzoComments,
+        e?.dateJoined,
+        e?.workDescription,
+        e?.proffession,
+        e?.visits,
+        e?.dealsList,
+        e?.verified,
+        e?.usrRef,
+        e?.id
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is ProviderDocumentsRecord;
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -63,4 +65,22 @@ Map<String, dynamic> createTopCategoriesRecordData() {
   );
 
   return firestoreData;
+}
+
+class TopCategoriesRecordDocumentEquality
+    implements Equality<TopCategoriesRecord> {
+  const TopCategoriesRecordDocumentEquality();
+
+  @override
+  bool equals(TopCategoriesRecord? e1, TopCategoriesRecord? e2) {
+    const listEquality = ListEquality();
+    return listEquality.equals(e1?.categories, e2?.categories);
+  }
+
+  @override
+  int hash(TopCategoriesRecord? e) =>
+      const ListEquality().hash([e?.categories]);
+
+  @override
+  bool isValidKey(Object? o) => o is TopCategoriesRecord;
 }

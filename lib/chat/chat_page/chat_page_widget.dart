@@ -44,6 +44,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
     super.initState();
     _model = createModel(context, () => ChatPageModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'chat_page'});
     FFChatManager.instance
         .getChatInfo(
       otherUserRecord: widget.chatUser,
@@ -85,7 +86,9 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
             size: 24.0,
           ),
           onPressed: () async {
-            context.pop();
+            logFirebaseEvent('CHAT_arrow_back_rounded_ICN_ON_TAP');
+            logFirebaseEvent('IconButton_navigate_back');
+            context.safePop();
           },
         ),
         title: Stack(
@@ -159,8 +162,8 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     fontSize: 14.0,
                   ),
                   emptyChatWidget: Image.asset(
-                    'assets/images/messagesEmpty@2x.png',
-                    width: MediaQuery.of(context).size.width * 0.76,
+                    'assets/images/Terms_re_6ak4_1.png',
+                    width: MediaQuery.sizeOf(context).width * 0.76,
                   ),
                 )
               : Center(
@@ -168,7 +171,9 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     width: 50.0,
                     height: 50.0,
                     child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primary,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
                     ),
                   ),
                 ),

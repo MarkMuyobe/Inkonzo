@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -41,7 +43,7 @@ class ReviewsRecord extends FirestoreRecord {
 
   void _initializeFields() {
     _comment = snapshotData['comment'] as String?;
-    _rating = snapshotData['rating'] as int?;
+    _rating = castToType<int>(snapshotData['rating']);
     _user = snapshotData['user'] as String?;
     _imageURL = snapshotData['imageURL'] as String?;
     _time = snapshotData['time'] as DateTime?;
@@ -99,4 +101,24 @@ Map<String, dynamic> createReviewsRecordData({
   );
 
   return firestoreData;
+}
+
+class ReviewsRecordDocumentEquality implements Equality<ReviewsRecord> {
+  const ReviewsRecordDocumentEquality();
+
+  @override
+  bool equals(ReviewsRecord? e1, ReviewsRecord? e2) {
+    return e1?.comment == e2?.comment &&
+        e1?.rating == e2?.rating &&
+        e1?.user == e2?.user &&
+        e1?.imageURL == e2?.imageURL &&
+        e1?.time == e2?.time;
+  }
+
+  @override
+  int hash(ReviewsRecord? e) => const ListEquality()
+      .hash([e?.comment, e?.rating, e?.user, e?.imageURL, e?.time]);
+
+  @override
+  bool isValidKey(Object? o) => o is ReviewsRecord;
 }

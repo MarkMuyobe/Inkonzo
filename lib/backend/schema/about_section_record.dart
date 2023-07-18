@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -90,4 +92,23 @@ Map<String, dynamic> createAboutSectionRecordData({
   );
 
   return firestoreData;
+}
+
+class AboutSectionRecordDocumentEquality
+    implements Equality<AboutSectionRecord> {
+  const AboutSectionRecordDocumentEquality();
+
+  @override
+  bool equals(AboutSectionRecord? e1, AboutSectionRecord? e2) {
+    return e1?.image == e2?.image &&
+        e1?.body == e2?.body &&
+        e1?.header == e2?.header;
+  }
+
+  @override
+  int hash(AboutSectionRecord? e) =>
+      const ListEquality().hash([e?.image, e?.body, e?.header]);
+
+  @override
+  bool isValidKey(Object? o) => o is AboutSectionRecord;
 }

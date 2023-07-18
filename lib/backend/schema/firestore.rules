@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{document} {
       allow create: if request.auth.uid == document;
-      allow read: if request.auth.uid == document;
+      allow read: if true;
       allow write: if request.auth.uid == document;
       allow delete: if request.auth != null;
     }
@@ -26,36 +26,36 @@ service cloud.firestore {
     match /ratings/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if request.auth != null;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /topCategories/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /Reviews/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /ProviderDocuments/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /ProviderDocuments/{parent}/clientReview/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /{path=**}/clientReview/{document} {
@@ -63,18 +63,11 @@ service cloud.firestore {
     }
 
 
-    match /users/{parent}/bookings/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if request.auth.uid == parent;
-      allow write: if request.auth.uid == parent;
-      allow delete: if false;
-    }
-
     match /ProviderDocuments/{parent}/aboutSection/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /{path=**}/aboutSection/{document} {
@@ -85,8 +78,8 @@ service cloud.firestore {
     match /ProviderDocuments/{parent}/skills/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /{path=**}/skills/{document} {
@@ -94,16 +87,16 @@ service cloud.firestore {
     }
 
 
-    match /ProviderDocuments/{parent}/clients/{document} {
+    match /deals/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
-    match /{path=**}/clients/{document} {
-      allow read: if true;
+    match /ff_user_push_notifications/{id} {
+      allow read, update, delete: if false;
+      allow create: if /databases/$(database)/documents/users/$(request.auth.uid) == request.resource.data.sender;
     }
-
   }
 }

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
+import 'uploaded_file.dart';
 import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/auth/firebase_auth/auth_util.dart';
@@ -26,12 +27,62 @@ double subCharge(
   return (totalAmount -= charge);
 }
 
+double calculateDistanceTest(LatLng providerLocation) {
+  // haversine formula comapring providerLocation to  -15.4190549,28.3637264 in kilometers
+  var p = 0.017453292519943295;
+  var c = math.cos;
+  var a = 0.5 -
+      c((providerLocation.latitude - -15.4190549) * p) / 2 +
+      c(-15.4190549 * p) *
+          c(providerLocation.latitude * p) *
+          (1 - c((providerLocation.longitude - 28.3637264) * p)) /
+          2;
+  return 12742 * math.asin(math.sqrt(a));
+}
+
 double? totalFee(
   double subTotal,
   double bookingFee,
 ) {
   double total = subTotal + bookingFee;
   return (total);
+}
+
+List<ProviderDocumentsRecord> getProviderDocumentsSortedCopy(
+  List<ProviderDocumentsRecord> records,
+  LatLng userGeo,
+) {
+  double lat1 = userGeo.latitude;
+  double lon1 = userGeo.longitude;
+
+  // Calculate the distance for each record and store it as a key-value pair
+  List<MapEntry<double, ProviderDocumentsRecord>> distances = [];
+
+  for (ProviderDocumentsRecord record in records) {
+    double lat2 = record.workLocation!.latitude;
+    double lon2 = record.workLocation!.longitude;
+
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        math.cos((lat2 - lat1) * p) / 2 +
+        math.cos(lat1 * p) *
+            math.cos(lat2 * p) *
+            (1 - math.cos((lon2 - lon1) * p)) /
+            2;
+    var d = 12742 * math.asin(math.sqrt(a));
+    double distanceInKm = double.parse(d.toStringAsFixed(2));
+
+    distances.add(MapEntry(distanceInKm, record));
+  }
+
+  // Sort the records based on distance
+  distances.sort((a, b) => a.key.compareTo(b.key));
+
+  // Extract the sorted records
+  List<ProviderDocumentsRecord> sortedRecords =
+      distances.map((entry) => entry.value).toList();
+
+  return sortedRecords;
 }
 
 double calculateDistance(

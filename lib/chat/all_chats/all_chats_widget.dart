@@ -26,6 +26,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
     super.initState();
     _model = createModel(context, () => AllChatsModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'all_chats'});
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -76,7 +77,9 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                     width: 50.0,
                     height: 50.0,
                     child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primary,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
                     ),
                   ),
                 );
@@ -101,7 +104,9 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                             width: 50.0,
                             height: 50.0,
                             child: CircularProgressIndicator(
-                              color: FlutterFlowTheme.of(context).primary,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
                             ),
                           ),
                         );

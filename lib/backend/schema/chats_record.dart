@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -112,4 +114,34 @@ Map<String, dynamic> createChatsRecordData({
   );
 
   return firestoreData;
+}
+
+class ChatsRecordDocumentEquality implements Equality<ChatsRecord> {
+  const ChatsRecordDocumentEquality();
+
+  @override
+  bool equals(ChatsRecord? e1, ChatsRecord? e2) {
+    const listEquality = ListEquality();
+    return listEquality.equals(e1?.users, e2?.users) &&
+        e1?.userA == e2?.userA &&
+        e1?.userB == e2?.userB &&
+        e1?.lastMessage == e2?.lastMessage &&
+        e1?.lastMessageTime == e2?.lastMessageTime &&
+        e1?.lastMessageSentBy == e2?.lastMessageSentBy &&
+        listEquality.equals(e1?.lastMessageSeenBy, e2?.lastMessageSeenBy);
+  }
+
+  @override
+  int hash(ChatsRecord? e) => const ListEquality().hash([
+        e?.users,
+        e?.userA,
+        e?.userB,
+        e?.lastMessage,
+        e?.lastMessageTime,
+        e?.lastMessageSentBy,
+        e?.lastMessageSeenBy
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is ChatsRecord;
 }

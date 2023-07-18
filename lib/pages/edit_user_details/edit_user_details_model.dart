@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
+import '/flutter_flow/permissions_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 class EditUserDetailsModel extends FlutterFlowModel {
   ///  Local state fields for this page.
 
-  bool pictureChanged = true;
+  bool pictureChanged = false;
 
   ///  State fields for stateful widgets in this page.
 
@@ -49,5 +50,4 @@ class EditUserDetailsModel extends FlutterFlowModel {
   /// Action blocks are added here.
 
   /// Additional helper methods are added here.
-
 }

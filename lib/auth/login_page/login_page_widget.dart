@@ -28,6 +28,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     super.initState();
     _model = createModel(context, () => LoginPageModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'login_page'});
     _model.emailAddressController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
@@ -108,6 +109,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 size: 30.0,
                               ),
                               onPressed: () async {
+                                logFirebaseEvent(
+                                    'LOGIN_PAGE_PAGE_GoogleButton_ON_TAP');
+                                logFirebaseEvent('GoogleButton_auth');
                                 GoRouter.of(context).prepareAuthEvent();
                                 final user =
                                     await authManager.signInWithGoogle(context);
@@ -116,7 +120,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 }
 
                                 context.goNamedAuth(
-                                    'HomePage', context.mounted);
+                                    'homePageLanding', context.mounted);
                               },
                             ),
                           ),
@@ -126,6 +130,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'LOGIN_PAGE_PAGE_SignInWithGoogle_ON_TAP');
+                              logFirebaseEvent('SignInWithGoogle_auth');
                               GoRouter.of(context).prepareAuthEvent();
                               final user =
                                   await authManager.signInWithGoogle(context);
@@ -133,8 +140,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 return;
                               }
 
-                              context.pushNamedAuth(
-                                  'HomePage', context.mounted);
+                              context.goNamedAuth(
+                                  'homePageLanding', context.mounted);
                             },
                             child: Text(
                               'Sign-In with Google',
@@ -184,6 +191,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'LOGIN_PAGE_PAGE_SignInWithApple_ON_TAP');
+                              logFirebaseEvent('SignInWithApple_auth');
                               GoRouter.of(context).prepareAuthEvent();
                               final user =
                                   await authManager.signInWithApple(context);
@@ -191,7 +201,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 return;
                               }
 
-                              context.goNamedAuth('HomePage', context.mounted);
+                              context.goNamedAuth(
+                                  'homePageLanding', context.mounted);
                             },
                             child: Text(
                               'Sign-In with Apple',
@@ -379,6 +390,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'LOGIN_PAGE_PAGE_SIGN_IN_BTN_ON_TAP');
+                          logFirebaseEvent('Button_auth');
                           GoRouter.of(context).prepareAuthEvent();
 
                           final user = await authManager.signInWithEmail(
@@ -390,7 +404,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             return;
                           }
 
-                          context.goNamedAuth('HomePage', context.mounted);
+                          context.goNamedAuth(
+                              'homePageLanding', context.mounted);
                         },
                         text: 'Sign In',
                         options: FFButtonOptions(
@@ -421,7 +436,19 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushNamed('SignUpAccount');
+                        logFirebaseEvent(
+                            'LOGIN_PAGE_PAGE_RichText_us8ogyof_ON_TAP');
+                        logFirebaseEvent('RichText_navigate_to');
+
+                        context.pushNamed(
+                          'SignUpAccount',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                            ),
+                          },
+                        );
                       },
                       child: RichText(
                         text: TextSpan(
@@ -449,6 +476,60 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             )
                           ],
                           style: FlutterFlowTheme.of(context).bodyMedium,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          logFirebaseEvent(
+                              'LOGIN_PAGE_PAGE_RichText_tsh62bdg_ON_TAP');
+                          logFirebaseEvent('RichText_navigate_to');
+
+                          context.pushNamed(
+                            'ForgotPassword',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.rightToLeft,
+                              ),
+                            },
+                          );
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Or you ',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
+                              TextSpan(
+                                text: 'Forgot Password?',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              )
+                            ],
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
                         ),
                       ),
                     ),
