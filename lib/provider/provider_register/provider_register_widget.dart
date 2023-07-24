@@ -10,6 +10,7 @@ import '/flutter_flow/place.dart';
 import '/flutter_flow/upload_data.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +111,11 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                     child: TextFormField(
                       controller: _model.nameController,
-                      autofocus: true,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.nameController',
+                        Duration(milliseconds: 2000),
+                        () => setState(() {}),
+                      ),
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'name',
@@ -162,7 +167,11 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                     child: TextFormField(
                       controller: _model.descriptionController,
-                      autofocus: true,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.descriptionController',
+                        Duration(milliseconds: 2000),
+                        () => setState(() {}),
+                      ),
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Description',
@@ -374,7 +383,11 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                     child: TextFormField(
                       controller: _model.yearsWorkedController,
-                      autofocus: true,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.yearsWorkedController',
+                        Duration(milliseconds: 2000),
+                        () => setState(() {}),
+                      ),
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Years',
@@ -426,7 +439,11 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                     child: TextFormField(
                       controller: _model.idController,
-                      autofocus: true,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.idController',
+                        Duration(milliseconds: 2000),
+                        () => setState(() {}),
+                      ),
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Here...',
@@ -565,7 +582,21 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
                         child: FFButtonWidget(
-                          onPressed: true
+                          onPressed: (_model.nameController.text == null ||
+                                      _model.nameController.text == '') ||
+                                  (_model.descriptionController.text == null ||
+                                      _model.descriptionController.text ==
+                                          '') ||
+                                  (_model.placePickerValue == null) ||
+                                  (_model.yearsWorkedController.text == null ||
+                                      _model.yearsWorkedController.text ==
+                                          '') ||
+                                  (_model.idController.text == null ||
+                                      _model.idController.text == '') ||
+                                  (_model.uploadedFileUrl2 == null ||
+                                      _model.uploadedFileUrl2 == '') ||
+                                  (_model.uploadedFileUrl1 == null ||
+                                      _model.uploadedFileUrl1 == '')
                               ? null
                               : () async {
                                   logFirebaseEvent(

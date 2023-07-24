@@ -55,8 +55,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             color: FlutterFlowTheme.of(context).primaryText,
             size: 30.0,
           ),
-          onPressed: () {
-            print('IconButton pressed ...');
+          onPressed: () async {
+            logFirebaseEvent('SETTINGS_arrow_back_rounded_ICN_ON_TAP');
+            logFirebaseEvent('IconButton_navigate_back');
+            context.safePop();
           },
         ),
         title: Text(
@@ -108,7 +110,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
             child: SwitchListTile.adaptive(
-              value: _model.switchListTileValue2 ??= false,
+              value: _model.switchListTileValue2 ??=
+                  FFAppState().locationAccepted,
               onChanged: (newValue) async {
                 setState(() => _model.switchListTileValue2 = newValue!);
               },

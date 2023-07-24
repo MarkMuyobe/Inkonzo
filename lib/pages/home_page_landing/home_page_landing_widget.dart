@@ -47,11 +47,11 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
 
           context.pushNamed('EditUserDetails');
         } else {
-          if (FFAppState().notificationsAccepted == false) {
+          if (!(await getPermissionStatus(notificationsPermission))) {
             logFirebaseEvent('homePageLanding_request_permissions');
             await requestPermission(notificationsPermission);
           }
-          if (FFAppState().locationAccepted == false) {
+          if (!(await getPermissionStatus(locationPermission))) {
             logFirebaseEvent('homePageLanding_request_permissions');
             await requestPermission(locationPermission);
           }
@@ -1602,6 +1602,8 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                         height: 200.0,
                         showsTestAd: true,
                         iOSAdUnitID: 'ca-app-pub-1654217419921551/8724946794',
+                        androidAdUnitID:
+                            'ca-app-pub-3940256099942544/6300978111',
                       ),
                     ),
                   ),
