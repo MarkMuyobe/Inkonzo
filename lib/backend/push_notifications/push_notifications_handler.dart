@@ -87,21 +87,46 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       : widget.child;
 }
 
+/// Represents a data class for handling parameters.
 class ParameterData {
+
+  /// Constructs a [ParameterData] instance.
+  ///
+  /// [requiredParams] contains the required parameters where the keys are the
+  /// parameter names, and the values are the parameter values or `null` if
+  /// the parameter is not required.
+  ///
+  /// [allParams] contains all parameters where the keys are the parameter names,
+  /// and the values are the corresponding parameter values, which can be of any type.
   const ParameterData(
       {this.requiredParams = const {}, this.allParams = const {}});
   final Map<String, String?> requiredParams;
   final Map<String, dynamic> allParams;
 
+  /// Returns a map of path parameters extracted from [requiredParams].
+  ///
+  /// Path parameters are parameters that have non-null values.
+  /// The method creates a new map with the same keys but excluding any
+  /// parameters with a value of `null`.
   Map<String, String> get pathParameters => Map.fromEntries(
         requiredParams.entries
             .where((e) => e.value != null)
             .map((e) => MapEntry(e.key, e.value!)),
       );
+
+  /// Returns a map containing any extra parameters from [allParams].
+  ///
+  /// Extra parameters are parameters that have non-null values.
+  /// The method creates a new map with the same keys but excluding any
+  /// parameters with a value of `null`.
   Map<String, dynamic> get extra => Map.fromEntries(
         allParams.entries.where((e) => e.value != null),
       );
 
+  /// Returns a factory function that creates a [ParameterData] instance with empty parameters.
+  ///
+  /// The factory function takes a [Map] as input but doesn't use it in this implementation.
+  /// Instead, it returns a new [ParameterData] instance with empty parameter maps.
   static Future<ParameterData> Function(Map<String, dynamic>) none() =>
       (data) async => ParameterData();
 }

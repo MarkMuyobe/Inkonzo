@@ -30,7 +30,7 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
   late SearchPage2Model _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng? currentUserLocationValue;
+  late LatLng?  currentUserLocationValue;
 
   @override
   void initState() {
@@ -263,65 +263,68 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 0.0, 0.0),
-                                  child: FlutterFlowChoiceChips(
-                                    options: [
-                                      ChipData('all'),
-                                      ChipData('closest'),
-                                      ChipData('available'),
-                                      ChipData('new')
-                                    ],
-                                    onChanged: (val) async {
-                                      setState(() => _model
-                                          .choiceChipsSetValue = val?.first);
-                                      logFirebaseEvent(
-                                          'SEARCH_PAGE2_ChoiceChipsSet_ON_FORM_WIDG');
-                                      logFirebaseEvent(
-                                          'ChoiceChipsSet_update_app_state');
-                                      setState(() {});
-                                    },
-                                    selectedChipStyle: ChipStyle(
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: FlutterFlowChoiceChips(
+                                      options: [
+                                        ChipData('all'),
+                                        ChipData('closest'),
+                                        ChipData('available'),
+                                        ChipData('new')
+                                      ],
+                                      onChanged: (val) async {
+                                        setState(() => _model
+                                            .choiceChipsSetValue = val?.first);
+                                        logFirebaseEvent(
+                                            'SEARCH_PAGE2_ChoiceChipsSet_ON_FORM_WIDG');
+                                        logFirebaseEvent(
+                                            'ChoiceChipsSet_update_app_state');
+                                        setState(() {});
+                                      },
+                                      selectedChipStyle: ChipStyle(
+                                        backgroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
+                                        iconColor: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        iconSize: 18.0,
+                                        elevation: 4.0,
+                                        borderRadius: BorderRadius.circular(16.0),
+                                      ),
+                                      unselectedChipStyle: ChipStyle(
+                                        backgroundColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBtnText,
+                                        ),
+                                        iconColor: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        iconSize: 18.0,
+                                        elevation: 0.0,
+                                        borderRadius: BorderRadius.circular(16.0),
+                                      ),
+                                      chipSpacing: 16.0,
+                                      rowSpacing: 16.0,
+                                      multiselect: false,
+                                      initialized:
+                                      _model.choiceChipsSetValue != null,
+                                      alignment: WrapAlignment.center,
+                                      controller:
+                                      _model.choiceChipsSetValueController ??=
+                                          FormFieldController<List<String>>(
+                                            ['all'],
                                           ),
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      iconSize: 18.0,
-                                      elevation: 4.0,
-                                      borderRadius: BorderRadius.circular(16.0),
-                                    ),
-                                    unselectedChipStyle: ChipStyle(
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                          ),
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      iconSize: 18.0,
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(16.0),
-                                    ),
-                                    chipSpacing: 16.0,
-                                    rowSpacing: 16.0,
-                                    multiselect: false,
-                                    initialized:
-                                        _model.choiceChipsSetValue != null,
-                                    alignment: WrapAlignment.center,
-                                    controller:
-                                        _model.choiceChipsSetValueController ??=
-                                            FormFieldController<List<String>>(
-                                      ['all'],
                                     ),
                                   ),
                                 ),
@@ -352,8 +355,23 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
                         ),
                       );
                     }
-                    List<ProviderDocumentsRecord>
+                    final List<ProviderDocumentsRecord>
                         containerProviderDocumentsRecordList = snapshot.data!;
+
+                    final userLocation = _model.locale ?? LatLng(0.0, 0.0);
+
+                    // Filter the list to keep only items where availability is true
+                    _model.filterByAvailability = containerProviderDocumentsRecordList
+                        .where((item) => item.availability == true)
+                        .toList();
+                    // Sort the list so that they are in order of the users location
+                    _model.sortedProviderByLocations = functions.sortByDistance(
+                        containerProviderDocumentsRecordList,
+                        userLocation);
+
+                    _model.sortedProviderByDate = functions.sortByDateJoined(
+                        containerProviderDocumentsRecordList);
+
                     return Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       decoration: BoxDecoration(),
@@ -519,32 +537,20 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
                                                                 ],
                                                               ),
                                                               Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  '${valueOrDefault<String>(
-                                                                    formatNumber(
-                                                                      functions.calculateDistance(
-                                                                          _model
-                                                                              .locale!,
-                                                                          allItemsItem
-                                                                              .workLocation!),
-                                                                      formatType:
-                                                                          FormatType
-                                                                              .decimal,
-                                                                      decimalType:
-                                                                          DecimalType
-                                                                              .periodDecimal,
+                                                                '${valueOrDefault<String>(
+                                                                  formatNumber(
+                                                                    functions.calculateDistance(
+                                                                      _model.locale!,
+                                                                      allItemsItem.workLocation!,
                                                                     ),
-                                                                    '0.0',
-                                                                  )}Km Away',
+                                                                    formatType: FormatType.decimal,
+                                                                    decimalType: DecimalType.periodDecimal,
+                                                                  ),
                                                                   '0.0',
-                                                                ).maybeHandleOverflow(
-                                                                    maxChars:
-                                                                        4),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium,
+                                                                )} Km Away'.maybeHandleOverflow(maxChars: 4),
+                                                                style: FlutterFlowTheme.of(context).bodyMedium,
                                                               ),
+
                                                             ],
                                                           ),
                                                           Row(
@@ -728,317 +734,1086 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 12.0, 0.0, 0.0),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          logFirebaseEvent(
-                                              'SEARCH_PAGE2_PAGE_Store_ListView_ON_TAP');
-                                          logFirebaseEvent(
-                                              'Store_ListView_navigate_to');
-
-                                          context.pushNamed('ProviderDetail');
-                                        },
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          elevation: 3.0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(24.0),
+                              child: Builder(
+                                builder: (context) {
+                                  if (_model.filterByAvailability == null) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
                                           ),
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 90.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8.0,
-                                                                  8.0,
-                                                                  8.0,
-                                                                  8.0),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(36.0),
-                                                        child: Image.network(
-                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
-                                                          width: 74.0,
-                                                          height: 74.0,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final allItems =
+                                      _model.filterByAvailability?.toList() ??
+                                          [];
+                                  if (allItems.isEmpty) {
+                                    return EmptyListWidget();
+                                  }
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: List.generate(allItems.length,
+                                            (allItemsIndex) {
+                                          final allItemsItem =
+                                          allItems[allItemsIndex];
+                                          return Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                8.0, 8.0, 8.0, 8.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () async {
+                                                logFirebaseEvent(
+                                                    'SEARCH_PAGE2_PAGE_Store_ListView_ON_TAP');
+                                                logFirebaseEvent(
+                                                    'Store_ListView_navigate_to');
+
+                                                context.pushNamed(
+                                                  'ProviderDetail',
+                                                  queryParameters: {
+                                                    'userRef': serializeParam(
+                                                      allItemsItem.reference,
+                                                      ParamType.DocumentReference,
                                                     ),
-                                                  ],
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                elevation: 3.0,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(24.0),
                                                 ),
-                                                Flexible(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 1.0,
-                                                                0.0, 0.0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Flexible(
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryBackground,
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 90.0,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                    BorderRadius.circular(24.0),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                8.0,
+                                                                8.0,
+                                                                8.0,
+                                                                8.0),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  36.0),
+                                                              child: Image.network(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  allItemsItem
+                                                                      .imageUrl,
+                                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
                                                                 ),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      'Store/Location Name',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall,
-                                                                    ),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .verified,
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                      size:
-                                                                          15.0,
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                                width: 74.0,
+                                                                height: 74.0,
+                                                                fit: BoxFit.cover,
                                                               ),
                                                             ),
-                                                            Text(
-                                                              'Km Away'
-                                                                  .maybeHandleOverflow(
-                                                                      maxChars:
-                                                                          4),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              '123 Address St, City, ST',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodySmall,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Flexible(
-                                                          child: Row(
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              8.0,
+                                                              1.0,
+                                                              0.0,
+                                                              0.0),
+                                                          child: Column(
                                                             mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
+                                                            MainAxisSize.max,
                                                             mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .center,
                                                             children: [
                                                               Row(
                                                                 mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisSize:
                                                                     MainAxisSize
                                                                         .max,
-                                                                children: [
-                                                                  wrapWithModel(
-                                                                    model: _model
-                                                                        .providerRatingModel2,
-                                                                    updateCallback: () =>
-                                                                        setState(
-                                                                            () {}),
-                                                                    child:
-                                                                        ProviderRatingWidget(),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            2.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      '1.7mi',
-                                                                      style: FlutterFlowTheme.of(
+                                                                    children: [
+                                                                      Text(
+                                                                        allItemsItem
+                                                                            .name,
+                                                                        style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                            .titleSmall,
+                                                                      ),
+                                                                      if (allItemsItem
+                                                                          .verified)
+                                                                        Icon(
+                                                                          Icons
+                                                                              .verified,
+                                                                          color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Poppins',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                          ),
-                                                                    ),
+                                                                              .primary,
+                                                                          size:
+                                                                          15.0,
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      '${valueOrDefault<String>(
+                                                                        formatNumber(
+                                                                          functions.calculateDistance(
+                                                                              _model
+                                                                                  .locale!,
+                                                                              allItemsItem
+                                                                                  .workLocation!),
+                                                                          formatType:
+                                                                          FormatType
+                                                                              .decimal,
+                                                                          decimalType:
+                                                                          DecimalType
+                                                                              .periodDecimal,
+                                                                        ),
+                                                                        '0.0',
+                                                                      )}Km Away',
+                                                                      '0.0',
+                                                                    ).maybeHandleOverflow(
+                                                                        maxChars:
+                                                                        4),
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                children: [
+                                                                  Text(
+                                                                    allItemsItem
+                                                                        .proffession,
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodySmall,
                                                                   ),
                                                                 ],
                                                               ),
                                                               Flexible(
-                                                                child:
-                                                                    SingleChildScrollView(
-                                                                  scrollDirection:
-                                                                      Axis.horizontal,
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
-                                                                    children: [
-                                                                      Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(12.0),
-                                                                          border:
-                                                                              Border.all(
-                                                                            color:
-                                                                                Color(0xFFF80000),
-                                                                            width:
-                                                                                2.0,
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                      children: [
+                                                                        wrapWithModel(
+                                                                          model: _model
+                                                                              .providerRatingModels1
+                                                                              .getModel(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            allItemsIndex,
+                                                                          ),
+                                                                          updateCallback:
+                                                                              () =>
+                                                                              setState(() {}),
+                                                                          child:
+                                                                          ProviderRatingWidget(
+                                                                            key:
+                                                                            Key(
+                                                                              'Keyood_${allItemsItem.rating.toString()}',
+                                                                            ),
                                                                           ),
                                                                         ),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              8.0,
-                                                                              0.0,
-                                                                              8.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Text(
-                                                                            'Unvailable',
-                                                                            style: FlutterFlowTheme.of(context).bodySmall.override(
-                                                                                  fontFamily: 'Poppins',
-                                                                                  color: Color(0xFFF80000),
-                                                                                ),
+                                                                        Text(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            '3',
                                                                           ),
+                                                                          style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                            fontFamily:
+                                                                            'Poppins',
+                                                                            color:
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            fontWeight:
+                                                                            FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Flexible(
+                                                                      child:
+                                                                      SingleChildScrollView(
+                                                                        scrollDirection:
+                                                                        Axis.horizontal,
+                                                                        child: Row(
+                                                                          mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                          children: [
+                                                                            if (!allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFFF80000),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Unvailable',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFFF80000),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            if (allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFF00FB0F),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Available',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFF00FB0F),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                      Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(12.0),
-                                                                          border:
-                                                                              Border.all(
-                                                                            color:
-                                                                                Color(0xFF00FB0F),
-                                                                            width:
-                                                                                2.0,
-                                                                          ),
-                                                                        ),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              8.0,
-                                                                              0.0,
-                                                                              8.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Text(
-                                                                            'Available',
-                                                                            style: FlutterFlowTheme.of(context).bodySmall.override(
-                                                                                  fontFamily: 'Poppins',
-                                                                                  color: Color(0xFF00FB0F),
-                                                                                ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .chevron_right_outlined,
+                                                                color: Color(
+                                                                    0xFF95A1AC),
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    8.0,
-                                                                    0.0),
-                                                        child: Icon(
-                                                          Icons
-                                                              .chevron_right_outlined,
-                                                          color:
-                                                              Color(0xFF95A1AC),
-                                                          size: 24.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                              ),
                                             ),
+                                          );
+                                        }),
+                                  );
+                                },
+                              ),
+                            ),
+                          if (_model.choiceChipsSetValue == 'closest')
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 12.0, 0.0, 0.0),
+                              child: Builder(
+                                builder: (context) {
+                                  if (_model.sortedProviderByLocations == null ) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    );
+                                  }
+
+                                  final allItems =
+                                      _model.sortedProviderByLocations?.toList() ??
+                                          [];
+                                  if (allItems.isEmpty) {
+                                    return EmptyListWidget();
+                                  }
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: List.generate(allItems.length,
+                                            (allItemsIndex) {
+                                          final allItemsItem =
+                                          allItems[allItemsIndex];
+                                          return Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                8.0, 8.0, 8.0, 8.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () async {
+                                                logFirebaseEvent(
+                                                    'SEARCH_PAGE2_PAGE_Store_ListView_ON_TAP');
+                                                logFirebaseEvent(
+                                                    'Store_ListView_navigate_to');
+
+                                                context.pushNamed(
+                                                  'ProviderDetail',
+                                                  queryParameters: {
+                                                    'userRef': serializeParam(
+                                                      allItemsItem.reference,
+                                                      ParamType.DocumentReference,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                elevation: 3.0,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                                ),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 90.0,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                    BorderRadius.circular(24.0),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                8.0,
+                                                                8.0,
+                                                                8.0,
+                                                                8.0),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  36.0),
+                                                              child: Image.network(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  allItemsItem
+                                                                      .imageUrl,
+                                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
+                                                                ),
+                                                                width: 74.0,
+                                                                height: 74.0,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              8.0,
+                                                              1.0,
+                                                              0.0,
+                                                              0.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                    children: [
+                                                                      Text(
+                                                                        allItemsItem
+                                                                            .name,
+                                                                        style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                            .titleSmall,
+                                                                      ),
+                                                                      if (allItemsItem
+                                                                          .verified)
+                                                                        Icon(
+                                                                          Icons
+                                                                              .verified,
+                                                                          color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .primary,
+                                                                          size:
+                                                                          15.0,
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      '${valueOrDefault<String>(
+                                                                        formatNumber(
+                                                                          functions.calculateDistance(
+                                                                              _model
+                                                                                  .locale!,
+                                                                              allItemsItem
+                                                                                  .workLocation!),
+                                                                          formatType: FormatType.decimal,
+                                                                          decimalType: DecimalType.periodDecimal,
+                                                                        ),
+                                                                        '0.0',
+                                                                      )}Km Away',
+                                                                      '0.0',
+                                                                    ).maybeHandleOverflow(
+                                                                        maxChars:
+                                                                        4),
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                children: [
+                                                                  Text(
+                                                                    allItemsItem
+                                                                        .proffession,
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodySmall,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Flexible(
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                      children: [
+                                                                        wrapWithModel(
+                                                                          model: _model
+                                                                              .providerRatingModels1
+                                                                              .getModel(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            allItemsIndex,
+                                                                          ),
+                                                                          updateCallback:
+                                                                              () =>
+                                                                              setState(() {}),
+                                                                          child:
+                                                                          ProviderRatingWidget(
+                                                                            key:
+                                                                            Key(
+                                                                              'Keyood_${allItemsItem.rating.toString()}',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            '3',
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                            fontFamily:
+                                                                            'Poppins',
+                                                                            color:
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            fontWeight:
+                                                                            FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Flexible(
+                                                                      child:
+                                                                      SingleChildScrollView(
+                                                                        scrollDirection:
+                                                                        Axis.horizontal,
+                                                                        child: Row(
+                                                                          mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                          children: [
+                                                                            if (!allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFFF80000),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Unvailable',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFFF80000),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            if (allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFF00FB0F),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Available',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFF00FB0F),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .chevron_right_outlined,
+                                                                color: Color(
+                                                                    0xFF95A1AC),
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                },
+                              ),
+                            ),
+                          if (_model.choiceChipsSetValue == 'new')
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 12.0, 0.0, 0.0),
+                              child: Builder(
+                                builder: (context) {
+                                  if (_model.sortedProviderByDate == null ) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  final allItems =
+                                      _model.sortedProviderByDate?.toList() ??
+                                          [];
+                                  if (allItems.isEmpty) {
+                                    return EmptyListWidget();
+                                  }
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: List.generate(allItems.length,
+                                            (allItemsIndex) {
+                                          final allItemsItem =
+                                          allItems[allItemsIndex];
+                                          return Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                8.0, 8.0, 8.0, 8.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () async {
+                                                logFirebaseEvent(
+                                                    'SEARCH_PAGE2_PAGE_Store_ListView_ON_TAP');
+                                                logFirebaseEvent(
+                                                    'Store_ListView_navigate_to');
+
+                                                context.pushNamed(
+                                                  'ProviderDetail',
+                                                  queryParameters: {
+                                                    'userRef': serializeParam(
+                                                      allItemsItem.reference,
+                                                      ParamType.DocumentReference,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                elevation: 3.0,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                                ),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 90.0,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                    BorderRadius.circular(24.0),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                8.0,
+                                                                8.0,
+                                                                8.0,
+                                                                8.0),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  36.0),
+                                                              child: Image.network(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  allItemsItem
+                                                                      .imageUrl,
+                                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/inkonzo-gpph9k/assets/lyrt34b9827m/depositphotos_137014128-stock-illustration-user-profile-icon.webp',
+                                                                ),
+                                                                width: 74.0,
+                                                                height: 74.0,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              8.0,
+                                                              1.0,
+                                                              0.0,
+                                                              0.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                    children: [
+                                                                      Text(
+                                                                        allItemsItem
+                                                                            .name,
+                                                                        style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                            .titleSmall,
+                                                                      ),
+                                                                      if (allItemsItem
+                                                                          .verified)
+                                                                        Icon(
+                                                                          Icons
+                                                                              .verified,
+                                                                          color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .primary,
+                                                                          size:
+                                                                          15.0,
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      '${valueOrDefault<String>(
+                                                                        formatNumber(
+                                                                          functions.calculateDistance(
+                                                                              _model
+                                                                                  .locale!,
+                                                                              allItemsItem
+                                                                                  .workLocation!),
+                                                                          formatType: FormatType.decimal,
+                                                                          decimalType: DecimalType.periodDecimal,
+                                                                        ),
+                                                                        '0.0',
+                                                                      )}Km Away',
+                                                                      '0.0',
+                                                                    ).maybeHandleOverflow(
+                                                                        maxChars:
+                                                                        4),
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                                children: [
+                                                                  Text(
+                                                                    allItemsItem
+                                                                        .proffession,
+                                                                    style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .bodySmall,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Flexible(
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                      children: [
+                                                                        wrapWithModel(
+                                                                          model: _model
+                                                                              .providerRatingModels1
+                                                                              .getModel(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            allItemsIndex,
+                                                                          ),
+                                                                          updateCallback:
+                                                                              () =>
+                                                                              setState(() {}),
+                                                                          child:
+                                                                          ProviderRatingWidget(
+                                                                            key:
+                                                                            Key(
+                                                                              'Keyood_${allItemsItem.rating.toString()}',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            allItemsItem
+                                                                                .rating
+                                                                                .toString(),
+                                                                            '3',
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                            fontFamily:
+                                                                            'Poppins',
+                                                                            color:
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            fontWeight:
+                                                                            FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Flexible(
+                                                                      child:
+                                                                      SingleChildScrollView(
+                                                                        scrollDirection:
+                                                                        Axis.horizontal,
+                                                                        child: Row(
+                                                                          mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                          children: [
+                                                                            if (!allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFFF80000),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Unvailable',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFFF80000),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            if (allItemsItem
+                                                                                .availability)
+                                                                              Container(
+                                                                                decoration:
+                                                                                BoxDecoration(
+                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFF00FB0F),
+                                                                                    width: 2.0,
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Available',
+                                                                                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: Color(0xFF00FB0F),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                        mainAxisSize:
+                                                        MainAxisSize.max,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .chevron_right_outlined,
+                                                                color: Color(
+                                                                    0xFF95A1AC),
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                },
                               ),
                             ),
                         ],

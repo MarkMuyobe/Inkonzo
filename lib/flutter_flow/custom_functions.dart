@@ -48,10 +48,14 @@ double? totalFee(
   return (total);
 }
 
-List<ProviderDocumentsRecord> getProviderDocumentsSortedCopy(
-  List<ProviderDocumentsRecord> records,
-  LatLng userGeo,
-) {
+List<ProviderDocumentsRecord>? sortByDistance(
+    List<ProviderDocumentsRecord>? records,
+    LatLng? userGeo,
+    ) {
+  if (records == null || userGeo == null) {
+    return null;
+  }
+
   double lat1 = userGeo.latitude;
   double lon1 = userGeo.longitude;
 
@@ -59,6 +63,10 @@ List<ProviderDocumentsRecord> getProviderDocumentsSortedCopy(
   List<MapEntry<double, ProviderDocumentsRecord>> distances = [];
 
   for (ProviderDocumentsRecord record in records) {
+    if (record.workLocation == null) {
+      continue;
+    }
+
     double lat2 = record.workLocation!.latitude;
     double lon2 = record.workLocation!.longitude;
 
@@ -80,7 +88,7 @@ List<ProviderDocumentsRecord> getProviderDocumentsSortedCopy(
 
   // Extract the sorted records
   List<ProviderDocumentsRecord> sortedRecords =
-      distances.map((entry) => entry.value).toList();
+  distances.map((entry) => entry.value).toList();
 
   return sortedRecords;
 }
@@ -105,49 +113,37 @@ double calculateDistance(
   return d;
 }
 
-List<ProviderDocumentsRecord> getProviderDocumentsSorted(
-  List<ProviderDocumentsRecord> records,
-  LatLng userGeo,
-) {
-  double lat1 = userGeo.latitude;
-  double lon1 = userGeo.longitude;
 
-  // Calculate the distance for each record and store it as a key-value pair
-  List<MapEntry<double, ProviderDocumentsRecord>> distances = [];
-
-  for (ProviderDocumentsRecord record in records) {
-    double lat2 = record.workLocation!.latitude;
-    double lon2 = record.workLocation!.longitude;
-
-    var p = 0.017453292519943295;
-    var a = 0.5 -
-        math.cos((lat2 - lat1) * p) / 2 +
-        math.cos(lat1 * p) *
-            math.cos(lat2 * p) *
-            (1 - math.cos((lon2 - lon1) * p)) /
-            2;
-    var d = 12742 * math.asin(math.sqrt(a));
-    double distanceInKm = double.parse(d.toStringAsFixed(2));
-
-    distances.add(MapEntry(distanceInKm, record));
-  }
-
-  // Sort the records based on distance
-  distances.sort((a, b) => a.key.compareTo(b.key));
-
-  // Extract the sorted records
-  List<ProviderDocumentsRecord> sortedRecords =
-      distances.map((entry) => entry.value).toList();
-
-  return sortedRecords;
-}
-
-List<ProviderDocumentsRecord> sortByDateJoined(
-    List<ProviderDocumentsRecord>? records) {
+List<ProviderDocumentsRecord>? sortsByDateJoined(
+    List<ProviderDocumentsRecord>? records,
+    ) {
   // sort ProviderDocumentsRecords by the dateJoined field and return the sorted list
+  if (records == null) {
+    return null;
+  }
+  records.sort((a, b) => (a.dateJoined ?? DateTime(0)).compareTo(b.dateJoined ?? DateTime(0)));
+  return records;
+}
+List<ProviderDocumentsRecord>? sortByDateJoined(
+    List<ProviderDocumentsRecord>? records,
+    ) {
   if (records == null) {
     return [];
   }
-  records.sort((a, b) => a.dateJoined!.compareTo(b.dateJoined!));
+
+  records.sort((a, b) {
+    final dateA = a.dateJoined;
+    final dateB = b.dateJoined;
+    if (dateA == null && dateB == null) {
+      return 0; // Both dates are null, consider them equal
+    } else if (dateA == null) {
+      return -1; // dateA is null, consider it smaller (earlier)
+    } else if (dateB == null) {
+      return 1; // dateB is null, consider it smaller (earlier)
+    } else {
+      return dateA.compareTo(dateB); // Compare the non-null dates
+    }
+  });
+
   return records;
 }

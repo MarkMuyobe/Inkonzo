@@ -47,11 +47,11 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
 
           context.pushNamed('EditUserDetails');
         } else {
-          if (!(await getPermissionStatus(notificationsPermission))) {
+          if (FFAppState().notificationsAccepted == false) {
             logFirebaseEvent('homePageLanding_request_permissions');
             await requestPermission(notificationsPermission);
           }
-          if (!(await getPermissionStatus(locationPermission))) {
+          if (FFAppState().locationAccepted == false) {
             logFirebaseEvent('homePageLanding_request_permissions');
             await requestPermission(locationPermission);
           }
@@ -394,620 +394,623 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                       decoration: BoxDecoration(),
                       child: Align(
                         alignment: AlignmentDirectional(0.0, 0.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_GRAPHIC_DESIGNERS_BTN_ON_TA');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'graphic designer',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Graphic designers',
-                                      options: FFButtonOptions(
-                                        width: 150.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_PLUMBER_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'plumber',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Plumber',
-                                      options: FFButtonOptions(
-                                        width: 90.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_ELECTRICIAN_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'electrician',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Electrician',
-                                      options: FFButtonOptions(
-                                        width: 140.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Doctors',
-                                    options: FFButtonOptions(
-                                      height: 30.0,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    4.0, 4.0, 4.0, 4.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_GRAPHIC_DESIGNERS_BTN_ON_TA');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'graphic designer',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Graphic designers',
+                                        options: FFButtonOptions(
+                                          width: 150.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
                                             fontFamily: 'Poppins',
                                             color: Colors.white,
                                           ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_BABYSITTER_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'babysitter',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Babysitter',
-                                      options: FFButtonOptions(
-                                        width: 110.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_CLEANING_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'cleaning',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Cleaning',
-                                      options: FFButtonOptions(
-                                        width: 90.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_SOFTWARE_DEVELOPER_BTN_ON_T');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPage2',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'software developer',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Software Developer',
-                                      options: FFButtonOptions(
-                                        width: 180.0,
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Consultants',
-                                    options: FFButtonOptions(
-                                      height: 30.0,
+                                    Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_PLUMBER_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'plumber',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Plumber',
+                                        options: FFButtonOptions(
+                                          width: 90.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
                                             fontFamily: 'Poppins',
                                             color: Colors.white,
                                           ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_TUTORING_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPageCopyd',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'Tutor',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Tutoring',
-                                      options: FFButtonOptions(
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 8.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_LAUNDRY_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPageCopyd',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'laundry',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Laundry',
-                                      options: FFButtonOptions(
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 8.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        logFirebaseEvent(
-                                            'HOME_LANDING_GARDENER_BTN_ON_TAP');
-                                        logFirebaseEvent(
-                                            'Button_update_app_state');
-                                        setState(() {
-                                          FFAppState().searchActive = true;
-                                        });
-                                        logFirebaseEvent('Button_navigate_to');
-
-                                        context.pushNamed(
-                                          'searchPageCopyd',
-                                          queryParameters: {
-                                            'initialQuery': serializeParam(
-                                              'garden',
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      },
-                                      text: 'Gardener',
-                                      options: FFButtonOptions(
-                                        height: 30.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 8.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                  ),
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      logFirebaseEvent(
-                                          'HOME_LANDING_PHOTOGRAPHER_BTN_ON_TAP');
-                                      logFirebaseEvent(
-                                          'Button_update_app_state');
-                                      setState(() {
-                                        FFAppState().searchActive = true;
-                                      });
-                                      logFirebaseEvent('Button_navigate_to');
-
-                                      context.pushNamed(
-                                        'searchPageCopyd',
-                                        queryParameters: {
-                                          'initialQuery': serializeParam(
-                                            'photographer',
-                                            ParamType.String,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
                                           ),
-                                        }.withoutNulls,
-                                      );
-                                    },
-                                    text: 'Photographer',
-                                    options: FFButtonOptions(
-                                      height: 30.0,
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_ELECTRICIAN_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'electrician',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Electrician',
+                                        options: FFButtonOptions(
+                                          width: 140.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
                                             fontFamily: 'Poppins',
                                             color: Colors.white,
                                           ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(30.0),
                                     ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: FFButtonWidget(
+                                    FFButtonWidget(
                                       onPressed: () {
                                         print('Button pressed ...');
                                       },
-                                      text: 'Barbers',
+                                      text: 'Doctors',
                                       options: FFButtonOptions(
                                         height: 30.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             24.0, 0.0, 24.0, 0.0),
                                         iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        color:
+                                        FlutterFlowTheme.of(context).primary,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                        ),
                                         elevation: 3.0,
                                         borderSide: BorderSide(
                                           color: Colors.transparent,
                                           width: 1.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
+                                        borderRadius: BorderRadius.circular(30.0),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ]
-                              .divide(SizedBox(height: 1.0))
-                              .around(SizedBox(height: 1.0)),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    4.0, 4.0, 4.0, 4.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_BABYSITTER_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'babysitter',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Babysitter',
+                                        options: FFButtonOptions(
+                                          width: 110.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_CLEANING_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'cleaning',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Cleaning',
+                                        options: FFButtonOptions(
+                                          width: 90.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_SOFTWARE_DEVELOPER_BTN_ON_T');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'software developer',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Software Developer',
+                                        options: FFButtonOptions(
+                                          width: 180.0,
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    FFButtonWidget(
+                                      onPressed: () {
+                                        print('Button pressed ...');
+                                      },
+                                      text: 'Consultants',
+                                      options: FFButtonOptions(
+                                        height: 30.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            24.0, 0.0, 24.0, 0.0),
+                                        iconPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        color:
+                                        FlutterFlowTheme.of(context).primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 3.0,
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    4.0, 4.0, 4.0, 4.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_TUTORING_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'Tutor',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Tutoring',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              8.0, 0.0, 8.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_LAUNDRY_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'laundry',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Laundry',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              8.0, 0.0, 8.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'HOME_LANDING_GARDENER_BTN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Button_update_app_state');
+                                          setState(() {
+                                            FFAppState().searchActive = true;
+                                          });
+                                          logFirebaseEvent('Button_navigate_to');
+
+                                          context.pushNamed(
+                                            'searchPage2',
+                                            queryParameters: {
+                                              'initialQuery': serializeParam(
+                                                'garden',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        text: 'Gardener',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              8.0, 0.0, 8.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        logFirebaseEvent(
+                                            'HOME_LANDING_PHOTOGRAPHER_BTN_ON_TAP');
+                                        logFirebaseEvent(
+                                            'Button_update_app_state');
+                                        setState(() {
+                                          FFAppState().searchActive = true;
+                                        });
+                                        logFirebaseEvent('Button_navigate_to');
+
+                                        context.pushNamed(
+                                          'searchPage2',
+                                          queryParameters: {
+                                            'initialQuery': serializeParam(
+                                              'photographer',
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      },
+                                      text: 'Photographer',
+                                      options: FFButtonOptions(
+                                        height: 30.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            24.0, 0.0, 24.0, 0.0),
+                                        iconPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        color:
+                                        FlutterFlowTheme.of(context).primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 3.0,
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () {
+                                          print('Button pressed ...');
+                                        },
+                                        text: 'Barbers',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              24.0, 0.0, 24.0, 0.0),
+                                          iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                          elevation: 3.0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]
+                                .divide(SizedBox(height: 1.0))
+                                .around(SizedBox(height: 1.0)),
+                          ),
                         ),
                       ),
                     ),
@@ -1602,8 +1605,6 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                         height: 200.0,
                         showsTestAd: true,
                         iOSAdUnitID: 'ca-app-pub-1654217419921551/8724946794',
-                        androidAdUnitID:
-                            'ca-app-pub-3940256099942544/6300978111',
                       ),
                     ),
                   ),

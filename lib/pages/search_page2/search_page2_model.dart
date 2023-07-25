@@ -25,6 +25,12 @@ class SearchPage2Model extends FlutterFlowModel {
   String? Function(BuildContext, String?)? queryControllerValidator;
   // Algolia Search Results from action on Query
   List<ProviderDocumentsRecord>? algoliaSearchResults = [];
+
+  List<ProviderDocumentsRecord>? sortedProviderByLocations = [];
+
+  List<ProviderDocumentsRecord>? sortedProviderByDate = [];
+
+  List<ProviderDocumentsRecord>? filterByAvailability = [];
   // State field(s) for ChoiceChipsSet widget.
   String? choiceChipsSetValue;
   FormFieldController<List<String>>? choiceChipsSetValueController;
