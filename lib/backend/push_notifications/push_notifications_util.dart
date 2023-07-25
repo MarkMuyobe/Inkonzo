@@ -23,7 +23,7 @@ class UserTokenInfo {
 
 Stream<UserTokenInfo> getFcmTokenStream(String userPath) =>
     Stream.value(!kIsWeb && (Platform.isIOS || Platform.isAndroid))
-        .where((shouldGetToken) => shouldGetToken)
+         .where((shouldGetToken) => shouldGetToken)
         .asyncMap<String?>(
             (_) => FirebaseMessaging.instance.requestPermission().then(
                   (settings) => settings.authorizationStatus ==
@@ -51,6 +51,20 @@ final fcmTokenUserStream = authenticatedUserStream
         },
       ),
     );
+
+Future<void> handleBackgroundMessage (RemoteMessage message)async{
+  print('Title: ${message.notification?.title}');
+  print('Body: ${message.notification?.body}');
+  print('Payload: ${message.data}');
+}
+
+void printFcmToken() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  String? fcmToken = await messaging.getToken();
+  print('FCM Token: $fcmToken');
+  FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+
+}
 
 void triggerPushNotification({
   required String? notificationTitle,

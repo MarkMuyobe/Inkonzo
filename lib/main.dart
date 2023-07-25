@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
       Duration(seconds: 2),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
+    printFcmToken();
   }
 
   @override
