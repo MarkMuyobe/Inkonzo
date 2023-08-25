@@ -2,7 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'backend/userStream.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +32,8 @@ void main() async {
   if (!kIsWeb) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
+
+  userStream();
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,

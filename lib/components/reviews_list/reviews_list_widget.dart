@@ -84,13 +84,14 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Container(
+                  clipBehavior: Clip.antiAlias,
                   width: 100.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -164,14 +165,17 @@ class _ReviewsListWidgetState extends State<ReviewsListWidget> {
                             ),
                             ClipRRect(
                               child: Container(
-                                width: 300.0,
+                                width: 270.0,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
                                 ),
-                                child: Text(
-                                  listViewReviewsRecord.comment,
-                                  style: FlutterFlowTheme.of(context).bodySmall,
+                                child: Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: Text(
+                                    listViewReviewsRecord.comment,
+                                    style: FlutterFlowTheme.of(context).bodySmall,
+                                  ),
                                 ),
                               ),
                             ),

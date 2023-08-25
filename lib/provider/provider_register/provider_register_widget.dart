@@ -9,7 +9,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/upload_data.dart';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +36,7 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'ProviderRegister'});
     _model.nameController ??= TextEditingController();
+    _model.proffessionController ??= TextEditingController();
     _model.descriptionController ??= TextEditingController();
     _model.yearsWorkedController ??= TextEditingController();
     _model.idController ??= TextEditingController();
@@ -153,6 +153,60 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                       style: FlutterFlowTheme.of(context).titleMedium,
                       validator:
                           _model.nameControllerValidator.asValidator(context),
+                    ),
+                  ),
+                  //Business Industry and Proffession
+                  Padding(padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                    child: Text(
+                      'Industry/Proffession',
+                      style: FlutterFlowTheme.of(context).titleMedium,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
+                    child: TextFormField(
+                      controller: _model.proffessionController,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.professionController',
+                        Duration(seconds: 2),
+                            () => setState(() { }),
+                      ),
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: 'Proffession',
+                        labelStyle: FlutterFlowTheme.of(context).titleMedium,
+                        hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      style: FlutterFlowTheme.of(context).titleMedium,
+                      validator: _model.proffessionControllerValidator.asValidator(context),
                     ),
                   ),
                   Padding(
@@ -491,6 +545,7 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                       style: FlutterFlowTheme.of(context).titleMedium,
                     ),
                   ),
+                  //Proof of Identity...
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                     child: Container(
@@ -634,11 +689,12 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                                             ) ??
                                             false;
                                     if (confirmDialogResponse) {
+                                      print('Ka Tinikika!!!! with user ID => xx${currentUserDocument!.uid}xx');
                                       logFirebaseEvent('Button_backend_call');
 
                                       var providerDocumentsRecordReference =
                                           ProviderDocumentsRecord.collection
-                                              .doc();
+                                              .doc('${currentUserReference!.id}');
                                       firestoreBatch.set(
                                           providerDocumentsRecordReference,
                                           createProviderDocumentsRecordData(
@@ -646,6 +702,7 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                                             availability: true,
                                             imageUrl: _model.uploadedFileUrl1,
                                             name: _model.nameController.text,
+                                            proffession: _model.proffessionController.text,
                                             workLocation:
                                                 _model.placePickerValue.latLng,
                                             dateJoined: getCurrentTimestamp,
@@ -682,6 +739,9 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                                                 _model.newProvider?.reference,
                                           ));
                                     }
+                                  }catch(e){
+                                    print('Error here => $e');
+
                                   } finally {
                                     await firestoreBatch.commit();
                                   }

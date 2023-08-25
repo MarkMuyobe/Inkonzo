@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-
+import '../../../auth/firebase_auth/auth_util.dart';
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -98,13 +98,24 @@ class UsersRecord extends FirestoreRecord {
   static Stream<UsersRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => UsersRecord.fromSnapshot(s));
 
+  static Stream<UsersRecord> getMyDocument(DocumentReference ref) {
+      return ref.snapshots().map((s) => UsersRecord.fromSnapshot(s));
+  }
   static Future<UsersRecord> getDocumentOnce(DocumentReference ref) =>
       ref.get().then((s) => UsersRecord.fromSnapshot(s));
+
+  static Future<UsersRecord>? getMyDocumentOnce(DocumentReference? ref) {
+            return ref?.get().then((s) => UsersRecord.fromSnapshot(s));
+  }
+
+  static Future<UsersRecord>? myUserDocument = getMyDocumentOnce(currentUserReference);
+
 
   static UsersRecord fromSnapshot(DocumentSnapshot snapshot) => UsersRecord._(
         snapshot.reference,
         mapFromFirestore(snapshot.data() as Map<String, dynamic>),
       );
+
 
   static UsersRecord getDocumentFromData(
     Map<String, dynamic> data,

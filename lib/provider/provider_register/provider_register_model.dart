@@ -22,6 +22,9 @@ class ProviderRegisterModel extends FlutterFlowModel {
   // State field(s) for name widget.
   TextEditingController? nameController;
   String? Function(BuildContext, String?)? nameControllerValidator;
+  //State field(s) for name widget.
+  TextEditingController? proffessionController;
+  String? Function(BuildContext,String?)? proffessionControllerValidator;
   // State field(s) for description widget.
   TextEditingController? descriptionController;
   String? Function(BuildContext, String?)? descriptionControllerValidator;

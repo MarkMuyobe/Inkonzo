@@ -484,8 +484,11 @@ Stream<List<T>> queryCollection<T>(
   }).map((s) => s.docs
       .map(
         (d) => safeGet(
-          () => recordBuilder(d),
-          (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
+          () {
+            print('Method in SafeGet');
+            return recordBuilder(d);
+          },
+          (e) => print('Error serializing doc == ${d.reference.path}:\n$e'),
         ),
       )
       .where((d) => d != null)

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
-
+import 'dart:core';
 import '../../auth/base_auth_user_provider.dart';
 import '../../backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
@@ -373,7 +373,7 @@ extension _GoRouterStateExtensions on GoRouterState {
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
+    //..addAll(queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -391,6 +391,7 @@ class FFParameters {
   // Parameters are empty if the params map is empty or if the only parameter
   // present is the special extra parameter reserved for the transition info.
   bool get isEmpty =>
+
       state.allParams.isEmpty ||
       (state.extraMap.length == 1 &&
           state.extraMap.containsKey(kTransitionInfoKey));
@@ -462,7 +463,7 @@ class FFRoute {
           }
 
           if (requireAuth && !appStateNotifier.loggedIn) {
-            appStateNotifier.setRedirectLocationIfUnset(state.location);
+            //appStateNotifier.setRedirectLocationIfUnset(state.location);
             return '/signUpAccount';
           }
           return null;

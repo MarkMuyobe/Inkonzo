@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:from_css_color/from_css_color.dart';
+import 'package:inkonzo/auth/firebase_auth/auth_util.dart';
 import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
@@ -146,6 +147,7 @@ class ProviderDocumentsRecord extends FirestoreRecord {
 
   static Stream<ProviderDocumentsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => ProviderDocumentsRecord.fromSnapshot(s));
+
 
   static Future<ProviderDocumentsRecord> getDocumentOnce(
           DocumentReference ref) =>

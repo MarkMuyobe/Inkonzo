@@ -42,7 +42,7 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('SEARCH_PAGE2_searchPage2_ON_INIT_STATE');
       currentUserLocationValue =
-          await getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0));
+          await getCurrentUserLocation(defaultLocation: LatLng(37.4298229, -122.1735655));
       logFirebaseEvent('searchPage2_update_widget_state');
       setState(() {
         _model.locale = currentUserLocationValue;

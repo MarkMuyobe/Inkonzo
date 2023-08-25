@@ -199,7 +199,7 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                                         logFirebaseEvent('Query_navigate_to');
 
                                         context.pushNamed(
-                                          'searchPageCopyd',
+                                          'searchPage2',
                                           queryParameters: {
                                             'initialQuery': serializeParam(
                                               _model.queryController.text,
@@ -245,7 +245,7 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                                     logFirebaseEvent('IconButton_navigate_to');
 
                                     context.pushNamed(
-                                      'searchPageCopyd',
+                                      'searchPage2',
                                       queryParameters: {
                                         'initialQuery': serializeParam(
                                           _model.queryController.text,
@@ -383,6 +383,21 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                           ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(-1.0, 0.0),
+                  child: Padding(
+                    padding:
+                    EdgeInsetsDirectional.fromSTEB(8.0, 16.0, 8.0, 8.0),
+                    child: Text(
+                      'Are you really a talent? ${currentUserDocument?.isTalent == true ? 'Yes' : 'No' }',
+                      textAlign: TextAlign.start,
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -1536,7 +1551,7 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Error: You must be registered as a provider to access the dashboard',
+                                        'You must be registered as a Service provider to access the dashboard',
                                         style: TextStyle(
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,

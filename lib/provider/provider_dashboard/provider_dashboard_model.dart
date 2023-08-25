@@ -30,7 +30,7 @@ class ProviderDashboardModel extends FlutterFlowModel {
 
   final unfocusNode = FocusNode();
   // Stores action output result for [Firestore Query - Query a collection] action in providerDashboard widget.
-  UsersRecord? userRefe;
+  UsersRecord? userDoc;
   // Models for rating2 dynamic component.
   late FlutterFlowDynamicModels<Rating2Model> rating2Models;
 
