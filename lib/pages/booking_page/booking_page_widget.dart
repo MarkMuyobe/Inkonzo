@@ -6,11 +6,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'booking_page_model.dart';
 export 'booking_page_model.dart';
@@ -494,11 +492,20 @@ class _BookingPageWidgetState extends State<BookingPageWidget> {
                                                       columnSkillsRecord.charge;
                                                 });
                                                 if (_model.checkboxValueMap[
-                                                    columnSkillsRecord]!) {
+                                                columnSkillsRecord]!) {
                                                   logFirebaseEvent(
                                                       'Checkbox_update_widget_state');
                                                   setState(() {
                                                     _model.addToServiceList(
+                                                        columnSkillsRecord
+                                                            .reference);
+                                                  });
+                                                }else if (!_model.checkboxValueMap[
+                                                columnSkillsRecord]!) {
+                                                  logFirebaseEvent(
+                                                      'Checkbox_update_widget_state');
+                                                  setState(() {
+                                                    _model.removeFromServiceList(
                                                         columnSkillsRecord
                                                             .reference);
                                                   });
@@ -737,6 +744,21 @@ class _BookingPageWidgetState extends State<BookingPageWidget> {
                               ],
                               initialPageName: 'providerDashboard',
                               parameterData: {},
+                            );
+                            logFirebaseEvent('Button_show_snack_bar');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Request sent. Please view the booking details on the homepage',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                )
                             );
                           } finally {
                             await firestoreBatch.commit();

@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'settings_model.dart';
 export 'settings_model.dart';
@@ -89,7 +88,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               value: _model.switchListTileValue1 ??=
                   FFAppState().notificationsAccepted,
               onChanged: (newValue) async {
-                setState(() => _model.switchListTileValue1 = newValue!);
+                setState(() => _model.switchListTileValue1 = newValue);
               },
               title: Text(
                 'Push Notifications',
@@ -113,7 +112,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               value: _model.switchListTileValue2 ??=
                   FFAppState().locationAccepted,
               onChanged: (newValue) async {
-                setState(() => _model.switchListTileValue2 = newValue!);
+                setState(() => _model.switchListTileValue2 = newValue);
               },
               title: Text(
                 'Location Services',

@@ -200,7 +200,7 @@ extension _ChatUserExtensions on UsersRecord {
       ? ChatUser(uid: reference.id)
       : ChatUser(
           uid: reference.id,
-          name: displayName!.isNotEmpty ? displayName : 'Friend',
+          name: displayName.isNotEmpty ? displayName : 'Friend',
           avatar: photoUrl,
         );
 }

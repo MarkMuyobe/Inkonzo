@@ -437,6 +437,35 @@ Stream<List<DealsRecord>> queryDealsRecord({
       limit: limit,
       singleRecord: singleRecord,
     );
+////////////////////////////////////////////////////////////////////////////////
+//Generated Code:
+Stream<List<DealsRecord>> queryDealsRecordForCurrentUser({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) {
+  // Modify the queryBuilder to include the condition for 'providerDocRef'
+  Query Function(Query)? modifiedQueryBuilder = (q) {
+    print("Current user Reference being Queried => ${currentUserDocument?.providerReference}");
+    q = q.where('providerDocRef', isEqualTo: currentUserDocument?.providerReference);
+    if (queryBuilder != null) {
+      q = queryBuilder(q);
+    }
+    return q;
+  };
+
+  return queryCollection(
+    DealsRecord.collection,
+    DealsRecord.fromSnapshot,
+    queryBuilder: modifiedQueryBuilder,
+    limit: limit,
+    singleRecord: singleRecord,
+  );
+}
+
+//End of Generated code
+////////////////////////////////////////////////////////////////////////////////
+
 
 Future<List<DealsRecord>> queryDealsRecordOnce({
   Query Function(Query)? queryBuilder,

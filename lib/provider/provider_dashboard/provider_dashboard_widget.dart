@@ -1,20 +1,16 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
-import '/components/rating2/rating2_widget.dart';
 import '/components/service_entry/service_entry_widget.dart';
-import '/components/empty_list/empty_list_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider_dashboard_model.dart';
 export 'provider_dashboard_model.dart';
@@ -347,7 +343,7 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                   width: double.infinity,
                                   decoration: BoxDecoration(),
                                   child: StreamBuilder<List<DealsRecord>>(
-                                    stream: queryDealsRecord(
+                                    stream: queryDealsRecordForCurrentUser(
                                       limit: 7,
                                     ),
                                     builder: (context, snapshot) {
@@ -369,6 +365,7 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                       }
                                       List<DealsRecord> columnDealsRecordList =
                                       snapshot.data!;
+                                      //Deals Records List
                                       return Column(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
@@ -580,60 +577,6 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                                     style: FlutterFlowTheme
                                                                         .of(context)
                                                                         .bodyMedium,
-                                                                  ),
-                                                                  Container(
-                                                                    height: 100.0,
-                                                                    decoration:
-                                                                    BoxDecoration(
-                                                                      color: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .secondaryBackground,
-                                                                    ),
-                                                                    child: Builder(
-                                                                      builder: (context) {
-                                                                        final services =
-                                                                        columnDealsRecord
-                                                                            .services
-                                                                            .toList();
-                                                                        return Column(
-                                                                          mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                          children: List.generate(
-                                                                              services
-                                                                                  .length,
-                                                                                  (servicesIndex) {
-                                                                                final servicesItem =
-                                                                                services[
-                                                                                servicesIndex];
-                                                                                return Row(
-                                                                                  mainAxisSize:
-                                                                                  MainAxisSize
-                                                                                      .max,
-                                                                                  children: [
-                                                                                    Padding(
-                                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                          8.0,
-                                                                                          8.0,
-                                                                                          8.0,
-                                                                                          0.0),
-                                                                                      child:
-                                                                                      Text(
-                                                                                        valueOrDefault<
-                                                                                            String>(
-                                                                                          servicesItem.id,
-                                                                                          'N/A',
-                                                                                        ),
-                                                                                        style:
-                                                                                        FlutterFlowTheme.of(context).titleMedium,
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                );
-                                                                              }),
-                                                                        );
-                                                                      },
-                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1617,7 +1560,7 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                     image: DecorationImage(
                                                       fit: BoxFit.cover,
                                                       image: Image.network(
-                                                        '',
+                                                        'https://picsum.photos/seed/236/600',
                                                       ).image,
                                                     ),
                                                     gradient: LinearGradient(
@@ -1771,8 +1714,10 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                                 DecorationImage(
                                                                   fit: BoxFit.cover,
                                                                   image:
+                                                                  //Make This Image return the Stored Image...
+                                                                  // or this one as the default
                                                                   Image.network(
-                                                                    'https://picsum.photos/seed/226/600',
+                                                                    aboutPreviousJobsAboutSectionRecord.image
                                                                   ).image,
                                                                 ),
                                                                 borderRadius:
@@ -1996,7 +1941,7 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                                                 .header
                                                                                 .maybeHandleOverflow(
                                                                               maxChars:
-                                                                              12,
+                                                                              18,
                                                                               replacement:
                                                                               '…',
                                                                             ),
@@ -2093,10 +2038,6 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                           constraints: BoxConstraints(
                             maxWidth: 500.0,
                           ),
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -2183,123 +2124,129 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                   ),
                                 ),
                               ),
-                              StreamBuilder<List<SkillsRecord>>(
-                                stream: querySkillsRecord(
-                                  parent:
-                                  providerDashboardProviderDocumentsRecord
-                                      .reference,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                          AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0.0),
+                                child: StreamBuilder<List<SkillsRecord>>(
+                                  stream: querySkillsRecord(
+                                    parent:
+                                    providerDashboardProviderDocumentsRecord
+                                        .reference,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }
-                                  List<SkillsRecord> servicesSkillsRecordList =
-                                  snapshot.data!;
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: List.generate(
-                                        servicesSkillsRecordList.length,
-                                            (servicesIndex) {
-                                          final servicesSkillsRecord =
-                                          servicesSkillsRecordList[
-                                          servicesIndex];
-                                          return Material(
-                                            color: Colors.transparent,
-                                            elevation: 2.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(8.0),
-                                            ),
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                color: FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                                borderRadius:
-                                                BorderRadius.circular(8.0),
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                      MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                              8.0,
-                                                              8.0,
-                                                              8.0,
-                                                              8.0),
-                                                          child: Text(
-                                                            servicesSkillsRecord
-                                                                .skill,
-                                                            style:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .bodyMedium,
-                                                          ),
+                                      );
+                                    }
+                                    List<SkillsRecord> servicesSkillsRecordList =
+                                    snapshot.data!;
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(
+                                          servicesSkillsRecordList.length,
+                                              (servicesIndex) {
+                                            final servicesSkillsRecord =
+                                            servicesSkillsRecordList[
+                                            servicesIndex];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(top:4.0),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                elevation: 2.0,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                                ),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                          MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                  8.0,
+                                                                  8.0,
+                                                                  8.0,
+                                                                  8.0),
+                                                              child: Text(
+                                                                servicesSkillsRecord
+                                                                    .skill,
+                                                                style:
+                                                                FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .bodyMedium,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'K${servicesSkillsRecord.charge.toString()}',
+                                                              style:
+                                                              FlutterFlowTheme.of(
+                                                                  context)
+                                                                  .bodyMedium,
+                                                            ),
+                                                          ],
                                                         ),
-                                                        Text(
-                                                          'K${servicesSkillsRecord.charge.toString()}',
-                                                          style:
-                                                          FlutterFlowTheme.of(
+                                                      ),
+                                                      FlutterFlowIconButton(
+                                                        borderColor: Colors.transparent,
+                                                        borderRadius: 30.0,
+                                                        borderWidth: 1.0,
+                                                        buttonSize: 60.0,
+                                                        icon: Icon(
+                                                          Icons.clear,
+                                                          color: FlutterFlowTheme.of(
                                                               context)
-                                                              .bodyMedium,
+                                                              .primaryText,
+                                                          size: 30.0,
                                                         ),
-                                                      ],
-                                                    ),
+                                                        onPressed: () async {
+                                                          logFirebaseEvent(
+                                                              'PROVIDER_DASHBOARD_PAGE_clear_ICN_ON_TAP');
+                                                          logFirebaseEvent(
+                                                              'IconButton_backend_call');
+                                                          await servicesSkillsRecord
+                                                              .reference
+                                                              .delete();
+                                                        },
+                                                      ),
+                                                    ],
                                                   ),
-                                                  FlutterFlowIconButton(
-                                                    borderColor: Colors.transparent,
-                                                    borderRadius: 30.0,
-                                                    borderWidth: 1.0,
-                                                    buttonSize: 60.0,
-                                                    icon: Icon(
-                                                      Icons.clear,
-                                                      color: FlutterFlowTheme.of(
-                                                          context)
-                                                          .primaryText,
-                                                      size: 30.0,
-                                                    ),
-                                                    onPressed: () async {
-                                                      logFirebaseEvent(
-                                                          'PROVIDER_DASHBOARD_PAGE_clear_ICN_ON_TAP');
-                                                      logFirebaseEvent(
-                                                          'IconButton_backend_call');
-                                                      await servicesSkillsRecord
-                                                          .reference
-                                                          .delete();
-                                                    },
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        }),
-                                  );
-                                },
+                                            );
+                                          }),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),

@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'service_tracking_list_model.dart';
 export 'service_tracking_list_model.dart';
@@ -110,7 +109,7 @@ class _ServiceTrackingListWidgetState extends State<ServiceTrackingListWidget> {
                 builder: (context) => Builder(
                   builder: (context) {
                     final deals =
-                        (currentUserDocument?.deals?.toList() ?? []).toList();
+                        (currentUserDocument?.deals.toList() ?? []).toList();
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,

@@ -10,7 +10,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/permissions_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_landing_model.dart';
 export 'home_page_landing_model.dart';
@@ -1068,7 +1067,7 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                                 builder: (context) => Builder(
                                   builder: (context) {
                                     final recentDeals =
-                                        (currentUserDocument?.deals?.toList() ??
+                                        (currentUserDocument?.deals.toList() ??
                                                 [])
                                             .toList()
                                             .take(7)

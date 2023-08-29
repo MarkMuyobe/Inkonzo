@@ -1,20 +1,9 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
 import '/components/availability_false/availability_false_widget.dart';
 import '/components/availability_true/availability_true_widget.dart';
-import '/components/provider_review/provider_review_widget.dart';
 import '/components/rating2/rating2_widget.dart';
-import '/components/request_drop/request_drop_widget.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class ProviderDetailModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.

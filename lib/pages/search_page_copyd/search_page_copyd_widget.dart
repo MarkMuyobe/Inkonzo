@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'search_page_copyd_model.dart';
 export 'search_page_copyd_model.dart';
@@ -1067,7 +1066,7 @@ class _SearchPageCopydWidgetState extends State<SearchPageCopydWidget> {
                           final available = _model.algoliaSearchResults
                                   ?.where((e) => e.availability)
                                   .toList()
-                                  ?.toList() ??
+                                  .toList() ??
                               [];
                           return SingleChildScrollView(
                             child: Column(

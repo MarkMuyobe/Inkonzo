@@ -24,9 +24,9 @@ class FFChatInfo {
     if (groupMembers == null) {
       return '';
     }
-    final numOthers = chatRecord.users!.length - otherUsersList.length - 1;
+    final numOthers = chatRecord.users.length - otherUsersList.length - 1;
     return otherUsersList.map((m) {
-          if (m.displayName!.isNotEmpty) {
+          if (m.displayName.isNotEmpty) {
             return m.displayName;
           }
           return 'Friend';
@@ -40,10 +40,10 @@ class FFChatInfo {
     final userSentLastMessage =
         chatRecord.lastMessageSentBy == currentUserReference;
     var lastChatText = chatRecord.lastMessage;
-    if (userSentLastMessage && lastChatText!.isNotEmpty) {
+    if (userSentLastMessage && lastChatText.isNotEmpty) {
       lastChatText = 'You: $lastChatText';
     }
-    return lastChatText!;
+    return lastChatText;
   }
 
   String chatPreviewPic() {
@@ -58,7 +58,7 @@ class FFChatInfo {
             (m) => m.reference == chatRecord.lastMessageSentBy,
             orElse: () => otherUsersList.first,
           );
-    return chatUser.photoUrl!;
+    return chatUser.photoUrl;
   }
 }
 
@@ -103,7 +103,7 @@ class FFChatManager {
 
   DocumentReference getChatUserRef(ChatsRecord chat) {
     final userRef =
-        chat.users!.firstWhere((d) => d.path != currentUserReference?.path);
+        chat.users.firstWhere((d) => d.path != currentUserReference?.path);
     _userChats[userRef.id] = chat.reference;
     return userRef;
   }
@@ -129,7 +129,7 @@ class FFChatManager {
             )
             .switchMap(ChatsRecord.getDocument);
     return chatStream.asyncMap((chat) async {
-      var userRefs = chat.users!.toSet();
+      var userRefs = chat.users.toSet();
       if (chatRecord != null) {
         // If from chat preview widget, don't bother querying all chat users
         // as this could be computationally expensive. Instead, take at most
@@ -219,7 +219,7 @@ class FFChatManager {
     if (chat == null) {
       return null;
     }
-    final newUsers = {...chat.users!, ...users}.toList();
+    final newUsers = {...chat.users, ...users}.toList();
     // Cannot add users to a 1:1 chat.
     if (chat.userA != null || chat.userB != null || users.isEmpty) {
       return chat;
@@ -233,7 +233,7 @@ class FFChatManager {
 
   Future<ChatsRecord> removeGroupMembers(
       ChatsRecord chat, List<DocumentReference> users) async {
-    final newUsers = (chat.users!.toSet()..removeAll(users)).toList();
+    final newUsers = (chat.users.toSet()..removeAll(users)).toList();
     // Can't reduce group chat to fewer than 3 members.
     if (newUsers.length < 3) {
       return chat;

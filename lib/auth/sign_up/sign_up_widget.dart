@@ -8,7 +8,6 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_model.dart';
 export 'sign_up_model.dart';
@@ -539,24 +538,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             child: FFButtonWidget(
                               onPressed: (_model.fullNamesFieldController
                                                   .text ==
-                                              null ||
-                                          _model.fullNamesFieldController
-                                                  .text ==
                                               '') ||
                                       (_model.emailFieldController.text ==
-                                              null ||
-                                          _model.emailFieldController.text ==
                                               '') ||
                                       (_model.phoneNumberController.text ==
-                                              null ||
-                                          _model.phoneNumberController.text ==
                                               '') ||
-                                      (_model.passwordController.text == null ||
-                                          _model.passwordController.text ==
+                                      (_model.passwordController.text ==
                                               '') ||
-                                      (_model.confirmPasswordController.text ==
-                                              null ||
-                                          _model.confirmPasswordController
+                                      (_model.confirmPasswordController
                                                   .text ==
                                               '') ||
                                       (_model.passwordController.text !=

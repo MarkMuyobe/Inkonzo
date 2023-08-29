@@ -6,12 +6,9 @@ import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/place.dart';
 import '/flutter_flow/upload_data.dart';
-import 'dart:io';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider_register_model.dart';
 export 'provider_register_model.dart';
@@ -637,21 +634,15 @@ class _ProviderRegisterWidgetState extends State<ProviderRegisterWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
                         child: FFButtonWidget(
-                          onPressed: (_model.nameController.text == null ||
-                                      _model.nameController.text == '') ||
-                                  (_model.descriptionController.text == null ||
-                                      _model.descriptionController.text ==
+                          onPressed: (_model.nameController.text == '') ||
+                                  (_model.descriptionController.text ==
                                           '') ||
                                   (_model.placePickerValue == null) ||
-                                  (_model.yearsWorkedController.text == null ||
-                                      _model.yearsWorkedController.text ==
+                                  (_model.yearsWorkedController.text ==
                                           '') ||
-                                  (_model.idController.text == null ||
-                                      _model.idController.text == '') ||
-                                  (_model.uploadedFileUrl2 == null ||
-                                      _model.uploadedFileUrl2 == '') ||
-                                  (_model.uploadedFileUrl1 == null ||
-                                      _model.uploadedFileUrl1 == '')
+                                  (_model.idController.text == '') ||
+                                  (_model.uploadedFileUrl2 == '') ||
+                                  (_model.uploadedFileUrl1 == '')
                               ? null
                               : () async {
                                   logFirebaseEvent(

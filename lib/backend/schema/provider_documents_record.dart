@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:from_css_color/from_css_color.dart';
-import 'package:inkonzo/auth/firebase_auth/auth_util.dart';
 import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
@@ -9,7 +7,6 @@ import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 
 class ProviderDocumentsRecord extends FirestoreRecord {
   ProviderDocumentsRecord._(

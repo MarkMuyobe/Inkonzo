@@ -10,10 +10,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider_detail_model.dart';
 export 'provider_detail_model.dart';
@@ -601,7 +599,7 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
 
                                       // This Button Show only be on this page during testing.  SInce provision for reviews is restricted to their actual customers
                                       if ((currentUserDocument?.reviewPending
-                                                      ?.toList() ??
+                                                      .toList() ??
                                                   [])
                                               .contains(widget.userRef) ==
                                           true)
