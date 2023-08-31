@@ -466,6 +466,41 @@ Stream<List<DealsRecord>> queryDealsRecordForCurrentUser({
 //End of Generated code
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+//More generated code
+//Query Collection with filter (e.g. Services List)
+//
+Future<List<T>> queryCollectionWithFilter<T>(
+    Query collection,
+    RecordBuilder<T> recordBuilder,
+    List<DocumentReference> filterReferences, {
+      Query Function(Query)? queryBuilder,
+      int limit = -1,
+      bool singleRecord = false,
+    }) {
+  final builder = queryBuilder ?? (q) => q;
+  var query = builder(collection);
+
+  // Apply the filter to include only documents with references found in filterReferences
+  query = query.where('referenceField', whereIn: filterReferences);
+
+  if (limit > 0 || singleRecord) {
+    query = query.limit(singleRecord ? 1 : limit);
+  }
+
+  return query.get().then((s) => s.docs
+      .map(
+        (d) => safeGet(
+          () => recordBuilder(d),
+          (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
+    ),
+  )
+      .where((d) => d != null)
+      .map((d) => d!)
+      .toList());
+}
+//End of Gen code
+////////////////////////////////////////////////////////////////////////////////
 
 Future<List<DealsRecord>> queryDealsRecordOnce({
   Query Function(Query)? queryBuilder,
@@ -514,7 +549,6 @@ Stream<List<T>> queryCollection<T>(
       .map(
         (d) => safeGet(
           () {
-            print('Method in SafeGet');
             return recordBuilder(d);
           },
           (e) => print('Error serializing doc == ${d.reference.path}:\n$e'),

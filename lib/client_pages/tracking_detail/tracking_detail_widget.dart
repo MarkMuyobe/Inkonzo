@@ -40,11 +40,12 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
       if ((currentUserDocument?.reviewPending.toList() ?? [])
               .contains(widget.dealDoc?.providerRef) ==
           false) {
+        print("Current user's list of pending reviews => ${currentUserDocument?.reviewPending.toList()}");
         logFirebaseEvent('trackingDetail_bottom_sheet');
         await showModalBottomSheet(
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          enableDrag: false,
+          enableDrag: true,
           context: context,
           builder: (context) {
             return GestureDetector(
@@ -52,8 +53,10 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
                   FocusScope.of(context).requestFocus(_model.unfocusNode),
               child: Padding(
                 padding: MediaQuery.viewInsetsOf(context),
-                child: ProviderReviewWidget(
-                  provRef: widget.dealDoc!.providerDocRef!,
+                child: SingleChildScrollView(
+                  child: ProviderReviewWidget(
+                    provRef: widget.dealDoc!.providerDocRef!,
+                  ),
                 ),
               ),
             );
@@ -128,16 +131,32 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            widget.dealDoc?.providerName,
-                            'N/A',
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                            child: Text(
+                              valueOrDefault<String>(
+                                widget.dealDoc?.providerName,
+                                'N/A',
+                              ),
+                              style: FlutterFlowTheme.of(context).headlineMedium,
+                            ),
                           ),
-                          style: FlutterFlowTheme.of(context).headlineMedium,
-                        ),
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                            child: Text(
+                              'Status: ${valueOrDefault<String>(
+                                widget.dealDoc?.status,
+                                'N/A',
+                              )}',
+                              style: FlutterFlowTheme.of(context).bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding:
@@ -272,8 +291,18 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: List.generate(skills.length, (skillsIndex) {
                             final skillsItem = skills[skillsIndex];
-                            print('SkillsItem => $skillsItem');
-                            return Row(
+                            return FutureBuilder(
+                              future: SkillsRecord.getDocumentOnce(skillsItem),
+                              builder:(context, snapshot) {
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return CircularProgressIndicator();
+                                }else if(snapshot.hasError){
+                                  return Center(
+                                    child: Text('Error collecting list of services!',
+                                        style: FlutterFlowTheme.of(context).bodyLarge),
+                                  );
+                                }else{
+                                return Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -281,23 +310,51 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       8.0, 8.0, 8.0, 8.0),
                                   child: Text(
-                                    skillsItem.toString(),
+                                    snapshot.data!.skill,
                                     style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
+                                    FlutterFlowTheme
+                                        .of(context)
+                                        .bodyMedium,
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    snapshot.data!.charge.toString(),
+                                    style: FlutterFlowTheme
+                                    .of(context).bodyMedium,
                                   ),
                                 ),
                               ],
+                            );
+                                }
+                              }
                             );
                           }),
                         );
                       },
                     ),
                   ),
-                  Container(
-                    height: 100.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding:
+                        EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                        child: Text(
+                          'Total',
+                          style: FlutterFlowTheme.of(context).titleLarge,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                        EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                        child: Text(
+                          'K ${widget.dealDoc?.amount.toStringAsFixed(2)}',
+                          style: FlutterFlowTheme.of(context).titleLarge,
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
