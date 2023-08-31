@@ -694,226 +694,230 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
                                       ),
-                                      child: StreamBuilder<
-                                          List<AboutSectionRecord>>(
-                                        stream: queryAboutSectionRecord(
-                                          parent: widget.userRef,
-                                        ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50.0,
-                                                height: 50.0,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          List<AboutSectionRecord>
-                                              aboutPreviousJobsAboutSectionRecordList =
-                                              snapshot.data!;
-                                          return Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: List.generate(
-                                                aboutPreviousJobsAboutSectionRecordList
-                                                    .length,
-                                                (aboutPreviousJobsIndex) {
-                                              final aboutPreviousJobsAboutSectionRecord =
-                                                  aboutPreviousJobsAboutSectionRecordList[
-                                                      aboutPreviousJobsIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 8.0, 8.0, 8.0),
-                                                child: InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    logFirebaseEvent(
-                                                        'PROVIDER_DETAIL_PAGE_aboutCard_ON_TAP');
-                                                    logFirebaseEvent(
-                                                        'aboutCard_navigate_to');
-
-                                                    context.pushNamed(
-                                                      'readDetail',
-                                                      queryParameters: {
-                                                        'provDoc':
-                                                            serializeParam(
-                                                          aboutPreviousJobsAboutSectionRecord,
-                                                          ParamType.Document,
-                                                        ),
-                                                      }.withoutNulls,
-                                                      extra: <String, dynamic>{
-                                                        'provDoc':
-                                                            aboutPreviousJobsAboutSectionRecord,
-                                                      },
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    width: 250.0,
-                                                    height: 250.0,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: Image.network(
-                                                          'https://picsum.photos/seed/226/600',
-                                                        ).image,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              24.0),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          width: 250.0,
-                                                          height: 100.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Color(
-                                                                0x4A212324),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              bottomLeft: Radius
-                                                                  .circular(
-                                                                      24.0),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          24.0),
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      0.0),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      0.0),
-                                                            ),
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            8.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Text(
-                                                                  aboutPreviousJobsAboutSectionRecord
-                                                                      .header
-                                                                      .maybeHandleOverflow(
-                                                                    maxChars:
-                                                                        12,
-                                                                    replacement:
-                                                                        '…',
-                                                                  ),
-                                                                  maxLines: 1,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Poppins',
-                                                                        color: Color(
-                                                                            0xFFE9E9E9),
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                child:
-                                                                    Container(
-                                                                  width: 234.0,
-                                                                  height: 30.0,
-                                                                  decoration:
-                                                                      BoxDecoration(),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            8.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      aboutPreviousJobsAboutSectionRecord
-                                                                          .body,
-                                                                      maxLines:
-                                                                          2,
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Poppins',
-                                                                            color:
-                                                                                Color(0xFFE9E9E9),
-                                                                            fontSize:
-                                                                                14.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            lineHeight:
-                                                                                1.0,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: StreamBuilder<
+                                            List<AboutSectionRecord>>(
+                                          stream: queryAboutSectionRecord(
+                                            parent: widget.userRef,
+                                          ),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(context)
+                                                          .primary,
                                                     ),
                                                   ),
                                                 ),
                                               );
-                                            }),
-                                          );
-                                        },
+                                            }
+                                            List<AboutSectionRecord>
+                                                aboutPreviousJobsAboutSectionRecordList =
+                                                snapshot.data!;
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: List.generate(
+                                                  aboutPreviousJobsAboutSectionRecordList
+                                                      .length,
+                                                  (aboutPreviousJobsIndex) {
+                                                final aboutPreviousJobsAboutSectionRecord =
+                                                    aboutPreviousJobsAboutSectionRecordList[
+                                                        aboutPreviousJobsIndex];
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 8.0, 8.0),
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      logFirebaseEvent(
+                                                          'PROVIDER_DETAIL_PAGE_aboutCard_ON_TAP');
+                                                      logFirebaseEvent(
+                                                          'aboutCard_navigate_to');
+
+                                                      context.pushNamed(
+                                                        'readDetail',
+                                                        queryParameters: {
+                                                          'provDoc':
+                                                              serializeParam(
+                                                            aboutPreviousJobsAboutSectionRecord,
+                                                            ParamType.Document,
+                                                          ),
+                                                        }.withoutNulls,
+                                                        extra: <String, dynamic>{
+                                                          'provDoc':
+                                                              aboutPreviousJobsAboutSectionRecord,
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 250.0,
+                                                      height: 250.0,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: Image.network(valueOrDefault(
+                                                              aboutPreviousJobsAboutSectionRecord.image,
+                                                              'https://picsum.photos/seed/226/600'),
+                                                          ).image,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                24.0),
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.end,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            width: 250.0,
+                                                            height: 100.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0x4A212324),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24.0),
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            24.0),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        0.0),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        0.0),
+                                                              ),
+                                                            ),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              8.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                  child: Text(
+                                                                    aboutPreviousJobsAboutSectionRecord
+                                                                        .header
+                                                                        .maybeHandleOverflow(
+                                                                      maxChars:
+                                                                          12,
+                                                                      replacement:
+                                                                          '…',
+                                                                    ),
+                                                                    maxLines: 1,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          color: Color(
+                                                                              0xFFE9E9E9),
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              8.0),
+                                                                  child:
+                                                                      Container(
+                                                                    width: 234.0,
+                                                                    height: 30.0,
+                                                                    decoration:
+                                                                        BoxDecoration(),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              8.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                      child: Text(
+                                                                        aboutPreviousJobsAboutSectionRecord
+                                                                            .body,
+                                                                        maxLines:
+                                                                            2,
+                                                                        style: FlutterFlowTheme.of(
+                                                                                context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily:
+                                                                                  'Poppins',
+                                                                              color:
+                                                                                  Color(0xFFE9E9E9),
+                                                                              fontSize:
+                                                                                  14.0,
+                                                                              fontWeight:
+                                                                                  FontWeight.w500,
+                                                                              lineHeight:
+                                                                                  1.0,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1055,65 +1059,69 @@ class _ProviderDetailWidgetState extends State<ProviderDetailWidget> {
                                                                             8.0,
                                                                             8.0,
                                                                             0.0),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      columnClientReviewRecord
-                                                                          .clientName,
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          20.0,
-                                                                      child:
-                                                                          VerticalDivider(
-                                                                        thickness:
-                                                                            2.0,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .secondaryText,
-                                                                      ),
-                                                                    ),
-                                                                    wrapWithModel(
-                                                                      model: _model
-                                                                          .rating2Models
-                                                                          .getModel(
+                                                                child: SingleChildScrollView(
+                                                                  physics: BouncingScrollPhysics(),
+                                                                  scrollDirection: Axis.horizontal,
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
                                                                         columnClientReviewRecord
-                                                                            .rating
-                                                                            .toString(),
-                                                                        columnIndex,
+                                                                            .clientName,
+                                                                        style: FlutterFlowTheme.of(
+                                                                                context)
+                                                                            .bodyMedium,
                                                                       ),
-                                                                      updateCallback:
-                                                                          () =>
-                                                                              setState(() {}),
-                                                                      child:
-                                                                          Rating2Widget(
-                                                                        key:
-                                                                            Key(
-                                                                          'Key147_${columnClientReviewRecord.rating.toString()}',
+                                                                      SizedBox(
+                                                                        height:
+                                                                            20.0,
+                                                                        child:
+                                                                            VerticalDivider(
+                                                                          thickness:
+                                                                              2.0,
+                                                                          color: FlutterFlowTheme.of(context)
+                                                                              .secondaryText,
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Text(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        columnClientReviewRecord
-                                                                            .rating
-                                                                            .toString(),
-                                                                        '3',
+                                                                      wrapWithModel(
+                                                                        model: _model
+                                                                            .rating2Models
+                                                                            .getModel(
+                                                                          columnClientReviewRecord
+                                                                              .rating
+                                                                              .toString(),
+                                                                          columnIndex,
+                                                                        ),
+                                                                        updateCallback:
+                                                                            () =>
+                                                                                setState(() {}),
+                                                                        child:
+                                                                            Rating2Widget(
+                                                                          key:
+                                                                              Key(
+                                                                            'Key147_${columnClientReviewRecord.rating.toString()}',
+                                                                          ),
+                                                                        ),
                                                                       ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium,
-                                                                    ),
-                                                                  ],
+                                                                      Text(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          columnClientReviewRecord
+                                                                              .rating
+                                                                              .toString(),
+                                                                          '3',
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(
+                                                                                context)
+                                                                            .bodyMedium,
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                               Container(
