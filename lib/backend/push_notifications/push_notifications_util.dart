@@ -63,7 +63,16 @@ void printFcmToken() async {
   String? fcmToken = await messaging.getToken();
   print('FCM Token: $fcmToken');
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Title: ${message.notification?.title}');
+    print('Body: ${message.notification?.body}');
+    print('Payload: ${message.data}');
 
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
 }
 
 void triggerPushNotification({

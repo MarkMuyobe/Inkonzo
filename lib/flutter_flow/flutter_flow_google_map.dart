@@ -96,6 +96,25 @@ class _FlutterFlowGoogleMapState extends State<FlutterFlowGoogleMap> {
     _controller = widget.controller;
   }
 
+  LatLngBounds calculateBounds() {
+    double minLat = double.infinity;
+    double maxLat = -double.infinity;
+    double minLng = double.infinity;
+    double maxLng = -double.infinity;
+
+    for (var marker in widget.markers) {
+      minLat = min(minLat, marker.location.latitude);
+      maxLat = max(maxLat, marker.location.latitude);
+      minLng = min(minLng, marker.location.longitude);
+      maxLng = max(maxLng, marker.location.longitude);
+    }
+
+    return LatLngBounds(
+      northeast: LatLng(maxLat, maxLng),
+      southwest: LatLng(minLat, minLng),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => AbsorbPointer(
         absorbing: !widget.allowInteraction,
@@ -103,6 +122,10 @@ class _FlutterFlowGoogleMapState extends State<FlutterFlowGoogleMap> {
           onMapCreated: (controller) async {
             _controller.complete(controller);
             await controller.setMapStyle(googleMapStyleStrings[widget.style]);
+            // Calculate bounds and adjust camera position
+            final bounds = calculateBounds();
+            final cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 50.0);
+            await controller.animateCamera(cameraUpdate);
           },
           onCameraIdle: onCameraIdle,
           onCameraMove: (position) => currentMapCenter = position.target,
@@ -149,6 +172,7 @@ extension ToGoogleMapsLatLng on latlng.LatLng {
 extension GoogleMapsToLatLng on LatLng {
   latlng.LatLng toLatLng() => latlng.LatLng(latitude, longitude);
 }
+
 
 Map<GoogleMapStyle, String> googleMapStyleStrings = {
   GoogleMapStyle.standard: '[]',

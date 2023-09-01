@@ -397,215 +397,218 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                         CrossAxisAlignment.start,
                                                         children: [
                                                           //Engagement Status Here: [Requested,Active,Cancelled,Completed]
-                                                          Row(
-                                                            mainAxisSize:
-                                                            MainAxisSize.max,
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                            children: [
-                                                              Column(
-                                                                mainAxisSize:
-                                                                MainAxisSize.max,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                                children: [
-                                                                  Row(
+                                                          SingleChildScrollView(
+                                                            scrollDirection: Axis.horizontal,
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                              MainAxisSize.max,
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.start,
+                                                              children: [
+                                                                Column(
                                                                     mainAxisSize:
                                                                     MainAxisSize.max,
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
                                                                     children: [
-                                                                      Column(
+                                                                      Row(
                                                                         mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
+                                                                        MainAxisSize.max,
                                                                         children: [
-                                                                          if (columnDealsRecord
-                                                                              .status ==
-                                                                              'Requested')
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional
-                                                                                  .fromSTEB(
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0),
-                                                                              child: Text(
-                                                                                'Request',
-                                                                                style: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                    .bodyLarge
-                                                                                    .override(
-                                                                                  fontFamily:
-                                                                                  'Poppins',
-                                                                                  color:
-                                                                                  FlutterFlowTheme.of(context).info,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
+                                                                          Column(
+                                                                            mainAxisSize:
+                                                                            MainAxisSize
+                                                                                .max,
+                                                                            children: [
+                                                                              if (columnDealsRecord
+                                                                                  .status ==
+                                                                                  'Requested')
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional
+                                                                                      .fromSTEB(
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0),
+                                                                                  child: Text(
+                                                                                    'Request',
+                                                                                    style: FlutterFlowTheme.of(
+                                                                                        context)
+                                                                                        .bodyLarge
+                                                                                        .override(
+                                                                                      fontFamily:
+                                                                                      'Poppins',
+                                                                                      color:
+                                                                                      FlutterFlowTheme.of(context).info,
+                                                                                      fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          if (columnDealsRecord
-                                                                              .status ==
-                                                                              'Active')
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional
-                                                                                  .fromSTEB(
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0),
-                                                                              child: Text(
-                                                                                'Active',
-                                                                                style: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                    .bodyLarge
-                                                                                    .override(
-                                                                                  fontFamily:
-                                                                                  'Poppins',
-                                                                                  color:
-                                                                                  FlutterFlowTheme.of(context).success,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
+                                                                              if (columnDealsRecord
+                                                                                  .status ==
+                                                                                  'Active')
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional
+                                                                                      .fromSTEB(
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0),
+                                                                                  child: Text(
+                                                                                    'Active',
+                                                                                    style: FlutterFlowTheme.of(
+                                                                                        context)
+                                                                                        .bodyLarge
+                                                                                        .override(
+                                                                                      fontFamily:
+                                                                                      'Poppins',
+                                                                                      color:
+                                                                                      FlutterFlowTheme.of(context).success,
+                                                                                      fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          if (columnDealsRecord
-                                                                              .status ==
-                                                                              'Cancelled')
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional
-                                                                                  .fromSTEB(
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0),
-                                                                              child: Text(
-                                                                                'Canceled',
-                                                                                style: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                    .bodyLarge
-                                                                                    .override(
-                                                                                  fontFamily:
-                                                                                  'Poppins',
-                                                                                  color:
-                                                                                  FlutterFlowTheme.of(context).error,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
+                                                                              if (columnDealsRecord
+                                                                                  .status ==
+                                                                                  'Cancelled')
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional
+                                                                                      .fromSTEB(
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0),
+                                                                                  child: Text(
+                                                                                    'Canceled',
+                                                                                    style: FlutterFlowTheme.of(
+                                                                                        context)
+                                                                                        .bodyLarge
+                                                                                        .override(
+                                                                                      fontFamily:
+                                                                                      'Poppins',
+                                                                                      color:
+                                                                                      FlutterFlowTheme.of(context).error,
+                                                                                      fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          if (columnDealsRecord
-                                                                              .status ==
-                                                                              'Complete')
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional
-                                                                                  .fromSTEB(
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0,
-                                                                                  8.0),
-                                                                              child: Text(
-                                                                                'Complete',
-                                                                                style: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                    .bodyLarge
-                                                                                    .override(
-                                                                                  fontFamily:
-                                                                                  'Poppins',
-                                                                                  color:
-                                                                                  FlutterFlowTheme.of(context).warning,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
+                                                                              if (columnDealsRecord
+                                                                                  .status ==
+                                                                                  'Complete')
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional
+                                                                                      .fromSTEB(
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0,
+                                                                                      8.0),
+                                                                                  child: Text(
+                                                                                    'Complete',
+                                                                                    style: FlutterFlowTheme.of(
+                                                                                        context)
+                                                                                        .bodyLarge
+                                                                                        .override(
+                                                                                      fontFamily:
+                                                                                      'Poppins',
+                                                                                      color:
+                                                                                      FlutterFlowTheme.of(context).warning,
+                                                                                      fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                            ),
+                                                                            ],
+                                                                          ),
                                                                         ],
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                  Row(
-                                                                    mainAxisSize:
-                                                                    MainAxisSize.min,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                        EdgeInsetsDirectional
-                                                                            .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            24.0,
-                                                                            0.0),
-                                                                        child: Text(
-                                                                          columnDealsRecord
-                                                                              .clientName,
-                                                                          style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                              .titleLarge,
-                                                                        ),
-                                                                      ),
+                                                                      Row(
+                                                                        mainAxisSize:
+                                                                        MainAxisSize.min,
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                            EdgeInsetsDirectional
+                                                                                .fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                24.0,
+                                                                                0.0),
+                                                                            child: Text(
+                                                                              columnDealsRecord
+                                                                                  .clientName,
+                                                                              style: FlutterFlowTheme.of(
+                                                                                  context)
+                                                                                  .titleLarge,
+                                                                            ),
+                                                                          ),
 
-                                                                    ],
-                                                                  ),
-                                                                  Row(
-                                                                    mainAxisSize:
-                                                                    MainAxisSize.min,
-                                                                    children: [
+                                                                        ],
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisSize:
+                                                                        MainAxisSize.min,
+                                                                        children: [
+                                                                          Text(
+                                                                            'K${columnDealsRecord.amount.toStringAsFixed(2)}',
+                                                                            style: FlutterFlowTheme
+                                                                                .of(context)
+                                                                                .titleLarge,
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                       Text(
-                                                                        'K${columnDealsRecord.amount.toString()}',
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          dateTimeFormat(
+                                                                            'M/d H:mm',
+                                                                            columnDealsRecord
+                                                                                .dateCreated,
+                                                                            locale: FFLocalizations
+                                                                                .of(context)
+                                                                                .languageCode,
+                                                                          ),
+                                                                          '6/19 15:57',
+                                                                        ),
                                                                         style: FlutterFlowTheme
                                                                             .of(context)
-                                                                            .titleLarge,
+                                                                            .bodyMedium,
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  Text(
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                      dateTimeFormat(
-                                                                        'M/d H:mm',
-                                                                        columnDealsRecord
-                                                                            .dateCreated,
-                                                                        locale: FFLocalizations
-                                                                            .of(context)
-                                                                            .languageCode,
-                                                                      ),
-                                                                      '6/19 15:57',
+                                                                Padding(
+                                                                  padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0),
+                                                                  child: Container(
+                                                                    width: 60.0,
+                                                                    height: 60.0,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
                                                                     ),
-                                                                    style: FlutterFlowTheme
-                                                                        .of(context)
-                                                                        .bodyMedium,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0),
-                                                                child: Container(
-                                                                  width: 60.0,
-                                                                  height: 60.0,
-                                                                  clipBehavior:
-                                                                  Clip.antiAlias,
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    shape:
-                                                                    BoxShape.circle,
-                                                                  ),
-                                                                  child: Image.network(
-                                                                    columnDealsRecord
-                                                                        .clientImage,
-                                                                    fit: BoxFit.cover,
+                                                                    child: Image.network(
+                                                                      columnDealsRecord
+                                                                          .clientImage,
+                                                                      fit: BoxFit.cover,
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                           if (columnDealsRecord.status ==
                                                               'Active')
@@ -614,354 +617,367 @@ class _ProviderDashboardWidgetState extends State<ProviderDashboardWidget> {
                                                               EdgeInsetsDirectional
                                                                   .fromSTEB(0.0, 8.0,
                                                                   0.0, 8.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                MainAxisSize.max,
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
+                                                              child: Column(
                                                                 children: [
-                                                                  FFButtonWidget(
-                                                                    onPressed: () async {
-                                                                      logFirebaseEvent(
-                                                                          'PROVIDER_DASHBOARD_MESSAGE_BTN_ON_TAP');
-                                                                      logFirebaseEvent(
-                                                                          'Button_navigate_to');
-
-                                                                      context.pushNamed(
-                                                                        'chat_page',
-                                                                        queryParameters: {
-                                                                          'chatUser':
-                                                                          serializeParam(
-                                                                            _model
-                                                                                .userDoc,
-                                                                            ParamType
-                                                                                .Document,
-                                                                          ),
-                                                                          'chatRef':
-                                                                          serializeParam(
-                                                                            columnDealsRecord
-                                                                                .chatRef,
-                                                                            ParamType
-                                                                                .DocumentReference,
-                                                                          ),
-                                                                        }.withoutNulls,
-                                                                        extra: <String,
-                                                                            dynamic>{
-                                                                          'chatUser': _model
-                                                                              .userDoc,
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                    text: 'Message',
-                                                                    options:
-                                                                    FFButtonOptions(
-                                                                      width: 130.0,
-                                                                      height: 40.0,
-                                                                      padding:
-                                                                      EdgeInsetsDirectional
-                                                                          .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      iconPadding:
-                                                                      EdgeInsetsDirectional
-                                                                          .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      color: Colors.white,
-                                                                      textStyle:
-                                                                      FlutterFlowTheme.of(
-                                                                          context)
-                                                                          .titleSmall
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Poppins',
-                                                                        color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                            .primary,
-                                                                      ),
-                                                                      elevation: 3.0,
-                                                                      borderSide:
-                                                                      BorderSide(
-                                                                        color: Colors
-                                                                            .transparent,
-                                                                        width: 1.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          8.0),
-                                                                    ),
-                                                                  ),
-                                                                  FFButtonWidget(
-                                                                    onPressed: () async {
-                                                                      logFirebaseEvent(
-                                                                          'PROVIDER_DASHBOARD_COMPLETED_BTN_ON_TAP');
-                                                                      final firestoreBatch =
-                                                                      FirebaseFirestore
-                                                                          .instance
-                                                                          .batch();
-                                                                      try {
-                                                                        logFirebaseEvent(
-                                                                            'Button_alert_dialog');
-                                                                        var confirmDialogResponse =
-                                                                            await showDialog<
-                                                                                bool>(
-                                                                              context:
-                                                                              context,
-                                                                              builder:
-                                                                                  (alertDialogContext) {
-                                                                                return AlertDialog(
-                                                                                  title:
-                                                                                  Text('Complete?'),
-                                                                                  content:
-                                                                                  Text('Are you sure you are done with this project?'),
-                                                                                  actions: [
-                                                                                    TextButton(
-                                                                                      onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                      child: Text('Cancel'),
-                                                                                    ),
-                                                                                    TextButton(
-                                                                                      onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                      child: Text('Yes I\'m sure'),
-                                                                                    ),
-                                                                                  ],
-                                                                                );
-                                                                              },
-                                                                            ) ??
-                                                                                false;
-                                                                        if (confirmDialogResponse) {
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                    MainAxisSize.max,
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceEvenly,
+                                                                    children: [
+                                                                      FFButtonWidget(
+                                                                        onPressed: () async {
                                                                           logFirebaseEvent(
-                                                                              'Button_backend_call');
-
-                                                                          firestoreBatch
-                                                                              .update(
-                                                                              columnDealsRecord
-                                                                                  .reference,
-                                                                              createDealsRecordData(
-                                                                                status:
-                                                                                'Complete',
-                                                                              ));
+                                                                              'PROVIDER_DASHBOARD_MESSAGE_BTN_ON_TAP');
                                                                           logFirebaseEvent(
-                                                                              'Button_backend_call');
+                                                                              'Button_navigate_to');
 
-                                                                          firestoreBatch
-                                                                              .update(
-                                                                              providerDashboardProviderDocumentsRecord
-                                                                                  .reference,
-                                                                              createProviderDocumentsRecordData(
-                                                                                availability:
-                                                                                true,
-                                                                              ));
-                                                                          logFirebaseEvent(
-                                                                              'Button_backend_call');
-
-                                                                          firestoreBatch.update(
-                                                                              columnDealsRecord
-                                                                                  .clientRef!,
-                                                                              {
-                                                                                'reviewPending':
-                                                                                FieldValue
-                                                                                    .arrayUnion([
-                                                                                  providerDashboardProviderDocumentsRecord
-                                                                                      .reference
-                                                                                ]),
-                                                                              });
-                                                                          logFirebaseEvent(
-                                                                              'Button_trigger_push_notification');
-                                                                          triggerPushNotification(
-                                                                            notificationTitle:
-                                                                            'Completed!',
-                                                                            notificationText:
-                                                                            '${columnDealsRecord.providerName}has completed the task. Please log in and give review.',
-                                                                            notificationImageUrl:
-                                                                            columnDealsRecord
-                                                                                .providerImage,
-                                                                            notificationSound:
-                                                                            'default',
-                                                                            userRefs: [
-                                                                              columnDealsRecord
-                                                                                  .clientRef!
-                                                                            ],
-                                                                            initialPageName:
-                                                                            'trackingDetail',
-                                                                            parameterData: {
-                                                                              'dealDoc':
-                                                                              columnDealsRecord,
+                                                                          context.pushNamed(
+                                                                            'chat_page',
+                                                                            queryParameters: {
+                                                                              'chatUser':
+                                                                              serializeParam(
+                                                                                _model
+                                                                                    .userDoc,
+                                                                                ParamType
+                                                                                    .Document,
+                                                                              ),
+                                                                              'chatRef':
+                                                                              serializeParam(
+                                                                                columnDealsRecord
+                                                                                    .chatRef,
+                                                                                ParamType
+                                                                                    .DocumentReference,
+                                                                              ),
+                                                                            }.withoutNulls,
+                                                                            extra: <String,
+                                                                                dynamic>{
+                                                                              'chatUser': _model
+                                                                                  .userDoc,
                                                                             },
                                                                           );
-                                                                        }
-                                                                      } finally {
-                                                                        await firestoreBatch
-                                                                            .commit();
-                                                                      }
-                                                                    },
-                                                                    text: 'Completed',
-                                                                    options:
-                                                                    FFButtonOptions(
-                                                                      width: 130.0,
-                                                                      height: 40.0,
-                                                                      padding:
-                                                                      EdgeInsetsDirectional
-                                                                          .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      iconPadding:
-                                                                      EdgeInsetsDirectional
-                                                                          .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      color: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .info,
-                                                                      textStyle:
-                                                                      FlutterFlowTheme.of(
-                                                                          context)
-                                                                          .titleSmall
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Poppins',
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                      elevation: 3.0,
-                                                                      borderSide:
-                                                                      BorderSide(
-                                                                        color: Colors
-                                                                            .transparent,
-                                                                        width: 1.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          8.0),
-                                                                    ),
-                                                                  ),
-                                                                  InkWell(
-                                                                    splashColor: Colors
-                                                                        .transparent,
-                                                                    focusColor: Colors
-                                                                        .transparent,
-                                                                    hoverColor: Colors
-                                                                        .transparent,
-                                                                    highlightColor: Colors
-                                                                        .transparent,
-                                                                    onTap: () async {
-                                                                      logFirebaseEvent(
-                                                                          'PROVIDER_DASHBOARD_Text_fyjbagul_ON_TAP');
-                                                                      logFirebaseEvent(
-                                                                          'Text_alert_dialog');
-                                                                      var confirmDialogResponse =
-                                                                          await showDialog<
-                                                                              bool>(
-                                                                            context:
-                                                                            context,
-                                                                            builder:
-                                                                                (alertDialogContext) {
-                                                                              return AlertDialog(
-                                                                                title:
-                                                                                Text(' Are you sure?'),
-                                                                                content:
-                                                                                Text('Are you sure you wish to cancel this arrangement?'),
-                                                                                actions: [
-                                                                                  TextButton(
-                                                                                    onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                    child: Text('No'),
-                                                                                  ),
-                                                                                  TextButton(
-                                                                                    onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                    child: Text('Yes'),
-                                                                                  ),
-                                                                                ],
-                                                                              );
-                                                                            },
-                                                                          ) ??
-                                                                              false;
-                                                                      if (confirmDialogResponse) {
-                                                                        logFirebaseEvent(
-                                                                            'Text_backend_call');
-
-                                                                        await columnDealsRecord
-                                                                            .reference
-                                                                            .update(
-                                                                            createDealsRecordData(
-                                                                              status:
-                                                                              'Cancelled',
-                                                                              timeOfClosure:
-                                                                              getCurrentTimestamp,
-                                                                              cancelledBy:
-                                                                              'Service Provider',
-                                                                            ));
-                                                                        logFirebaseEvent(
-                                                                            'Text_show_snack_bar');
-                                                                        ScaffoldMessenger
-                                                                            .of(context)
-                                                                            .showSnackBar(
-                                                                          SnackBar(
-                                                                            content: Text(
-                                                                              'Cancelled!',
-                                                                              style:
-                                                                              TextStyle(
-                                                                                color: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                    .primaryText,
-                                                                              ),
-                                                                            ),
-                                                                            duration: Duration(
-                                                                                milliseconds:
-                                                                                4000),
-                                                                            backgroundColor:
-                                                                            FlutterFlowTheme.of(
+                                                                        },
+                                                                        text: 'Message',
+                                                                        options:
+                                                                        FFButtonOptions(
+                                                                          width: 130.0,
+                                                                          height: 40.0,
+                                                                          padding:
+                                                                          EdgeInsetsDirectional
+                                                                              .fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          iconPadding:
+                                                                          EdgeInsetsDirectional
+                                                                              .fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          color: Colors.white,
+                                                                          textStyle:
+                                                                          FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .titleSmall
+                                                                              .override(
+                                                                            fontFamily:
+                                                                            'Poppins',
+                                                                            color: FlutterFlowTheme.of(
                                                                                 context)
-                                                                                .secondary,
+                                                                                .primary,
                                                                           ),
-                                                                        );
-                                                                        logFirebaseEvent(
-                                                                            'Text_trigger_push_notification');
-                                                                        triggerPushNotification(
-                                                                          notificationTitle:
-                                                                          'Deal has been canceled',
-                                                                          notificationText:
-                                                                          '${columnDealsRecord.providerName}Has canceled the deal.',
-                                                                          notificationImageUrl:
-                                                                          columnDealsRecord
-                                                                              .providerImage,
-                                                                          notificationSound:
-                                                                          'default',
-                                                                          userRefs: [
-                                                                            columnDealsRecord
-                                                                                .clientRef!
-                                                                          ],
-                                                                          initialPageName:
-                                                                          'trackingDetail',
-                                                                          parameterData: {
-                                                                            'dealDoc':
-                                                                            columnDealsRecord,
-                                                                          },
-                                                                        );
-                                                                      }
-                                                                    },
-                                                                    child: Text(
-                                                                      'Cancel deal',
-                                                                      style: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Poppins',
-                                                                        color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                            .tertiary,
+                                                                          elevation: 3.0,
+                                                                          borderSide:
+                                                                          BorderSide(
+                                                                            color: Colors
+                                                                                .transparent,
+                                                                            width: 1.0,
+                                                                          ),
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              8.0),
+                                                                        ),
                                                                       ),
-                                                                    ),
+                                                                      FFButtonWidget(
+                                                                        onPressed: () async {
+                                                                          logFirebaseEvent(
+                                                                              'PROVIDER_DASHBOARD_COMPLETED_BTN_ON_TAP');
+                                                                          final firestoreBatch =
+                                                                          FirebaseFirestore
+                                                                              .instance
+                                                                              .batch();
+                                                                          try {
+                                                                            logFirebaseEvent(
+                                                                                'Button_alert_dialog');
+                                                                            var confirmDialogResponse =
+                                                                                await showDialog<
+                                                                                    bool>(
+                                                                                  context:
+                                                                                  context,
+                                                                                  builder:
+                                                                                      (alertDialogContext) {
+                                                                                    return AlertDialog(
+                                                                                      title:
+                                                                                      Text('Complete?'),
+                                                                                      content:
+                                                                                      Text('Are you sure you are done with this project?'),
+                                                                                      actions: [
+                                                                                        TextButton(
+                                                                                          onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                          child: Text('Cancel'),
+                                                                                        ),
+                                                                                        TextButton(
+                                                                                          onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                          child: Text('Yes I\'m sure'),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  },
+                                                                                ) ??
+                                                                                    false;
+                                                                            if (confirmDialogResponse) {
+                                                                              logFirebaseEvent(
+                                                                                  'Button_backend_call');
+
+                                                                              firestoreBatch
+                                                                                  .update(
+                                                                                  columnDealsRecord
+                                                                                      .reference,
+                                                                                  createDealsRecordData(
+                                                                                    status:
+                                                                                    'Complete',
+                                                                                  ));
+                                                                              logFirebaseEvent(
+                                                                                  'Button_backend_call');
+
+                                                                              firestoreBatch
+                                                                                  .update(
+                                                                                  providerDashboardProviderDocumentsRecord
+                                                                                      .reference,
+                                                                                  createProviderDocumentsRecordData(
+                                                                                    availability:
+                                                                                    true,
+                                                                                  ));
+                                                                              logFirebaseEvent(
+                                                                                  'Button_backend_call');
+
+                                                                              firestoreBatch.update(
+                                                                                  columnDealsRecord
+                                                                                      .clientRef!,
+                                                                                  {
+                                                                                    'reviewPending':
+                                                                                    FieldValue
+                                                                                        .arrayUnion([
+                                                                                      providerDashboardProviderDocumentsRecord
+                                                                                          .reference
+                                                                                    ]),
+                                                                                  });
+                                                                              logFirebaseEvent(
+                                                                                  'Button_trigger_push_notification');
+                                                                              triggerPushNotification(
+                                                                                notificationTitle:
+                                                                                'Completed!',
+                                                                                notificationText:
+                                                                                '${columnDealsRecord.providerName}has completed the task. Please log in and give review.',
+                                                                                notificationImageUrl:
+                                                                                columnDealsRecord
+                                                                                    .providerImage,
+                                                                                notificationSound:
+                                                                                'default',
+                                                                                userRefs: [
+                                                                                  columnDealsRecord
+                                                                                      .clientRef!
+                                                                                ],
+                                                                                initialPageName:
+                                                                                'trackingDetail',
+                                                                                parameterData: {
+                                                                                  'dealDoc':
+                                                                                  columnDealsRecord,
+                                                                                },
+                                                                              );
+                                                                            }
+                                                                          } finally {
+                                                                            await firestoreBatch
+                                                                                .commit();
+                                                                          }
+                                                                        },
+                                                                        text: 'Completed',
+                                                                        options:
+                                                                        FFButtonOptions(
+                                                                          width: 130.0,
+                                                                          height: 40.0,
+                                                                          padding:
+                                                                          EdgeInsetsDirectional
+                                                                              .fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          iconPadding:
+                                                                          EdgeInsetsDirectional
+                                                                              .fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          color: FlutterFlowTheme
+                                                                              .of(context)
+                                                                              .info,
+                                                                          textStyle:
+                                                                          FlutterFlowTheme.of(
+                                                                              context)
+                                                                              .titleSmall
+                                                                              .override(
+                                                                            fontFamily:
+                                                                            'Poppins',
+                                                                            color: Colors
+                                                                                .white,
+                                                                          ),
+                                                                          elevation: 3.0,
+                                                                          borderSide:
+                                                                          BorderSide(
+                                                                            color: Colors
+                                                                                .transparent,
+                                                                            width: 1.0,
+                                                                          ),
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              8.0),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisSize: MainAxisSize.max,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.fromLTRB(8.0,16.0,8.0,8.0),
+                                                                        child: InkWell(
+                                                                          splashColor: Colors
+                                                                              .transparent,
+                                                                          focusColor: Colors
+                                                                              .transparent,
+                                                                          hoverColor: Colors
+                                                                              .transparent,
+                                                                          highlightColor: Colors
+                                                                              .transparent,
+                                                                          onTap: () async {
+                                                                            logFirebaseEvent(
+                                                                                'PROVIDER_DASHBOARD_Text_fyjbagul_ON_TAP');
+                                                                            logFirebaseEvent(
+                                                                                'Text_alert_dialog');
+                                                                            var confirmDialogResponse =
+                                                                                await showDialog<
+                                                                                    bool>(
+                                                                                  context:
+                                                                                  context,
+                                                                                  builder:
+                                                                                      (alertDialogContext) {
+                                                                                    return AlertDialog(
+                                                                                      title:
+                                                                                      Text(' Are you sure?'),
+                                                                                      content:
+                                                                                      Text('Are you sure you wish to cancel this arrangement?'),
+                                                                                      actions: [
+                                                                                        TextButton(
+                                                                                          onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                          child: Text('No'),
+                                                                                        ),
+                                                                                        TextButton(
+                                                                                          onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                          child: Text('Yes'),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  },
+                                                                                ) ??
+                                                                                    false;
+                                                                            if (confirmDialogResponse) {
+                                                                              logFirebaseEvent(
+                                                                                  'Text_backend_call');
+
+                                                                              await columnDealsRecord
+                                                                                  .reference
+                                                                                  .update(
+                                                                                  createDealsRecordData(
+                                                                                    status:
+                                                                                    'Cancelled',
+                                                                                    timeOfClosure:
+                                                                                    getCurrentTimestamp,
+                                                                                    cancelledBy:
+                                                                                    'Service Provider',
+                                                                                  ));
+                                                                              logFirebaseEvent(
+                                                                                  'Text_show_snack_bar');
+                                                                              ScaffoldMessenger
+                                                                                  .of(context)
+                                                                                  .showSnackBar(
+                                                                                SnackBar(
+                                                                                  content: Text(
+                                                                                    'Cancelled!',
+                                                                                    style:
+                                                                                    TextStyle(
+                                                                                      color: FlutterFlowTheme.of(
+                                                                                          context)
+                                                                                          .primaryText,
+                                                                                    ),
+                                                                                  ),
+                                                                                  duration: Duration(
+                                                                                      milliseconds:
+                                                                                      4000),
+                                                                                  backgroundColor:
+                                                                                  FlutterFlowTheme.of(
+                                                                                      context)
+                                                                                      .secondary,
+                                                                                ),
+                                                                              );
+                                                                              logFirebaseEvent(
+                                                                                  'Text_trigger_push_notification');
+                                                                              triggerPushNotification(
+                                                                                notificationTitle:
+                                                                                'Deal has been canceled',
+                                                                                notificationText:
+                                                                                '${columnDealsRecord.providerName}Has canceled the deal.',
+                                                                                notificationImageUrl:
+                                                                                columnDealsRecord
+                                                                                    .providerImage,
+                                                                                notificationSound:
+                                                                                'default',
+                                                                                userRefs: [
+                                                                                  columnDealsRecord
+                                                                                      .clientRef!
+                                                                                ],
+                                                                                initialPageName:
+                                                                                'trackingDetail',
+                                                                                parameterData: {
+                                                                                  'dealDoc':
+                                                                                  columnDealsRecord,
+                                                                                },
+                                                                              );
+                                                                            }
+                                                                          },
+                                                                          child: Text(
+                                                                            'Cancel deal',
+                                                                            style: FlutterFlowTheme
+                                                                                .of(context)
+                                                                                .bodyMedium
+                                                                                .override(
+                                                                              fontFamily:
+                                                                              'Poppins',
+                                                                              color: FlutterFlowTheme.of(
+                                                                                  context)
+                                                                                  .tertiary,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ],
                                                               ),

@@ -402,7 +402,9 @@ class _SearchPage2WidgetState extends State<SearchPage2Widget> {
                                       _model.algoliaSearchResults?.toList() ??
                                           [];
                                   if (allItems.isEmpty) {
-                                    return EmptyListWidget();
+                                    return Center(
+                                        child: EmptyListWidget()
+                                    );
                                   }
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,

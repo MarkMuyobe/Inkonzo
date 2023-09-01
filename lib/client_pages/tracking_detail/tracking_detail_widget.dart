@@ -39,7 +39,7 @@ class _TrackingDetailWidgetState extends State<TrackingDetailWidget> {
       logFirebaseEvent('TRACKING_DETAIL_trackingDetail_ON_INIT_S');
       if ((currentUserDocument?.reviewPending.toList() ?? [])
               .contains(widget.dealDoc?.providerRef) ==
-          false) {
+          true) {
         print("Current user's list of pending reviews => ${currentUserDocument?.reviewPending.toList()}");
         logFirebaseEvent('trackingDetail_bottom_sheet');
         await showModalBottomSheet(
