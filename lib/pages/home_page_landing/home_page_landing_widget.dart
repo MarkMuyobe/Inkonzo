@@ -1072,6 +1072,7 @@ class _HomePageLandingWidgetState extends State<HomePageLandingWidget> {
                                             .toList()
                                             .take(7)
                                             .toList();
+                                    print('Recent Deals List => $recentDeals');
                                     return SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Row(

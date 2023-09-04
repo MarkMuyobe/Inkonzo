@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'serialization_util.dart';
 import '../../auth/firebase_auth/auth_util.dart';
 import '../cloud_functions/cloud_functions.dart';
+import '../api_requests/api_calls.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -52,14 +53,16 @@ final fcmTokenUserStream = authenticatedUserStream
       ),
     );
 
+
 Future<void> handleBackgroundMessage (RemoteMessage message)async{
   print('Title: ${message.notification?.title}');
   print('Body: ${message.notification?.body}');
   print('Payload: ${message.data}');
 }
 
+
+FirebaseMessaging messaging = FirebaseMessaging.instance;
 void printFcmToken() async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? fcmToken = await messaging.getToken();
   print('FCM Token: $fcmToken');
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
@@ -75,6 +78,9 @@ void printFcmToken() async {
   });
 }
 
+
+
+
 void triggerPushNotification({
   required String? notificationTitle,
   required String? notificationText,
@@ -84,7 +90,7 @@ void triggerPushNotification({
   required List<DocumentReference> userRefs,
   required String initialPageName,
   required Map<String, dynamic> parameterData,
-}) {
+}) async {
   if ((notificationTitle ?? '').isEmpty || (notificationText ?? '').isEmpty) {
     return;
   }
@@ -106,4 +112,8 @@ void triggerPushNotification({
       .collection(kUserPushNotificationsCollectionName)
       .doc()
       .set(pushNotificationData);
+
+  final FrontEndNotifications notify = FrontEndNotifications();
+  String? token = await messaging.getToken();
+  notify.sendPushNotification(deviceToken: token, title: notificationTitle, body: notificationText);
 }
